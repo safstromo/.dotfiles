@@ -106,6 +106,9 @@ export PATH="$HOME/nvim-linux64/bin:$PATH"
 alias vi='nvim'
 alias oldvim='vi'
 
+#fix keeb bug
+bindkey -s "^[Ok" "+"
+
 # Enable vi mode
 bindkey -v
 
