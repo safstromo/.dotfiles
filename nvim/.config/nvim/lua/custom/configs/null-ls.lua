@@ -1,4 +1,4 @@
-local null_ls = require "null-ls"
+local null_ls = require("null-ls")
 
 local b = null_ls.builtins
 
@@ -17,9 +17,15 @@ local sources = {
 
   --Java
   b.formatting.google_java_format,
+
+  -- Diagnostics
+  b.diagnostics.eslint,
+
+  -- Code actions
+  b.code_actions.eslint,
 }
 
-null_ls.setup {
+null_ls.setup({
   debug = true,
   sources = sources,
-}
+})
