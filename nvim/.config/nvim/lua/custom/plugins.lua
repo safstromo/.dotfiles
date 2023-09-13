@@ -153,6 +153,10 @@ local plugins = {
     "nvim-treesitter/nvim-treesitter-context",
     lazy = false,
   },
+  {
+    "mbbill/undotree",
+    lazy = false,
+  },
   -- {
   --   'nvimdev/lspsaga.nvim',
   --   event = "LspAttach",

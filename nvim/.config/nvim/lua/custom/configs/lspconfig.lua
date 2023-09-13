@@ -98,14 +98,14 @@ lspconfig["cssls"].setup({
 lspconfig["volar"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
-  filetypes = { "vue" },
+  filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'},
 })
 
 -- configure tailwindcss server
-lspconfig["tailwindcss"].setup({
-  capabilities = capabilities,
-  on_attach = on_attach,
-})
+-- lspconfig["tailwindcss"].setup({
+--   capabilities = capabilities,
+--   on_attach = on_attach,
+-- })
 -- -- configure emmet language server
 -- lspconfig["emmet_ls"].setup {
 --   capabilities = capabilities,

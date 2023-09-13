@@ -1,208 +1,118 @@
-local java_cmds = vim.api.nvim_create_augroup("java_cmds", { clear = true })
-local cache_vars = {}
+vim.opt_local.shiftwidth = 2
+vim.opt_local.tabstop = 2
+vim.opt_local.cmdheight = 2 -- more space in the neovim command line for displaying messages
 
-local root_files = {
-  ".git",
-  "mvnw",
-  "gradlew",
-  "pom.xml",
-  "build.gradle",
-}
 
-local features = {
-  -- change this to `true` to enable codelens
-  codelens = true,
-
-  -- change this to `true` if you have `nvim-dap`,
-  -- `java-test` and `java-debug-adapter` installed
-  debugger = true,
-}
-
-local function get_jdtls_paths()
-  if cache_vars.paths then
-    return cache_vars.paths
-  end
-
-  local path = {}
-
-  path.data_dir = vim.fn.stdpath "cache" .. "/nvim-jdtls"
-
-  local jdtls_install = require("mason-registry").get_package("jdtls"):get_install_path()
-
-  path.java_agent = jdtls_install .. "/lombok.jar"
-  path.launcher_jar = vim.fn.glob(jdtls_install .. "/plugins/org.eclipse.equinox.launcher_*.jar")
-
-  if vim.fn.has "mac" == 1 then
-    path.platform_config = jdtls_install .. "/config_mac"
-  elseif vim.fn.has "unix" == 1 then
-    path.platform_config = jdtls_install .. "/config_linux"
-  elseif vim.fn.has "win32" == 1 then
-    path.platform_config = jdtls_install .. "/config_win"
-  end
-
-  path.bundles = {}
-
-  ---
-  -- Include java-test bundle if present
-  ---
-  local java_test_path = require("mason-registry").get_package("java-test"):get_install_path()
-
-  local java_test_bundle = vim.split(vim.fn.glob(java_test_path .. "/extension/server/*.jar"), "\n")
-
-  if java_test_bundle[1] ~= "" then
-    vim.list_extend(path.bundles, java_test_bundle)
-  end
-
-  ---
-  -- Include java-debug-adapter bundle if present
-  ---
-  local java_debug_path = require("mason-registry").get_package("java-debug-adapter"):get_install_path()
-
-  local java_debug_bundle =
-    vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
-
-  if java_debug_bundle[1] ~= "" then
-    vim.list_extend(path.bundles, java_debug_bundle)
-  end
-
-  ---
-  -- Useful if you're starting jdtls with a Java version that's
-  -- different from the one the project uses.
-  ---
-  path.runtimes = {
-    -- Note: the field `name` must be a valid `ExecutionEnvironment`,
-    -- you can find the list here:
-    -- https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-    --
-    -- This example assume you are using sdkman: https://sdkman.io
-    -- {
-    --   name = 'JavaSE-17',
-    --   path = vim.fn.expand('~/.sdkman/candidates/java/17.0.6-tem'),
-    -- },
-    -- {
-    --   name = 'JavaSE-18',
-    --   path = vim.fn.expand('~/.sdkman/candidates/java/18.0.2-amzn'),
-    -- },
-    {
-      name = "JavaSE-17",
-      path = vim.fn.expand "~/.sdkman/candidates/java/17.0.8-tem",
-    },
-    {
-      name = "JavaSE-20",
-      path = vim.fn.expand "~/.sdkman/candidates/java/20.0.2-tem",
-    },
-  }
-
-  cache_vars.paths = path
-
-  return path
+local plugin = 'jdtls'
+local status_ok, jdtls = pcall(require, plugin)
+if not status_ok then
+	print("ERROR: " .. plugin .. " plugin")
+	return
+else
+  print("Loading " .. plugin .. " plugin")
 end
 
-local function enable_codelens(bufnr)
-  pcall(vim.lsp.codelens.refresh)
-
-  vim.api.nvim_create_autocmd("BufWritePost", {
-    buffer = bufnr,
-    group = java_cmds,
-    desc = "refresh codelens",
-    callback = function()
-      pcall(vim.lsp.codelens.refresh)
-    end,
-  })
+-- Determine OS
+local home = os.getenv "HOME"
+if vim.fn.has "mac" == 1 then
+  WORKSPACE_PATH = home .. "/workspace/"
+  CONFIG = "mac"
+elseif vim.fn.has "unix" == 1 then
+  WORKSPACE_PATH = home .. "/workspace/"
+  CONFIG = "linux"
+else
+  print "Unsupported system"
 end
+ 
+---- TODO: Testing
 
-local function enable_debugger(bufnr)
-  require("jdtls").setup_dap { hotcodereplace = "auto" }
-  require("jdtls.dap").setup_dap_main_class_configs()
+JAVA_DAP_ACTIVE = true
 
-  -- local opts = { buffer = bufnr }
-  -- vim.keymap.set("n", "<leader>df", "<cmd>lua require('jdtls').test_class()<cr>", opts)
-  -- vim.keymap.set("n", "<leader>dn", "<cmd>lua require('jdtls').test_nearest_method()<cr>", opts)
-end
+local bundles = {}
 
-local function jdtls_on_attach(client, bufnr)
-  if features.debugger then
-    enable_debugger(bufnr)
-  end
-
-  if features.codelens then
-    enable_codelens(bufnr)
-  end
-
-  -- The following mappings are based on the suggested usage of nvim-jdtls
-  -- https://github.com/mfussenegger/nvim-jdtls#usage
-
-  -- local opts = { buffer = bufnr }
-  -- vim.keymap.set("n", "<A-o>", "<cmd>lua require('jdtls').organize_imports()<cr>", opts)
-  -- vim.keymap.set("n", "crv", "<cmd>lua require('jdtls').extract_variable()<cr>", opts)
-  -- vim.keymap.set("x", "crv", "<esc><cmd>lua require('jdtls').extract_variable(true)<cr>", opts)
-  -- vim.keymap.set("n", "crc", "<cmd>lua require('jdtls').extract_constant()<cr>", opts)
-  -- vim.keymap.set("x", "crc", "<esc><cmd>lua require('jdtls').extract_constant(true)<cr>", opts)
-  -- vim.keymap.set("x", "crm", "<esc><Cmd>lua require('jdtls').extract_method(true)<cr>", opts)
-end
-
-local function jdtls_setup(event)
-  local jdtls = require "jdtls"
-
-  local path = get_jdtls_paths()
-  local data_dir = path.data_dir .. "/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-
-  if cache_vars.capabilities == nil then
-    jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
-
-    local ok_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-    cache_vars.capabilities = vim.tbl_deep_extend(
-      "force",
-      vim.lsp.protocol.make_client_capabilities(),
-      ok_cmp and cmp_lsp.default_capabilities() or {}
+if JAVA_DAP_ACTIVE then
+  vim.list_extend(
+    bundles,
+    vim.split(vim.fn.glob(home .. "/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/*.jar"), "\n")
+  )
+  vim.list_extend(
+    bundles,
+    vim.split(
+      vim.fn.glob(
+        home .. "/.config/nvim/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+      ),
+      "\n"
     )
-  end
+  )
+  vim.list_extend(
+    bundles,
+    vim.split(vim.fn.glob(home .. "/.local/share/nvim/mason/packages/java-test/extension/server/*.jar", 1), "\n")
+  )
+end
 
+local data_path = vim.fn.stdpath("data")
+local jdtls_path = data_path .. '/mason/packages/jdtls'
+local platform_config = home .. "/.local/share/nvim/mason/packages/jdtls/config_" .. CONFIG
+local path_to_jar = vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
+local lombok_path = jdtls_path .. "/lombok.jar"
+local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
+local root_dir = jdtls.setup.find_root(root_markers)
+if root_dir == "" then
+  return
+end
+
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+local workspace_dir = data_path .. '/site/java/workspace-root/' .. project_name
+os.execute("mkdir -p " .. workspace_dir)
+
+-- Main Config
+local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-  local cmd = {
-    -- 💀
-    "java",
+  cmd = {
+    'java',
+    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+    '-Dosgi.bundles.defaultStartLevel=4',
+    '-Declipse.product=org.eclipse.jdt.ls.core.product',
+    '-Dlog.protocol=true',
+    '-Dlog.level=ALL',
+    '-javaagent:' .. lombok_path,
+    '-Xms1g',
+    '--add-modules=ALL-SYSTEM',
+    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+    '-jar', path_to_jar,
+    '-configuration', platform_config,
+    '-data', workspace_dir,
+  },
 
-    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-    "-Dosgi.bundles.defaultStartLevel=4",
-    "-Declipse.product=org.eclipse.jdt.ls.core.product",
-    "-Dlog.protocol=true",
-    "-Dlog.level=ALL",
-    "-javaagent:" .. path.java_agent,
-    "-Xms1g",
-    "--add-modules=ALL-SYSTEM",
-    "--add-opens",
-    "java.base/java.util=ALL-UNNAMED",
-    "--add-opens",
-    "java.base/java.lang=ALL-UNNAMED",
+  -- This is the default if not provided, you can remove it. Or adjust as needed.
+  -- One dedicated LSP server & client will be started per unique root_dir
+  root_dir = root_dir,
 
-    -- 💀
-    "-jar",
-    path.launcher_jar,
-
-    -- 💀
-    "-configuration",
-    path.platform_config,
-
-    -- 💀
-    "-data",
-    data_dir,
-  }
-
-  local lsp_settings = {
+  -- Here you can configure eclipse.jdt.ls specific settings
+  -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+  -- for a list of options
+  settings = {
     java = {
-      -- jdt = {
-      --   ls = {
-      --     vmargs = "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m"
-      --   }
-      -- },
+      home = 'java',
+    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
       eclipse = {
         downloadSources = true,
       },
       configuration = {
         updateBuildConfiguration = "interactive",
-        runtimes = path.runtimes,
+        runtimes = {
+          {
+            name = "JavaSE-17",
+            path = vim.fn.expand('~/.sdkman/candidates/java/17.0.8-tem')
+          },
+          {
+            name = "JavaSE-20",
+            path = vim.fn.expand('~/.sdkman/candidates/java/20.0.2-tem')
+          }
+
+        }
       },
       maven = {
         downloadSources = true,
@@ -213,25 +123,19 @@ local function jdtls_setup(event)
       referencesCodeLens = {
         enabled = true,
       },
-      -- inlayHints = {
-      --   parameterNames = {
-      --     enabled = 'all' -- literals, all, none
-      --   }
-      -- },
+      references = {
+        includeDecompiledSources = true,
+      },
       format = {
         enabled = true,
-        -- settings = {
-        --   url = path.jdtls_install .. "/intellij-java-google-style.xml",
-        --   profile = "GoogleStyle",
-        -- },
-        -- settings = {
-        --   profile = 'asdf'
-        -- },
+        settings = {
+          url = jdtls_path .. "/intellij-java-google-style.xml",
+          profile = "GoogleStyle",
+        },
       },
+
     },
-    signatureHelp = {
-      enabled = true,
-    },
+    signatureHelp = { enabled = true },
     completion = {
       favoriteStaticMembers = {
         "org.hamcrest.MatcherAssert.assertThat",
@@ -242,11 +146,14 @@ local function jdtls_setup(event)
         "java.util.Objects.requireNonNullElse",
         "org.mockito.Mockito.*",
       },
+      importOrder = {
+        "java",
+        "javax",
+        "com",
+        "org"
+      },
     },
-    contentProvider = {
-      preferred = "fernflower",
-    },
-    extendedClientCapabilities = jdtls.extendedClientCapabilities,
+    extendedClientCapabilities = extendedClientCapabilities,
     sources = {
       organizeImports = {
         starThreshold = 9999,
@@ -259,31 +166,40 @@ local function jdtls_setup(event)
       },
       useBlocks = true,
     },
-  }
+  },
 
-  -- This starts a new client & server,
-  -- or attaches to an existing client & server depending on the `root_dir`.
-  jdtls.start_or_attach {
-    cmd = cmd,
-    settings = lsp_settings,
-    on_attach = jdtls_on_attach,
-    capabilities = cache_vars.capabilities,
-    root_dir = jdtls.setup.find_root(root_files),
-    flags = {
-      allow_incremental_sync = true,
-    },
-    init_options = {
-      bundles = path.bundles,
-    },
-  }
+  flags = {
+    allow_incremental_sync = true,
+  },
+  init_options = {
+    bundles = {},
+  },
+}
+
+config['on_attach'] = function(client, bufnr)
+  require'keymaps'.map_java_keys(bufnr);
+  require "lsp_signature".on_attach({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    floating_window_above_cur_line = false,
+    padding = '',
+    handler_opts = {
+      border = "rounded"
+    }
+  }, bufnr)
 end
 
-vim.api.nvim_create_autocmd("FileType", {
-  group = java_cmds,
-  pattern = { "java" },
-  desc = "Setup jdtls",
-  callback = jdtls_setup,
-})
+-- This starts a new client & server,
+-- or attaches to an existing client & server depending on the `root_dir`.
+jdtls.start_or_attach(config)
+
+require("jdtls").setup_dap()
+
+vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)"
+vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"
+vim.cmd "command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()"
+-- vim.cmd "command! -buffer JdtJol lua require('jdtls').jol()"
+vim.cmd "command! -buffer JdtBytecode lua require('jdtls').javap()"
+-- vim.cmd "command! -buffer JdtJshell lua require('jdtls').jshell()"
 
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
@@ -331,3 +247,6 @@ local vmappings = {
 
 which_key.register(mappings, opts)
 which_key.register(vmappings, vopts)
+
+-- debugging
+-- git clone git@github.com:microsoft/java-debug.git
