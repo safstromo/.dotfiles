@@ -1,5 +1,5 @@
-local overrides = require "custom.configs.overrides"
-local cmp = require "cmp"
+local overrides = require("custom.configs.overrides")
+local cmp = require("cmp")
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -13,13 +13,13 @@ local plugins = {
       {
         "jose-elias-alvarez/null-ls.nvim",
         config = function()
-          require "custom.configs.null-ls"
+          require("custom.configs.null-ls")
         end,
       },
     },
     config = function()
-      require "plugins.configs.lspconfig"
-      require "custom.configs.lspconfig"
+      require("plugins.configs.lspconfig")
+      require("custom.configs.lspconfig")
     end, -- Override to setup mason-lspconfig
   },
 
@@ -53,8 +53,8 @@ local plugins = {
   {
     "mfussenegger/nvim-dap",
     config = function()
-      require "custom.configs.dap"
-      require("core.utils").load_mappings "dap"
+      require("custom.configs.dap")
+      require("core.utils").load_mappings("dap")
     end,
   },
   {
@@ -62,8 +62,8 @@ local plugins = {
     event = "VeryLazy",
     dependencies = "mfussenegger/nvim-dap",
     config = function()
-      local dap = require "dap"
-      local dapui = require "dapui"
+      local dap = require("dap")
+      local dapui = require("dapui")
       require("dapui").setup()
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
@@ -85,9 +85,9 @@ local plugins = {
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup {
+      require("nvim-surround").setup({
         -- Configuration here, or leave empty to use defaults
-      }
+      })
     end,
   },
   {
@@ -95,7 +95,7 @@ local plugins = {
     ft = "rust",
     dependencies = "neovim/nvim-lspconfig",
     opts = function()
-      return require "custom.configs.rust-tools"
+      return require("custom.configs.rust-tools")
     end,
     config = function(_, opts)
       require("rust-tools").setup(opts)
@@ -105,13 +105,13 @@ local plugins = {
     "saecki/crates.nvim",
     ft = { "toml" },
     config = function(_, opts)
-      local crates = require "crates"
+      local crates = require("crates")
       crates.setup(opts)
-      require("cmp").setup.buffer {
+      require("cmp").setup.buffer({
         sources = { { name = "crates" } },
-      }
+      })
       crates.show()
-      require("core.utils").load_mappings "crates"
+      require("core.utils").load_mappings("crates")
     end,
   },
   {
@@ -131,12 +131,12 @@ local plugins = {
   {
     "hrsh7th/nvim-cmp",
     opts = function()
-      local M = require "plugins.configs.cmp"
+      local M = require("plugins.configs.cmp")
       M.completion.completeopt = "menu,menuone,noselect"
-      M.mapping["<CR>"] = cmp.mapping.confirm {
+      M.mapping["<CR>"] = cmp.mapping.confirm({
         behavior = cmp.ConfirmBehavior.Insert,
         select = false,
-      }
+      })
       table.insert(M.sources, { name = "crates" })
       return M
     end,
@@ -155,6 +155,10 @@ local plugins = {
   },
   {
     "mbbill/undotree",
+    lazy = false,
+  },
+  {
+    "github/copilot.vim",
     lazy = false,
   },
   -- {
