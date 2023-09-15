@@ -4,7 +4,7 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require("lspconfig")
 
 -- if you just want default config for the servers then put them in a table
-local servers = { "html", "cssls", "tsserver", "clangd", "eslint", "emmet_ls", }
+local servers = { "html", "cssls", "tsserver", "clangd", "eslint", "emmet_ls", "tailwindcss" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
@@ -93,19 +93,59 @@ lspconfig["tsserver"].setup({
 lspconfig["cssls"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
+  settings = {
+    css = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    scss = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    less = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+  },
 })
 -- configure vue server
 lspconfig["volar"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
-  filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'},
+  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
 })
 
 -- configure tailwindcss server
--- lspconfig["tailwindcss"].setup({
---   capabilities = capabilities,
---   on_attach = on_attach,
--- })
+lspconfig["tailwindcss"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = {
+    css = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    scss = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    less = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+  },
+})
 -- -- configure emmet language server
 -- lspconfig["emmet_ls"].setup {
 --   capabilities = capabilities,
