@@ -43,11 +43,12 @@ local bundles = {}
 -- Include java-test bundle if present
 ---
 local java_test_path = require("mason-registry").get_package("java-test"):get_install_path()
+print(java_test_path)
 
 local java_test_bundle = vim.split(vim.fn.glob(java_test_path .. "/extension/server/*.jar"), "\n")
 
 if java_test_bundle[1] ~= "" then
-  -- print("Java-Test Bundle added")
+  print(java_test_bundle)
   vim.list_extend(bundles, java_test_bundle)
 end
 
@@ -55,7 +56,7 @@ end
 -- Include java-debug-adapter bundle if present
 ---
 local java_debug_path = require("mason-registry").get_package("java-debug-adapter"):get_install_path()
-
+print(java_debug_path)
 local java_debug_bundle =
     vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
 
@@ -178,7 +179,7 @@ local config = {
     allow_incremental_sync = true,
   },
   init_options = {
-    bundles = {},
+    bundles = bundles,
   },
 }
 -- This starts a new client & server,
