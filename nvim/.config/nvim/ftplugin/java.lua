@@ -1,89 +1,92 @@
-vim.opt_local.shiftwidth = 2
-vim.opt_local.tabstop = 2
-vim.opt_local.cmdheight = 2 -- more space in the neovim command line for displaying messages
-
-
-local plugin = 'jdtls'
+local plugin = "jdtls"
 local status_ok, jdtls = pcall(require, plugin)
 if not status_ok then
-	print("ERROR: " .. plugin .. " plugin")
-	return
+  print("ERROR: " .. plugin .. " plugin")
+  return
 else
   print("Loading " .. plugin .. " plugin")
 end
 
 -- Determine OS
-local home = os.getenv "HOME"
-if vim.fn.has "mac" == 1 then
-  WORKSPACE_PATH = home .. "/workspace/"
+local home = os.getenv("HOME")
+if vim.fn.has("mac") == 1 then
   CONFIG = "mac"
-elseif vim.fn.has "unix" == 1 then
-  WORKSPACE_PATH = home .. "/workspace/"
+elseif vim.fn.has("unix") == 1 then
   CONFIG = "linux"
 else
-  print "Unsupported system"
-end
- 
----- TODO: Testing
-
-JAVA_DAP_ACTIVE = true
-
-local bundles = {}
-
-if JAVA_DAP_ACTIVE then
-  vim.list_extend(
-    bundles,
-    vim.split(vim.fn.glob(home .. "/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/*.jar"), "\n")
-  )
-  vim.list_extend(
-    bundles,
-    vim.split(
-      vim.fn.glob(
-        home .. "/.config/nvim/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
-      ),
-      "\n"
-    )
-  )
-  vim.list_extend(
-    bundles,
-    vim.split(vim.fn.glob(home .. "/.local/share/nvim/mason/packages/java-test/extension/server/*.jar", 1), "\n")
-  )
+  print("Unsupported system")
 end
 
-local data_path = vim.fn.stdpath("data")
-local jdtls_path = data_path .. '/mason/packages/jdtls'
-local platform_config = home .. "/.local/share/nvim/mason/packages/jdtls/config_" .. CONFIG
-local path_to_jar = vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
+--Get jdtls paths
+local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
+
 local lombok_path = jdtls_path .. "/lombok.jar"
+
+local path_to_jar = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+local platform_config = jdtls_path .. "/config_" .. CONFIG
+
+--Find root dir
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
 local root_dir = jdtls.setup.find_root(root_markers)
 if root_dir == "" then
   return
 end
 
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-local workspace_dir = data_path .. '/site/java/workspace-root/' .. project_name
-os.execute("mkdir -p " .. workspace_dir)
+-- WorkSpaceDir
+-- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local workspace_dir = home .. "/.cache/nvim/nvim-jdtls/" .. project_name
+--
+
+local bundles = {}
+
+-- Include java-test bundle if present
+---
+local java_test_path = require("mason-registry").get_package("java-test"):get_install_path()
+
+local java_test_bundle = vim.split(vim.fn.glob(java_test_path .. "/extension/server/*.jar"), "\n")
+
+if java_test_bundle[1] ~= "" then
+  -- print("Java-Test Bundle added")
+  vim.list_extend(bundles, java_test_bundle)
+end
+
+---
+-- Include java-debug-adapter bundle if present
+---
+local java_debug_path = require("mason-registry").get_package("java-debug-adapter"):get_install_path()
+
+local java_debug_bundle =
+    vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
+
+if java_debug_bundle[1] ~= "" then
+  vim.list_extend(bundles, java_debug_bundle)
+end
 
 -- Main Config
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-    'java',
-    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-    '-Dosgi.bundles.defaultStartLevel=4',
-    '-Declipse.product=org.eclipse.jdt.ls.core.product',
-    '-Dlog.protocol=true',
-    '-Dlog.level=ALL',
-    '-javaagent:' .. lombok_path,
-    '-Xms1g',
-    '--add-modules=ALL-SYSTEM',
-    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-    '-jar', path_to_jar,
-    '-configuration', platform_config,
-    '-data', workspace_dir,
+    "java",
+    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+    "-Dosgi.bundles.defaultStartLevel=4",
+    "-Declipse.product=org.eclipse.jdt.ls.core.product",
+    "-Dlog.protocol=true",
+    "-Dlog.level=ALL",
+    "-javaagent:" .. lombok_path,
+    "-Xms1g",
+    "--add-modules=ALL-SYSTEM",
+    "--add-opens",
+    "java.base/java.util=ALL-UNNAMED",
+    "--add-opens",
+    "java.base/java.lang=ALL-UNNAMED",
+    "-jar",
+    path_to_jar,
+    "-configuration",
+    platform_config,
+    "-data",
+    workspace_dir,
   },
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
@@ -95,8 +98,8 @@ local config = {
   -- for a list of options
   settings = {
     java = {
-      home = 'java',
-    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+      home = "java",
+      "-Declipse.application=org.eclipse.jdt.ls.core.id1",
       eclipse = {
         downloadSources = true,
       },
@@ -105,14 +108,13 @@ local config = {
         runtimes = {
           {
             name = "JavaSE-17",
-            path = vim.fn.expand('~/.sdkman/candidates/java/17.0.8-tem')
+            path = vim.fn.expand("~/.sdkman/candidates/java/17.0.8-tem"),
           },
           {
             name = "JavaSE-20",
-            path = vim.fn.expand('~/.sdkman/candidates/java/20.0.2-tem')
-          }
-
-        }
+            path = vim.fn.expand("~/.sdkman/candidates/java/20.0.2-tem"),
+          },
+        },
       },
       maven = {
         downloadSources = true,
@@ -126,6 +128,11 @@ local config = {
       references = {
         includeDecompiledSources = true,
       },
+      inlayHints = {
+        parameterNames = {
+          enabled = "all", -- literals, all, none
+        },
+      },
       format = {
         enabled = true,
         settings = {
@@ -133,7 +140,6 @@ local config = {
           profile = "GoogleStyle",
         },
       },
-
     },
     signatureHelp = { enabled = true },
     completion = {
@@ -150,7 +156,7 @@ local config = {
         "java",
         "javax",
         "com",
-        "org"
+        "org",
       },
     },
     extendedClientCapabilities = extendedClientCapabilities,
@@ -175,50 +181,34 @@ local config = {
     bundles = {},
   },
 }
-
-config['on_attach'] = function(client, bufnr)
-  require'keymaps'.map_java_keys(bufnr);
-  require "lsp_signature".on_attach({
-    bind = true, -- This is mandatory, otherwise border config won't get registered.
-    floating_window_above_cur_line = false,
-    padding = '',
-    handler_opts = {
-      border = "rounded"
-    }
-  }, bufnr)
-end
-
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
+
 jdtls.start_or_attach(config)
+
 
 require("jdtls").setup_dap()
 
-vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)"
-vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"
-vim.cmd "command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()"
--- vim.cmd "command! -buffer JdtJol lua require('jdtls').jol()"
-vim.cmd "command! -buffer JdtBytecode lua require('jdtls').javap()"
--- vim.cmd "command! -buffer JdtJshell lua require('jdtls').jshell()"
 
+-- Add mappings
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
   return
 end
 
 local opts = {
-  mode = "n", -- NORMAL mode
+  mode = "n",    -- NORMAL mode
   prefix = "<leader>",
-  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+  buffer = nil,  -- Global mappings. Specify a buffer number for buffer local mappings
   silent = true, -- use `silent` when creating keymaps
   noremap = true, -- use `noremap` when creating keymaps
   nowait = true, -- use `nowait` when creating keymaps
 }
 
 local vopts = {
-  mode = "v", -- VISUAL mode
+  mode = "v",    -- VISUAL mode
   prefix = "<leader>",
-  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+  buffer = nil,  -- Global mappings. Specify a buffer number for buffer local mappings
   silent = true, -- use `silent` when creating keymaps
   noremap = true, -- use `noremap` when creating keymaps
   nowait = true, -- use `nowait` when creating keymaps
@@ -227,14 +217,13 @@ local vopts = {
 local mappings = {
   L = {
     name = "Java",
-    a = { "<CMD>lua vim.lsp.buf.code_action()<CR>", "See available code actions"},
+    a = { "<CMD>lua vim.lsp.buf.code_action()<CR>", "See available code actions" },
     o = { "<Cmd>lua require'jdtls'.organize_imports()<CR>", "Organize Imports" },
     v = { "<Cmd>lua require('jdtls').extract_variable()<CR>", "Extract Variable" },
     c = { "<Cmd>lua require('jdtls').extract_constant()<CR>", "Extract Constant" },
     t = { "<Cmd>lua require'jdtls'.test_nearest_method()<CR>", "Test Method" },
     T = { "<Cmd>lua require'jdtls'.test_class()<CR>", "Test Class" },
     u = { "<Cmd>JdtUpdateConfig<CR>", "Update Config" },
-
   },
 }
 
@@ -249,6 +238,3 @@ local vmappings = {
 
 which_key.register(mappings, opts)
 which_key.register(vmappings, vopts)
-
--- debugging
--- git clone git@github.com:microsoft/java-debug.git
