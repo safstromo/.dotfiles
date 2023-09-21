@@ -69,4 +69,9 @@ M.nvimtree = {
   },
 }
 
+M.telescope = {
+  extensions_list = {
+    "ui-select",
+  },
+}
 return M
