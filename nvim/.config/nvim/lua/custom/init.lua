@@ -7,4 +7,4 @@
 -- })
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
-
+vim.opt.swapfile = false
