@@ -87,6 +87,9 @@ local plugins = {
   },
   {
     "pocco81/auto-save.nvim",
+    opts = {
+      enabled = false,
+    },
     lazy = false,
   },
   {
@@ -168,6 +171,18 @@ local plugins = {
   {
     "mbbill/undotree",
     lazy = false,
+  },
+  {
+    "folke/todo-comments.nvim",
+    lazy = false,
+    opts = {
+      highlight = {
+        pattern = [[.*<(KEYWORDS)\s*]],
+      },
+      search = {
+        pattern = [[\b(KEYWORDS)\b]],
+      },
+    },
   },
   -- {
   --   "nvim-telescope/telescope-ui-select.nvim",

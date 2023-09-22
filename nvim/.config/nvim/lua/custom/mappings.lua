@@ -16,7 +16,7 @@ M.general = {
     ["<leader>Y"] = { [["+Y]], "yank line to system clipboard" },
     ["<leader>ya"] = { [[:% y+<CR>]], "yank all to system clipboard" },
     ["<leader>re"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Rename" },
-    -- ["<leader>d"] = { "<cmd> Lspsaga hover_doc<CR>", "Show quick docs" },
+    ["<leader>st"] = { "<cmd> Telescope diagnostics<CR>", "Show Diagnostics" },
     -- ["ca"] = { "<cmd> Lspsaga code-action<CR>", "Code action" },
   },
   v = {
@@ -25,7 +25,8 @@ M.general = {
     ["<leader>y"] = { [["+y]], "Yank line to system clipboard" },
   },
 }
-
+-- FIX
+-- TODO
 -- more keybinds!
 M.dap = {
   plugin = true,
@@ -33,7 +34,7 @@ M.dap = {
     ["<leader>db"] = { "<cmd> DapToggleBreakpoint <CR>", "Toggle breakpoint" },
     ["<leader>dcb"] = {
       "<cmd> lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-      "Set conditional breakpoint"
+      "Set conditional breakpoint",
     },
     ["<leader>dus"] = {
       function()
@@ -69,6 +70,15 @@ M.crates = {
 M.autosave = {
   n = {
     ["<leader>as"] = { "<cmd> ASToggle <CR>" },
+  },
+}
+
+M.todo = {
+  n = {
+
+    ["<leader>tn"] = { "<cmd> lua require'todo-comments'.jump_next()<CR>", "Jump to next TODO" },
+    ["<leader>tp"] = { "<cmd> lua require'todo-comments'.jump_prev()<CR>", "Jump to prev TODO" },
+    ["<leader>ts"] = { "<cmd> TodoTelescope<CR>", "Show todo list" },
   },
 }
 
