@@ -92,6 +92,7 @@ local plugins = {
     },
     lazy = false,
   },
+
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -136,7 +137,7 @@ local plugins = {
   {
     "theHamsta/nvim-dap-virtual-text",
     lazy = false,
-    config = function(_, opts)
+    config = function()
       require("nvim-dap-virtual-text").setup()
     end,
   },
@@ -184,26 +185,20 @@ local plugins = {
       },
     },
   },
+
   {
     "folke/noice.nvim",
     event = "VeryLazy",
-    config = {
-      function ()
-        require("configs.notice")
-      end
-    },
     opts = {
       -- add any options here
     },
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
       "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
     },
   },
+
   -- {
   -- 	"zbirenbaum/copilot.lua",
   -- 	lazy = false,
@@ -211,7 +206,7 @@ local plugins = {
   -- 	-- dependencies = {
   -- 	--   {
   -- 	--     "zbirenbaum/copilot-cmp",
-  -- 	--     config = function()
+  --     config = function()
   -- 	--       require("copilot_cmp").setup()
   -- 	--     end,
   -- 	--   },
@@ -220,17 +215,8 @@ local plugins = {
   -- 		require("copilot").setup({})
   -- 	end,
   -- }, -- {
-  --   'nvimdev/lspsaga.nvim',
-  --   event = "LspAttach",
-  --   config = function()
-  --       require('lspsaga').setup({})
-  --   end,
-  --     dependencies = {
-  --       'nvim-treesitter/nvim-treesitter', -- optional
-  --       'nvim-tree/nvim-web-devicons'     -- optional
-  --   }
-  -- },
-  -- -- To make a plugin not be loaded
+
+   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
   --   enabled = false

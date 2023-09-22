@@ -4,6 +4,8 @@ M.treesitter = {
   ensure_installed = {
     "vim",
     "lua",
+    "regex",
+    "bash",
     "html",
     "css",
     "javascript",
@@ -14,6 +16,7 @@ M.treesitter = {
     "markdown_inline",
     "java",
     "rust",
+    "vue",
   },
   indent = {
     enable = true,

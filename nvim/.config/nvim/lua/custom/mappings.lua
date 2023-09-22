@@ -17,7 +17,7 @@ M.general = {
     ["<leader>ya"] = { [[:% y+<CR>]], "yank all to system clipboard" },
     ["<leader>re"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Rename" },
     ["<leader>st"] = { "<cmd> Telescope diagnostics<CR>", "Show Diagnostics" },
-    -- ["ca"] = { "<cmd> Lspsaga code-action<CR>", "Code action" },
+    ["<leader>sl"] = { "<cmd> Telescope notify<CR>", "Show Notify log" },
   },
   v = {
     ["<C-j>"] = { "<cmd> move '>+1<CR>gv=gv", "move line down" },
@@ -25,9 +25,7 @@ M.general = {
     ["<leader>y"] = { [["+y]], "Yank line to system clipboard" },
   },
 }
--- FIX
--- TODO
--- more keybinds!
+
 M.dap = {
   plugin = true,
   n = {
