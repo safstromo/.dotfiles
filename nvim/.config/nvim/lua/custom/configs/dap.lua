@@ -1,4 +1,12 @@
-local dap = require "dap"
+local dap = require("dap")
+vim.fn.sign_define(
+  "DapBreakpoint",
+  { text = "🔴", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+)
+vim.fn.sign_define(
+  "DapBreakpointCondition",
+  { text = "⛔", texthl = "DapBreakpointCondition", linehl = "DapBreakpointCondition", numhl = "DapBreakpointCondition" }
+)
 
 dap.adapters["pwa-node"] = {
   type = "server",
@@ -9,7 +17,7 @@ dap.adapters["pwa-node"] = {
   },
 }
 
-for _, language in ipairs { "typescript", "javascript" } do
+for _, language in ipairs({ "typescript", "javascript" }) do
   dap.configurations[language] = {
     {
       type = "pwa-node",

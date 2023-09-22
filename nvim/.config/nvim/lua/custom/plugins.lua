@@ -32,6 +32,7 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
+    dependencies = "nnvim-treesitter/nvim-treesitter-context",
   },
 
   {
@@ -161,7 +162,7 @@ local plugins = {
     lazy = false,
   },
   {
-    "nvim-treesitter/nvim-treesitter-context",
+    "tpope/vim-fugitive",
     lazy = false,
   },
   {

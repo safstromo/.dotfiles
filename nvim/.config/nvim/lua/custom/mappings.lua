@@ -9,13 +9,12 @@ M.general = {
     ["<C-j>"] = { "<cmd> TmuxNavigateDown<CR>", "window down" },
     ["<C-k>"] = { "<cmd> TmuxNavigateUp<CR>", "window up" },
     ["<C-f>"] = { "[[:silent !tmux neww tmux-sessionizer<CR>]]", "start tmux-sessionizer" },
-    ["<C-d>"] = { "<C-d>zz", },
-    ["<C-u>"] = { "<C-u>zz", },
+    ["<C-d>"] = { "<C-d>zz" },
+    ["<C-u>"] = { "<C-u>zz" },
     -- ["<leader>p"] = { [[\"_dP]], "Paste void" },
     ["<leader>y"] = { [["+y]], "yank to system clipboard" },
     ["<leader>Y"] = { [["+Y]], "yank line to system clipboard" },
     ["<leader>ya"] = { [[:% y+<CR>]], "yank all to system clipboard" },
-    ["<leader>re"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Rename" },
     ["<leader>re"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Rename" },
     -- ["<leader>d"] = { "<cmd> Lspsaga hover_doc<CR>", "Show quick docs" },
     -- ["ca"] = { "<cmd> Lspsaga code-action<CR>", "Code action" },
@@ -32,9 +31,13 @@ M.dap = {
   plugin = true,
   n = {
     ["<leader>db"] = { "<cmd> DapToggleBreakpoint <CR>", "Toggle breakpoint" },
+    ["<leader>dcb"] = {
+      "<cmd> lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+      "Set conditional breakpoint"
+    },
     ["<leader>dus"] = {
       function()
-        local widgets = require "dap.ui.widgets"
+        local widgets = require("dap.ui.widgets")
         local sidebar = widgets.sidebar(widgets.scopes)
         sidebar.open()
       end,
@@ -44,6 +47,10 @@ M.dap = {
       "<cmd> DapContinue <CR>",
       "Run or continue the debugger",
     },
+    ["<F1>"] = { "<CMD>DapContinue <CR>", " Continue" },
+    ["<F2>"] = { "<CMD>DapStepOver <CR>", " Step over" },
+    ["<F3>"] = { "<CMD>DapStepInto <CR>", " Step into" },
+    ["<F4>"] = { "<CMD>DapStepOut <CR>", " Step out" },
   },
 }
 
