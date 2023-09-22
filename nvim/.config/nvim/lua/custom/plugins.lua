@@ -6,7 +6,7 @@ local plugins = {
 
   -- Override plugin definition options
 
-  {
+    {
     "neovim/nvim-lspconfig",
     dependencies = {
       -- format & linting
@@ -32,7 +32,7 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
-    dependencies = "nnvim-treesitter/nvim-treesitter-context",
+    dependencies = { "nnvim-treesitter/nvim-treesitter-context", "nvim-treesitter/nvim-treesitter-textobjects" },
   },
 
   {
@@ -216,7 +216,7 @@ local plugins = {
   -- 	end,
   -- }, -- {
 
-   -- To make a plugin not be loaded
+  -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
   --   enabled = false
