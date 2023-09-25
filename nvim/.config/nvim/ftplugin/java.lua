@@ -22,6 +22,7 @@ local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_pa
 
 local lombok_path = jdtls_path .. "/lombok.jar"
 
+
 local path_to_jar = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
 local platform_config = jdtls_path .. "/config_" .. CONFIG
 
@@ -113,7 +114,7 @@ local config = {
           },
           {
             name = "JavaSE-20",
-            path = vim.fn.expand("~/.sdkman/candidates/java/20.0.2-tem"),
+            path = vim.fn.expand("~/.sdkman/candidates/java/20.0.2-open"),
           },
         },
       },
@@ -141,8 +142,9 @@ local config = {
           profile = "GoogleStyle",
         },
       },
+      signatureHelp = { enabled = true },
+      contentProvider = { preferred = "fernflower" },
     },
-    signatureHelp = { enabled = true },
     completion = {
       favoriteStaticMembers = {
         "org.hamcrest.MatcherAssert.assertThat",
@@ -187,9 +189,7 @@ local config = {
 
 jdtls.start_or_attach(config)
 
-
 require("jdtls").setup_dap()
-
 
 -- Add mappings
 local status_ok, which_key = pcall(require, "which-key")

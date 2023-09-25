@@ -11,8 +11,7 @@ M.general = {
     ["<C-f>"] = { "[[:silent !tmux neww tmux-sessionizer<CR>]]", "start tmux-sessionizer" },
     ["<C-d>"] = { "<C-d>zz" },
     ["<C-u>"] = { "<C-u>zz" },
-    -- ["<leader>p"] = { [[\"_dP]], "Paste void" },
-    ["<leader>y"] = { [["+y]], "yank to system clipboard" },
+    ["<leader>y"] = { [["+y]], "yank to systemclipboard" },
     ["<leader>Y"] = { [["+Y]], "yank line to system clipboard" },
     ["<leader>ya"] = { [[:% y+<CR>]], "yank all to system clipboard" },
     ["<leader>re"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Rename" },
@@ -22,7 +21,6 @@ M.general = {
   v = {
     ["<C-j>"] = { "<cmd> move '>+1<CR>gv=gv", "move line down" },
     ["<C-k>"] = { "<cmd> move '<-2<CR>gv=gv", "move line up" },
-    ["<leader>y"] = { [["+y]], "Yank line to system clipboard" },
   },
 }
 
@@ -40,10 +38,11 @@ M.dap = {
         local sidebar = widgets.sidebar(widgets.scopes)
         sidebar.open()
       end,
+
       "Open debugging sidebar",
     },
     ["<leader>dr"] = {
-      "<cmd> DapContinue <CR>",
+      "<cmd> dapcontinue <cr>",
       "Run or continue the debugger",
     },
     ["<F1>"] = { "<CMD>DapContinue <CR>", " Continue" },
@@ -130,6 +129,36 @@ M.copilot = {
       end,
       "Copilot Accept",
       { replace_keycodes = true, nowait = true, silent = true, expr = true, noremap = true },
+    },
+  },
+}
+
+M.lsp = {
+
+  n = {
+    ["<leader>gr"] = { "<cmd>Telescope lsp_references<CR>", "Show LSP references" },
+    ["<leader>rn"] = { vim.lsp.buf.rename, "󱕾 LSP Rename" },
+    --     ["<leader>d"] = {
+    --   function()
+    --     require("telescope.builtin").lsp_document_diagnostics()
+    --   end,
+    --   "󱕾 LSP Document Diagnostics",
+    -- },
+    -- ["<leader>D"] = {
+    --   function()
+    --     require("telescope.builtin").lsp_workspace_diagnostics()
+    --   end,
+    --   "󱕾 LSP Workspace Diagnostics",
+    -- },
+    ["<leader>gi"] = { "<cmd>Telescope lsp_implementations<CR>", "󱕾 LSP Implementations" },
+    ["<leader>gT"] = { "<cmd>Telescope lsp_type_definitions<CR>", "󱕾 LSP Type Definitions" },
+    ["<leader>sd"] = {
+      vim.lsp.buf.signature_help,
+      "󱕾 LSP Show quickdocs",
+    },
+    ["<leader>d"] = {
+      vim.diagnostic.open_float,
+      "󱕾 LSP Show line diagnostics",
     },
   },
 }

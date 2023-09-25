@@ -141,22 +141,22 @@ local plugins = {
       require("nvim-dap-virtual-text").setup()
     end,
   },
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-copilot",
-    },
-    opts = function()
-      local M = require("plugins.configs.cmp")
-      M.completion.completeopt = "menu,menuone,noselect"
-      M.mapping["<CR>"] = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Insert,
-        select = false,
-      })
-      table.insert(M.sources, { name = "crates" })
-      return M
-    end,
-  },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   dependencies = {
+  --     "hrsh7th/cmp-copilot",
+  --   },
+  --   opts = function()
+  --     local M = require("plugins.configs.cmp")
+  --     M.completion.completeopt = "menu,menuone,noselect"
+  --     M.mapping["<CR>"] = cmp.mapping.confirm({
+  --       behavior = cmp.ConfirmBehavior.Insert,
+  --       select = false,
+  --     })
+  --     table.insert(M.sources, { name = "crates" })
+  --     return M
+  --   end,
+  -- },
   {
     "christoomey/vim-tmux-navigator",
     lazy = false,
