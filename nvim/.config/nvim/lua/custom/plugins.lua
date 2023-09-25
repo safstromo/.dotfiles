@@ -6,7 +6,7 @@ local plugins = {
 
   -- Override plugin definition options
 
-    {
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       -- format & linting
@@ -32,7 +32,7 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
-    dependencies = { "nnvim-treesitter/nvim-treesitter-context", "nvim-treesitter/nvim-treesitter-textobjects" },
+    dependencies = { "nvim-treesitter/nvim-treesitter-context",  },
   },
 
   {
@@ -198,7 +198,40 @@ local plugins = {
       "rcarriga/nvim-notify",
     },
   },
+  {
+    "nvim-neorg/neorg",
+    build = ":Neorg sync-parsers",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("neorg").setup({
+        load = {
+          ["core.defaults"] = {}, -- Loads default behaviour
+          ["core.concealer"] = {}, -- Adds pretty icons to your documents
+          ["core.dirman"] = { -- Manages Neorg workspaces
+            config = {
+              workspaces = {
+                notes = "~/notes",
+                work = "~/work/notes",
+              },
+            },
+          },
+        },
+      })
+    end,
+  },
 
+  {
+    "github/copilot.vim",
+    event = "InsertEnter",
+    config = function()
+      -- Mapping tab is already used by NvChad
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.g.copilot_tab_fallback = ""
+      -- The mapping is set to other key, see custom/lua/mappings
+      -- or run <leader>ch to see copilot mapping section
+    end,
+  },
   -- {
   -- 	"zbirenbaum/copilot.lua",
   -- 	lazy = false,
