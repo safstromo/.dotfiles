@@ -1,6 +1,9 @@
 local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
 
+vim.lsp.handlers["textDocument/hover"] = require("noice").hover
+vim.lsp.handlers["textDocument/signatureHelp"] = require("noice").signatured
+
 local lspconfig = require("lspconfig")
 
 -- if you just want default config for the servers then put them in a table
