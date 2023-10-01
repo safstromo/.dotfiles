@@ -64,11 +64,11 @@ M.crates = {
   },
 }
 
-M.autosave = {
-  n = {
-    ["<leader>as"] = { "<cmd> ASToggle <CR>" },
-  },
-}
+-- M.autosave = {
+--   n = {
+--     ["<leader>as"] = { "<cmd> ASToggle <CR>" },
+--   },
+-- }
 
 M.todo = {
   n = {
@@ -138,33 +138,13 @@ M.lsp = {
   n = {
     ["<leader>gr"] = { "<cmd>Telescope lsp_references<CR>", "Show LSP references" },
     ["<leader>rn"] = { vim.lsp.buf.rename, "󱕾 LSP Rename" },
-    --     ["<leader>d"] = {
-    --   function()
-    --     require("telescope.builtin").lsp_document_diagnostics()
-    --   end,
-    --   "󱕾 LSP Document Diagnostics",
-    -- },
-    -- ["<leader>D"] = {
-    --   function()
-    --     require("telescope.builtin").lsp_workspace_diagnostics()
-    --   end,
-    --   "󱕾 LSP Workspace Diagnostics",
-    -- },
     ["<leader>gi"] = { "<cmd>Telescope lsp_implementations<CR>", "󱕾 LSP Implementations" },
     ["<leader>gT"] = { "<cmd>Telescope lsp_type_definitions<CR>", "󱕾 LSP Type Definitions" },
-    ["<leader>sh"] = {
-      vim.lsp.buf.signature_help,
-      "󱕾 LSP Show signature help",
-    },
-    ["<leader>sd"] = {
-      vim.lsp.buf.hover,
-      "󱕾 LSP Show quickdocs",
-    },
-
-    ["<leader>d"] = {
-      vim.diagnostic.open_float,
-      "󱕾 LSP Show line diagnostics",
-    },
+    ["<leader>D"] = { "<cmd>Telescope diagnostics bufnr=0<CR>", "󱕾 LSP Type Definitions" },
+    ["<leader>sh"] = { vim.lsp.buf.signature_help,"󱕾 LSP Show signature help"},
+    ["<leader>sd"] = { vim.lsp.buf.hover,"󱕾 LSP Show quickdocs"},
+    ["<leader>d"] = { vim.diagnostic.open_float, "󱕾 LSP Show line diagnostics" },
+    ["<leader>rs"] = {"<cmd>LspRestart<CR>", "Restart LSP"},
   },
 }
 
