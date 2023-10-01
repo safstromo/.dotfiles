@@ -152,10 +152,15 @@ M.lsp = {
     -- },
     ["<leader>gi"] = { "<cmd>Telescope lsp_implementations<CR>", "󱕾 LSP Implementations" },
     ["<leader>gT"] = { "<cmd>Telescope lsp_type_definitions<CR>", "󱕾 LSP Type Definitions" },
-    ["<leader>sd"] = {
+    ["<leader>sh"] = {
       vim.lsp.buf.signature_help,
+      "󱕾 LSP Show signature help",
+    },
+    ["<leader>sd"] = {
+      vim.lsp.buf.hover,
       "󱕾 LSP Show quickdocs",
     },
+
     ["<leader>d"] = {
       vim.diagnostic.open_float,
       "󱕾 LSP Show line diagnostics",

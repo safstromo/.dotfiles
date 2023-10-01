@@ -32,7 +32,7 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
-    dependencies = { "nvim-treesitter/nvim-treesitter-context",  },
+    dependencies = { "nvim-treesitter/nvim-treesitter-context" },
   },
 
   {
@@ -85,14 +85,14 @@ local plugins = {
       end
     end,
   },
-  {
-    "pocco81/auto-save.nvim",
-    opts = {
-      enabled = false,
-    },
-    lazy = false,
-  },
-
+  -- {
+  --   "pocco81/auto-save.nvim",
+  --   opts = {
+  --     enabled = false,
+  --   },
+  --   lazy = false,
+  -- },
+  --
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -205,28 +205,28 @@ local plugins = {
       "rcarriga/nvim-notify",
     },
   },
-  {
-    "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("neorg").setup({
-        load = {
-          ["core.defaults"] = {}, -- Loads default behaviour
-          ["core.concealer"] = {}, -- Adds pretty icons to your documents
-          ["core.dirman"] = { -- Manages Neorg workspaces
-            config = {
-              workspaces = {
-                notes = "~/notes",
-                work = "~/work/notes",
-              },
-            },
-          },
-        },
-      })
-    end,
-  },
-
+  -- {
+  --   "nvim-neorg/neorg",
+  --   build = ":Neorg sync-parsers",
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   config = function()
+  --     require("neorg").setup({
+  --       load = {
+  --         ["core.defaults"] = {}, -- Loads default behaviour
+  --         ["core.concealer"] = {}, -- Adds pretty icons to your documents
+  --         ["core.dirman"] = { -- Manages Neorg workspaces
+  --           config = {
+  --             workspaces = {
+  --               notes = "~/notes",
+  --               work = "~/work/notes",
+  --             },
+  --           },
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
+  --
   {
     "github/copilot.vim",
     event = "InsertEnter",
@@ -240,39 +240,35 @@ local plugins = {
     end,
   },
   {
-  'kristijanhusak/vim-dadbod-ui',
-  dependencies = {
-    { 'tpope/vim-dadbod', lazy = true },
-    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod",                     lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
   },
-  cmd = {
-    'DBUI',
-    'DBUIToggle',
-    'DBUIAddConnection',
-    'DBUIFindBuffer',
-  },
-  init = function()
-    -- Your DBUI configuration
-    vim.g.db_ui_use_nerd_fonts = 1
-  end,
-},
-  -- {
-  -- 	"zbirenbaum/copilot.lua",
-  -- 	lazy = false,
-  -- 	event = "InsertEnter",
-  -- 	-- dependencies = {
-  -- 	--   {
-  -- 	--     "zbirenbaum/copilot-cmp",
-  --     config = function()
-  -- 	--       require("copilot_cmp").setup()
-  -- 	--     end,
-  -- 	--   },
-  -- 	-- },
-  -- 	config = function()
-  -- 		require("copilot").setup({})
-  -- 	end,
-  -- }, -- {
 
+  {
+    "pwntester/octo.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("octo").setup()
+    end,
+  },
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
