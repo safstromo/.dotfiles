@@ -8,7 +8,15 @@ local util = require("lspconfig/util")
 local lspconfig = require("lspconfig")
 
 -- if you just want default config for the servers then put them in a table
-local servers = { "html", "cssls", "tsserver", "clangd", "eslint", "emmet_ls", "tailwindcss" }
+local servers = {
+	"html",
+	"cssls",
+	--"tsserver",
+	"clangd",
+	"eslint",
+	"emmet_ls",
+	"tailwindcss",
+}
 
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
@@ -25,26 +33,25 @@ lspconfig["html"].setup({
 	filetypes = { "vue, html" },
 })
 -- typescript organize imports
-local function organize_imports()
-	local params = {
-		command = "_typescript.organizeImports",
-		arguments = { vim.api.nvim_buf_get_name(0) },
-	}
-	vim.lsp.buf.execute_command(params)
-end
-
--- configure typescript server with plugin
-
-lspconfig["tsserver"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	commands = {
-		OrganizeImports = {
-			organize_imports,
-			description = "Organize Imports",
-		},
-	},
-})
+-- local function organize_imports()
+-- 	local params = {
+-- 		command = "_typescript.organizeImports",
+-- 		arguments = { vim.api.nvim_buf_get_name(0) },
+-- 	}
+-- 	vim.lsp.buf.execute_command(params)
+-- end
+--
+-- -- configure typescript server with plugin
+-- lspconfig["tsserver"].setup({
+-- 	capabilities = capabilities,
+-- 	on_attach = on_attach,
+-- 	commands = {
+-- 		OrganizeImports = {
+-- 			organize_imports,
+-- 			description = "Organize Imports",
+-- 		},
+-- 	},
+-- })
 -- configure css server
 lspconfig["cssls"].setup({
 	capabilities = capabilities,
@@ -74,7 +81,7 @@ lspconfig["cssls"].setup({
 lspconfig["volar"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
-	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+	filetypes = { "vue", "json" },
 })
 
 -- configure tailwindcss server
