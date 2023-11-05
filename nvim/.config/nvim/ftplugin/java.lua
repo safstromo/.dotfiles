@@ -113,7 +113,7 @@ local config = {
 					},
 					{
 						name = "JavaSE-21",
-						path = vim.fn.expand("~/.sdkman/candidates/java/21-amzn"),
+						path = vim.fn.expand("~/.sdkman/candidates/java/21-open"),
 					},
 				},
 			},
