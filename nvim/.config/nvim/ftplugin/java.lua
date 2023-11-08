@@ -109,11 +109,11 @@ local config = {
 				runtimes = {
 					{
 						name = "JavaSE-17",
-						path = vim.fn.expand("~/.sdkman/candidates/java/17.0.8-amzn"),
+						path = vim.fn.expand("~/.sdkman/candidates/java/17.0.8-amzn/"),
 					},
 					{
 						name = "JavaSE-21",
-						path = vim.fn.expand("~/.sdkman/candidates/java/21-open"),
+						path = vim.fn.expand("~/.sdkman/candidates/java/21-open/"),
 					},
 				},
 			},
