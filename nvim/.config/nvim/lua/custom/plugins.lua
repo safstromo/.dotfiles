@@ -242,6 +242,10 @@ local plugins = {
 			require("typescript-tools").setup({})
 		end,
 	},
+	{
+		"dbeniamine/cheat.sh-vim",
+		lazy = false,
+	},
 	-- {
 	--   "nvim-neorg/neorg",
 	--   build = ":Neorg sync-parsers",
