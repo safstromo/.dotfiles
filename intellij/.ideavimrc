@@ -117,7 +117,7 @@ map ma <Action>(ViewBreakpoints)
 nnoremap <leader>e :NERDTreeToggle<CR>
 nnoremap <leader>nf :action NewFile<CR>
 " Generate
-map <leader>i Action>(Generate)
+map <leader>i <Action>(Generate)
 
 "Refactor
 map <leader>fm <Action>(ReformatCode)
