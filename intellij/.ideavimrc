@@ -88,7 +88,7 @@ map K <Action>(QuickJavaDoc)
 map <leader>ca <Action>(QuickActions)
 map <leader>re <Action>(RefactoringMenu)
 map ga <Action>(ShowIntentionActions)
-map <leader>r <Action>(ShowUsages)
+map <leader>gu <Action>(ShowUsages)
 map <leader>gr <Action>(FindUsages)
 nmap <leader>x :action CloseEditor<CR>
 map <leader>h <Action>(ActivateTerminalToolWindow)
@@ -98,6 +98,7 @@ map <leader>2 <Action>(GoToTab2)
 map <leader>3 <Action>(GoToTab3)
 map <leader>4 <Action>(GoToTab4)
 map <leader>5 <Action>(GoToTab5)
+map <leader>sd <Action>(QuickJavaDoc)
 
 " Build
 map <leader>b <Action>(BuildMenu)
