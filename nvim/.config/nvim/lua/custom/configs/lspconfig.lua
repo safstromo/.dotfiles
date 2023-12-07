@@ -77,12 +77,12 @@ lspconfig["cssls"].setup({
 		},
 	},
 })
--- configure vue server
-lspconfig["volar"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	filetypes = { "vue", "json" },
-})
+-- -- configure vue server
+-- lspconfig["volar"].setup({
+-- 	capabilities = capabilities,
+-- 	on_attach = on_attach,
+-- 	filetypes = { "vue", "json" },
+-- })
 
 -- configure tailwindcss server
 lspconfig["tailwindcss"].setup({
