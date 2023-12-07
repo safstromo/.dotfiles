@@ -100,7 +100,7 @@ M.harpoon = {
 			end,
 			"󱪼 Navigate to file 1",
 		},
-		["<leader>l"] = {
+		["<leader>k"] = {
 			function()
 				require("harpoon.ui").nav_file(2)
 			end,

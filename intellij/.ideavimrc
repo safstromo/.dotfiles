@@ -13,7 +13,7 @@ set scrolloff=5
 set incsearch
 set clipboard+=unnamed
 set hlsearch
-set relativenumber
+"set relativenumber
 set ignorecase
 set smartcase
 " Don't use Ex mode, use Q for formatting.
@@ -109,7 +109,7 @@ map <leader>rr <Action>(Rerun)
 "map <leader>dc <Action>(ContextDebug)
 "map <leader>df <Action>(ChooseDebugConfiguration)
 " (Breakpoint)
-map bb <Action>(ToggleLineBreakpoint)
+map tb <Action>(ToggleLineBreakpoint)
 map me <Action>(EditBreakpoint)
 map ma <Action>(ViewBreakpoints)
 
@@ -124,3 +124,6 @@ map <leader>fm <Action>(ReformatCode)
 nmap <leader>oi <action>(OptimizeImports)
 nmap <leader>ra <action>(RenameElement)
 nnoremap <Tab> :action NextTab<CR>
+
+"copilot"
+map <leader>cc <Action>(copilot.chat.show)

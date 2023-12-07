@@ -9,6 +9,7 @@ M.treesitter = {
 		"html",
 		"css",
 		"javascript",
+		"json",
 		"typescript",
 		"tsx",
 		"c",
@@ -57,9 +58,9 @@ M.mason = {
 
 		-- go
 		"gopls",
-    "gofumpt",
-    "goimports-reviser",
-    "golines",
+		"gofumpt",
+		"goimports-reviser",
+		"golines",
 	},
 }
 
