@@ -14,7 +14,7 @@ local servers = {
 	--"tsserver",
 	"clangd",
 	-- "eslint",
-	"emmet_ls",
+	-- "emmet_ls",
 	"tailwindcss",
 }
 
