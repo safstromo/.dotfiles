@@ -24,10 +24,10 @@ local sources = {
 	b.formatting.golines,
 
 	-- Diagnostics
-	b.diagnostics.eslint,
+	-- b.diagnostics.eslint,
 
 	-- Code actions
-	b.code_actions.eslint,
+	-- b.code_actions.eslint,
 }
 
 null_ls.setup({
