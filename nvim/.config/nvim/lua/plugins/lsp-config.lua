@@ -19,7 +19,7 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
+			-- require("java").setup()
 			local lspconfig = require("lspconfig")
 
 			lspconfig.html.setup({
@@ -28,6 +28,21 @@ return {
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 			})
+			-- lspconfig.jdtls.setup({
+			-- 	settings = {
+			-- 		java = {
+			-- 			configuration = {
+			-- 				runtimes = {
+			-- 					{
+			-- 						name = "JavaSE-17",
+			-- 						path = "~/.sdkman/candidates/java/17.0.8-tem",
+			-- 						default = true,
+			-- 					},
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
 
 			-- configure tailwindcss server
 			lspconfig["tailwindcss"].setup({
@@ -79,8 +94,7 @@ return {
 				},
 			})
 
-
-      -- Keymaps
+			-- Keymaps
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "󱕾 Show quickdocs" })
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "󱕾 Go to Definition" })
 			vim.keymap.set("n", "<leader>sh", vim.lsp.buf.signature_help, { desc = "󱕾 Show signature help" })
