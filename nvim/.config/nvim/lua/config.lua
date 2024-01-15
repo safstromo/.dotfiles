@@ -43,5 +43,5 @@ keymap.set("n", "<c-l>", "<C-w>l")
 
 
 
---TODO: Add Undotree plugins
+--TODO: 
 --Lazy load all plugins;
