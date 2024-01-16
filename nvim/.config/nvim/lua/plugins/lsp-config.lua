@@ -11,7 +11,18 @@ return {
 		lazy = false,
 		opts = {
 			auto_install = true,
-			ensure_installed = { "lua_ls", "cssls", "tailwindcss", "rust_analyzer" },
+			ensure_installed = {
+				"lua_ls",
+				"cssls",
+				"tailwindcss",
+				"rust_analyzer",
+				"html",
+				"jdtls",
+				"prettier",
+				"prettierd",
+				"uncrustify",
+				"google-java-format",
+			},
 		},
 	},
 	{
@@ -19,8 +30,12 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			-- require("java").setup()
+
+			local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
+
 			local lspconfig = require("lspconfig")
+
+			require("java").setup()
 
 			lspconfig.html.setup({
 				capabilities = capabilities,
@@ -38,6 +53,13 @@ return {
 									path = "~/.sdkman/candidates/java/17.0.8-tem",
 									default = true,
 								},
+							},
+						},
+						format = {
+							enabled = true,
+							settings = {
+								url = jdtls_path .. "/intellij-java-google-style.xml",
+								profile = "GoogleStyle",
 							},
 						},
 					},
