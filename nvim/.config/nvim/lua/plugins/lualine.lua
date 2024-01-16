@@ -225,5 +225,4 @@ return {
 		-- Now don't forget to initialize lualine
 		lualine.setup(config)
 	end,
-	--TODO: add current dir, lsp, warnings
 }

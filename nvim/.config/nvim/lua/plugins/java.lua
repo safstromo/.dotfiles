@@ -19,3 +19,5 @@ return {
 		},
 	},
 }
+--TODO: Maybe change to nvim-Jdtls to get more features
+--like code generation,organizing imports, extract method, etc
