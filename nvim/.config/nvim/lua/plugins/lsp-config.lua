@@ -28,21 +28,21 @@ return {
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 			})
-			-- lspconfig.jdtls.setup({
-			-- 	settings = {
-			-- 		java = {
-			-- 			configuration = {
-			-- 				runtimes = {
-			-- 					{
-			-- 						name = "JavaSE-17",
-			-- 						path = "~/.sdkman/candidates/java/17.0.8-tem",
-			-- 						default = true,
-			-- 					},
-			-- 				},
-			-- 			},
-			-- 		},
-			-- 	},
-			-- })
+			lspconfig.jdtls.setup({
+				settings = {
+					java = {
+						configuration = {
+							runtimes = {
+								{
+									name = "JavaSE-17",
+									path = "~/.sdkman/candidates/java/17.0.8-tem",
+									default = true,
+								},
+							},
+						},
+					},
+				},
+			})
 
 			-- configure tailwindcss server
 			lspconfig["tailwindcss"].setup({
