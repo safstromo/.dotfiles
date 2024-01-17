@@ -7,9 +7,9 @@ vim.g.loaded_netrwPlugin = 1
 opt.relativenumber = true
 opt.scrolloff = 8
 opt.expandtab = true
-opt.tabstop = 4
-opt.softtabstop = 4
-opt.shiftwidth = 4
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.shiftwidth = 2
 opt.smartindent = true
 opt.clipboard = "unnamedplus"
 opt.ignorecase = true
@@ -18,9 +18,17 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 
--- disable nvim intro
-opt.shortmess:append "sI"
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "java",
+	callback = function()
+		vim.opt_local.softtabstop = 4
+		vim.opt_local.shiftwidth = 4
+		vim.opt_local.tabstop = 4
+	end,
+})
 
+-- disable nvim intro
+opt.shortmess:append("sI")
 
 --General keymaps
 vim.g.mapleader = " "
@@ -40,8 +48,6 @@ keymap.set("n", "<c-k>", "<C-w>k")
 keymap.set("n", "<c-j>", "<C-w>j")
 keymap.set("n", "<c-h>", "<C-w>h")
 keymap.set("n", "<c-l>", "<C-w>l")
-
-
 
 --TODO:
 --Lazy load all plugins;

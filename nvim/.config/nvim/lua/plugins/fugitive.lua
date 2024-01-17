@@ -1,5 +1,3 @@
-return   {
-    "tpope/vim-fugitive",
-  }
--- TODO: Lazy
-
+return {
+	"tpope/vim-fugitive",
+}
