@@ -7,9 +7,9 @@ vim.g.loaded_netrwPlugin = 1
 opt.relativenumber = true
 opt.scrolloff = 8
 opt.expandtab = true
-opt.tabstop = 2
-opt.softtabstop = 2
-opt.shiftwidth = 2
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth = 4
 opt.smartindent = true
 opt.clipboard = "unnamedplus"
 opt.ignorecase = true
@@ -43,5 +43,5 @@ keymap.set("n", "<c-l>", "<C-w>l")
 
 
 
---TODO: 
+--TODO:
 --Lazy load all plugins;
