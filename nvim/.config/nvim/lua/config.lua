@@ -19,12 +19,12 @@ opt.splitright = true
 opt.termguicolors = true
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "java",
-	callback = function()
-		vim.opt_local.softtabstop = 4
-		vim.opt_local.shiftwidth = 4
-		vim.opt_local.tabstop = 4
-	end,
+  pattern = "java",
+  callback = function()
+    vim.opt_local.softtabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+  end,
 })
 
 -- disable nvim intro
@@ -48,6 +48,7 @@ keymap.set("n", "<c-k>", "<C-w>k")
 keymap.set("n", "<c-j>", "<C-w>j")
 keymap.set("n", "<c-h>", "<C-w>h")
 keymap.set("n", "<c-l>", "<C-w>l")
+
 
 --TODO:
 --Lazy load all plugins;
