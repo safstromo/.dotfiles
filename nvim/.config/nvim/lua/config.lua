@@ -5,6 +5,8 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 opt.relativenumber = true
+opt.number = true
+opt.numberwidth = 2
 opt.scrolloff = 8
 opt.expandtab = true
 opt.tabstop = 2
