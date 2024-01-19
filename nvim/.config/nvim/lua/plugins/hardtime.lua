@@ -8,8 +8,8 @@ return {
         ["<Down>"] = {},
         ["<Left>"] = {},
         ["<Right>"] = {}
-      }
+      },
+      enabled = false,
     },
   },
 }
-
