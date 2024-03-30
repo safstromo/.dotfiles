@@ -111,6 +111,8 @@
     git
     gh
     libclang
+    unzip
+    nodejs_21
   ];
 
   # I use zsh btw
