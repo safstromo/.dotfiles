@@ -113,6 +113,8 @@
     unzip
     nodejs_21
     rustup
+    jdk21
+    jdk17
     docker
   ];
 
@@ -120,6 +122,7 @@
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
+  programs.zsh.autosuggestions.enable = true;
 
   # Install font
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
