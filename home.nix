@@ -2,6 +2,8 @@
 let
   myAliases = {
     ll = "ls -l";
+    vi = "nvim";
+    vim = "nvim";	
   };
 in
 {
@@ -21,7 +23,15 @@ in
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
+
+   zip
+   neofetch
+   ripgrep
+   fzf
+   
+   usbutils
+   pciutils
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -50,6 +60,18 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+
+  home.file.".config/alacritty/" = {
+
+    source = ./alacritty/.config/alacritty;
+    recursive = true;
+  };
+
+  home.file.".config/nvim/" = {
+
+    source = ./nvim/.config/nvim;
+    recursive = true;
   };
 
   # Home Manager can also manage your environment variables through
@@ -83,6 +105,15 @@ in
     enable = true;
     userName = "Oliver Säfström";
     userEmail = "safstrom.oliver@gmail.com";
+  };
+
+  programs.starship = {
+    enable = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
   };
 
   # Let Home Manager install and manage itself.

@@ -98,7 +98,7 @@
     #  thunderbird
     ];
   };
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -116,6 +116,10 @@
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
+
+  # Install font
+  fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
+ 
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
