@@ -116,6 +116,8 @@
     jdk21
     jdk17
     docker
+    jetbrains.idea-ultimate
+    google-chrome
   ];
 
   # I use zsh btw
