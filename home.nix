@@ -74,6 +74,12 @@ in
     recursive = true;
   };
 
+  home.file.".config/tmux/" = {
+
+    source = ./tmux/.config/tmux;
+    recursive = true;
+  };
+
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
   # Manager then you have to manually source 'hm-session-vars.sh' located at
@@ -114,6 +120,10 @@ in
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+  };
+
+  programs.tmux = {
+    enable = true;
   };
 
   # Let Home Manager install and manage itself.

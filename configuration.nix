@@ -110,6 +110,7 @@
     alacritty
     git
     gh
+    libclang
   ];
 
   # I use zsh btw
