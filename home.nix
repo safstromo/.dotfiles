@@ -105,9 +105,10 @@ in
   programs.zsh = {
     enable = true;
     shellAliases = myAliases;
+    enableAutosuggestions = true;
     oh-my-zsh = {
       enable = true;
-      plugins = ["git" "z" "zsh-autosuggestions"];
+      plugins = ["git" "z" ];
     };
   };
 
