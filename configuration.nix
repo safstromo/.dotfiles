@@ -113,6 +113,7 @@
     unzip
     nodejs_21
     rustup
+    docker
   ];
 
   # I use zsh btw
