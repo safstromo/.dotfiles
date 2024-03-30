@@ -25,7 +25,7 @@ in
   # environment.
   home.packages = with pkgs; [
 
-   zip
+   unzip
    neofetch
    ripgrep
    fzf
@@ -105,6 +105,10 @@ in
   programs.zsh = {
     enable = true;
     shellAliases = myAliases;
+    oh-my-zsh = {
+      enable = true;
+      plugins = ["git" "z" "zsh-autosuggestions"];
+    };
   };
 
   programs.git = {
