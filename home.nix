@@ -35,6 +35,7 @@ in
    usbutils
    pciutils
 
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -139,24 +140,13 @@ in
     enable = true;
   };
 
-  programs.rofi = {
-    enable = true;
-  };
+  # programs.rofi = {
+  #   enable = true;
+  # };
 
   # wayland.windowManager.hyprland = {
   #   # Whether to enable Hyprland wayland compositor
   #   enable = true;
-  #   # The hyprland package to use
-  #   package = pkgs.hyprland;
-  #   # Whether to enable XWayland
-  #   xwayland.enable = true;
-  #
-  #   # Optional
-  #   # Whether to enable hyprland-session.target on hyprland startup
-  #   systemd.enable = true;
-  #
-  #   #Nvidia
-  #   enableNvidiaPatches = true;
   # };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

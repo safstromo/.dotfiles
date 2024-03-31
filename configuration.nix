@@ -51,14 +51,14 @@
 
 
 
-  #Enable hyprland
+  # #Enable hyprland
   programs.hyprland = {
     enable = true;
+    enableNvidiaPatches = true;
   };
 
   programs.hyprland.xwayland = {
     enable = true;
-    hidpi = true;
   };
 
   environment.sessionVariables = {
@@ -68,25 +68,19 @@
     NIXOS_OZONE_WL = "1";
   };
 
-  #   #OpenGl
-  # hardware.opengl = {
-  #     enable = true;
-  #     driSupport = true;
-  #     driSupport32Bit = true;
-  # };
-  #
-  #   #Nvidia  
-  # hardware.nvidia = {
-  #
-  #   modesetting.enable = true;
-  #   open = true;
-  #
-  #   nvidiaSettings = true;
-  #
-  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
-  # };
+    #OpenGl
+  hardware.opengl = {
+      enable = true;
+      # driSupport = true;
+      # driSupport32Bit = true;
+  };
 
+  #
+    #Nvidia  
+  hardware.nvidia = {
 
+    modesetting.enable = true;
+  };
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -148,22 +142,21 @@
     curl
     fzf
     alacritty
-    rofi-wayland
-    waybar
     git
     gh
     libclang
     unzip
+    kitty
     nodejs_21
     rustup
+    wofi
     jdk21
     jdk17
+    dolphin
     docker
     jetbrains.idea-ultimate
     google-chrome
     xclip
-    xdg-desktop-portal-hyprland
-    xwayland
   ];
 
   # I use zsh btw
