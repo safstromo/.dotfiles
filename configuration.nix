@@ -11,11 +11,12 @@
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.initrd.luks.devices."luks-bdd58881-6d46-4e78-b217-2cfa94c97241".device = "/dev/disk/by-uuid/bdd58881-6d46-4e78-b217-2cfa94c97241";
   networking.hostName = "nixos"; # Define your hostname.
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   #Enable Flakes
