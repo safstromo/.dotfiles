@@ -47,14 +47,18 @@
   };
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  services.xserver.enable = true;
+
 
 
   #Enable hyprland
   programs.hyprland = {
     enable = true;
-    nvidiaPatches = true;
-    xwayland.enable = true;
+  };
+
+  programs.hyprland.xwayland = {
+    enable = true;
+    hidpi = true;
   };
 
   environment.sessionVariables = {
@@ -64,20 +68,29 @@
     NIXOS_OZONE_WL = "1";
   };
 
-  hardware = {
-    #OpenGl
-    opengl.enable = true;
-
-    #Nvidia 
-    nvidia.modesetting.enable = true;
- 
-  };
+  #   #OpenGl
+  # hardware.opengl = {
+  #     enable = true;
+  #     driSupport = true;
+  #     driSupport32Bit = true;
+  # };
+  #
+  #   #Nvidia  
+  # hardware.nvidia = {
+  #
+  #   modesetting.enable = true;
+  #   open = true;
+  #
+  #   nvidiaSettings = true;
+  #
+  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
+  # };
 
 
 
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -118,7 +131,7 @@
   users.users.eox = {
     isNormalUser = true;
     description = "eox";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
       firefox
     #  thunderbird
@@ -135,6 +148,8 @@
     curl
     fzf
     alacritty
+    rofi-wayland
+    waybar
     git
     gh
     libclang
@@ -147,6 +162,8 @@
     jetbrains.idea-ultimate
     google-chrome
     xclip
+    xdg-desktop-portal-hyprland
+    xwayland
   ];
 
   # I use zsh btw

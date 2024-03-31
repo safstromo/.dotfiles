@@ -82,12 +82,12 @@ in
     recursive = true;
   };
 
-  # home.file.".config/hypr/" = {
-  #
-  #   source = ./hypr/.config/hypr;
-  #   recursive = true;
-  # };
-  #
+  home.file.".config/hypr/" = {
+
+    source = ./hypr/.config/hypr;
+    recursive = true;
+  };
+
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
@@ -136,6 +136,10 @@ in
   };
 
   programs.tmux = {
+    enable = true;
+  };
+
+  programs.rofi = {
     enable = true;
   };
 
