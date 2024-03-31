@@ -106,6 +106,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget
+    curl
+    fzf
     alacritty
     git
     gh
@@ -118,6 +120,7 @@
     docker
     jetbrains.idea-ultimate
     google-chrome
+    xclip
   ];
 
   # I use zsh btw
