@@ -34,6 +34,8 @@ in
    
    usbutils
    pciutils
+   hyprpaper
+   pavucontrol
 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -139,6 +141,8 @@ in
   programs.tmux = {
     enable = true;
   };
+
+  programs.waybar.enable = true;
 
   # programs.rofi = {
   #   enable = true;
