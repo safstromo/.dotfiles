@@ -53,12 +53,10 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-
-
   # #Enable hyprland
   programs.hyprland = {
     enable = true;
-    enableNvidiaPatches = true;
+    # enableNvidiaPatches = true;
   };
 
   programs.hyprland.xwayland = {
@@ -81,14 +79,15 @@
 
   #
     #Nvidia  
-  hardware.nvidia = {
-
-    modesetting.enable = true;
-  };
+  # hardware.nvidia = {
+  #
+  #   modesetting.enable = true;
+  # };
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
 
   # Configure keymap in X11
   services.xserver = {
@@ -149,6 +148,7 @@
     git
     gh
     libclang
+    clang
     unzip
     kitty
     nodejs_21
@@ -162,6 +162,7 @@
     google-chrome
     xclip
     pavucontrol
+    typescript
   ];
 
   # I use zsh btw
