@@ -73,8 +73,8 @@
     #OpenGl
   hardware.opengl = {
       enable = true;
-      # driSupport = true;
-      # driSupport32Bit = true;
+      driSupport = true;
+      driSupport32Bit = true;
   };
 
   #
@@ -85,8 +85,8 @@
   # };
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
 
   # Configure keymap in X11
@@ -154,7 +154,6 @@
     nodejs_21
     rustup
     wofi
-    jdk21
     jdk17
     dolphin
     docker
@@ -163,6 +162,7 @@
     xclip
     pavucontrol
     typescript
+    lxqt.lxqt-policykit
   ];
 
   # I use zsh btw
