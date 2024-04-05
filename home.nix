@@ -22,7 +22,7 @@ in
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
-
+  nixpkgs.config.allowUnfree = true;
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
@@ -31,6 +31,7 @@ in
    neofetch
    ripgrep
    fzf
+   stow
    
    usbutils
    pciutils
@@ -41,6 +42,9 @@ in
    wlr-randr
    dunst
    pipewire
+   wl-clipboard
+   discord
+   betterdiscordctl
 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -89,12 +93,12 @@ in
     source = ./tmux/.config/tmux;
     recursive = true;
   };
-
-  home.file.".config/hypr/" = {
-
-    source = ./hypr/.config/hypr;
-    recursive = true;
-  };
+  #
+  # home.file.".config/hypr/" = {
+  #
+  #   source = ./hypr/.config/hypr;
+  #   recursive = true;
+  # };
 
   home.pointerCursor = {
     gtk.enable = true;
@@ -103,133 +107,7 @@ in
     name = "Bibata-Modern-Classic";
     size = 16;
   };
-  # home.file.".config/rofi/config.rasi".text = ''
-  #   @theme "/dev/null"
-  #
-  #   * {
-  #     bg: #000000;
-  #     background-color: @bg;
-  #   }
-  #
-  #   configuration {
-  #     modi:		    "run,filebrowser,drun";
-  #     show-icons:	    true;
-  #     icon-theme:	    "Papirus";
-  #     location:		    0;
-  #     font:		    "JetBrains Nerd Font 16";	
-  #     drun-display-format:  "{icon} {name}";
-  #     display-drun:	    "   Apps ";
-  #     display-run:	    "   Run ";
-  #     display-filebrowser:  "   File ";
-  #   }
-  #
-  #   window { 
-  #     width: 45%;
-  #     transparency: "real";
-  #     orientation: vertical;
-  #     border: 2px ;
-  #     border-color: #A0427A;
-  #     border-radius: 10px;
-  #   }
-  #
-  #   mainbox {
-  #     children: [ inputbar, listview, mode-switcher ];
-  #   }
-  #
-  #   // ELEMENT
-  #   // -----------------------------------
-  #
-  #   element {
-  #     padding: 8 14;
-  #     text-color: #FEFEFE;
-  #     border-radius: 5px;
-  #   }
-  #
-  #   element selected {
-  #     text-color: #FEFEFE;
-  #     background-color: #000000;
-  #   }
-  #
-  #   element-text {
-  #     background-color: inherit;
-  #     text-color: inherit;
-  #   }
-  #
-  #   element-icon {
-  #     size: 24 px;
-  #     background-color: inherit;
-  #     padding: 0 6 0 0;
-  #     alignment: vertical;
-  #   }
-  #
-  #   listview {
-  #     columns: 2;
-  #     lines: 9;
-  #     padding: 8 0;
-  #     fixed-height: true;
-  #     fixed-columns: true;
-  #     fixed-lines: true;
-  #     border: 0 10 6 10;
-  #   }
-  #
-  #   // INPUT BAR 
-  #   //------------------------------------------------
-  #
-  #   entry {
-  #     text-color: #FEFEFE;
-  #     padding: 10 10 0 0;
-  #     margin: 0 -2 0 0;
-  #   }
-  #
-  #   inputbar {
-  #     background-image: url("~/.config/rofi/rofi.jpg", width);
-  #     padding: 180 0 0;
-  #     margin: 0 0 0 0;
-  #   } 
-  #
-  #   prompt {
-  #     background-color: #000000;
-  #     padding: 10 6 0 10;
-  #     margin: 0 -2 0 0;
-  #   }
-  #
-  #   // Mode Switcher
-  #   //------------------------------------------------
-  #
-  #   mode-switcher {
-  #     border-color:   #A04242;
-  #     spacing:	      0;
-  #   }
-  #
-  #   button {
-  #     padding:	      10px;
-  #     background-color: @bg;
-  #     text-color: #FEFEFE;
-  #     vertical-align:   0.5; 
-  #     horizontal-align: 0.5;
-  #   }
-  #
-  #   button selected {
-  #     background-color: @bg;
-  #     text-color: #FEFEFE;
-  #   }
-  #
-  #   message {
-  #     background-color: @bg;
-  #     margin: 2px;
-  #     padding: 2px;
-  #     border-radius: 5px;
-  #   }
-  #
-  #   textbox {
-  #     padding: 6px;
-  #     margin: 20px 0px 0px 20px;
-  #     text-color: #FEFEFE;
-  #     background-color: @bg;
-  #   }
-  # '';
-
-
+  
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
   # Manager then you have to manually source 'hm-session-vars.sh' located at
@@ -287,10 +165,10 @@ in
 
   };
 
-  wayland.windowManager.hyprland = {
-    # Whether to enable Hyprland wayland compositor
-    enable = true;
-  };
+  # wayland.windowManager.hyprland = {
+  #   # Whether to enable Hyprland wayland compositor
+  #   enable = true;
+  # };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

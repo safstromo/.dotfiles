@@ -11,7 +11,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["cpu", "temperature", "memory", "backlight", "pulseaudio", "tray"],
+    "modules-right": ["cpu", "memory","network", "battery", "pulseaudio", "tray"],
 
     // Modules configuration
     "hyprland/workspaces": {
@@ -24,24 +24,24 @@
             "3": [],
             "4": [],
             "5": [],
-            "6": [],
-            "7": [],
-            "8": [],
-            "9": [],
-            "10": [],
+           // "6": [],
+           // "7": [],
+           // "8": [],
+           // "9": [],
+           // "10": [],
          },
         "format": "{icon}",
         "format-icons": {
-            "1": "",
-            "2": "",
-            "3": "",
+            "1": "",
+            "2": "",
+            "3": "󰙯",
             "4": "",
             "5": "",
-            "6": "",
-            "7": "",
-            "8": "",
-            "9": "󰙯",
-            "10": ""
+            // "6": "",
+            // "7": "",
+            // "8": "",
+            // "9": "󰙯",
+            // "10": ""
             // "urgent": "",
             // "active": "",
             // "default": ""
@@ -80,16 +80,7 @@
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
-   "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        // "format-critical": "{temperatureC}°C {icon}",
-        "critical-threshold": 80,
-        "interval": 2,
-        "format": "{temperatureC}°C ",
-        "format-icons": ["", "", ""]
-    },
-    "cpu": {
+       "cpu": {
         "interval": 2,
         "format": "{usage}% ",
         "tooltip": false
@@ -101,11 +92,6 @@
    "disk": {
         "interval": 15,
         "format": "{percentage_used}% 󰋊",
-    },
-    "backlight": {
-        // "device": "acpi_video1",
-        "format": "{percent}% {icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {
         "states": {

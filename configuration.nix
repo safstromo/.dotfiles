@@ -63,6 +63,8 @@
     enable = true;
   };
 
+  programs.nm-applet.enable = true;
+
   environment.sessionVariables = {
     # If cursor becomes invisable
     WLR_NO_HARDWARE_CURSORS = "1";
