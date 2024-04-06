@@ -47,7 +47,7 @@ in
    betterdiscordctl
    brightnessctl
    pamixer
-
+   slurp
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -107,7 +107,7 @@ in
     # x11.enable = true;
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
-    size = 16;
+    size = 12;
   };
   
   # Home Manager can also manage your environment variables through
