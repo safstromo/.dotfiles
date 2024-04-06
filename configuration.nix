@@ -152,7 +152,6 @@
     libclang
     clang
     unzip
-    kitty
     nodejs_21
     rustup
     wofi
