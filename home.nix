@@ -45,6 +45,8 @@ in
    wl-clipboard
    discord
    betterdiscordctl
+   brightnessctl
+   pamixer
 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -164,6 +166,7 @@ in
     enable = true;
 
   };
+
 
   # wayland.windowManager.hyprland = {
   #   # Whether to enable Hyprland wayland compositor

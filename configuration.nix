@@ -157,7 +157,6 @@
     rustup
     wofi
     jdk17
-    dolphin
     docker
     jetbrains.idea-ultimate
     google-chrome
@@ -177,6 +176,7 @@
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
  
 
+  programs.thunar.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
