@@ -160,6 +160,7 @@
     jetbrains.idea-ultimate
     google-chrome
     xclip
+    libnotify
     pavucontrol
     typescript
     lxqt.lxqt-policykit
