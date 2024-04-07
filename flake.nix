@@ -8,7 +8,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, unstable, home-manager, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -18,6 +18,7 @@
         nixos = lib.nixosSystem {
           inherit system;
           modules = [ ./configuration.nix ];
+          specialArgs = {inherit unstable;};
         };
       };
       homeConfigurations = {

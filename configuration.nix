@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, unstable, ... }:
 
 {
   imports =
@@ -163,7 +163,8 @@
     pavucontrol
     typescript
     lxqt.lxqt-policykit
-    unstable.hyprlock
+    unstable.legacyPackages."${pkgs.system}".hyprlock
+    unstable.legacyPackages."${pkgs.system}".hypridle
   ];
 
   # I use zsh btw
