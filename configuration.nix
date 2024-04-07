@@ -171,6 +171,15 @@
     lxqt.lxqt-policykit
     unstable.legacyPackages."${pkgs.system}".hyprlock
     unstable.legacyPackages."${pkgs.system}".hypridle
+    (catppuccin-gtk.override {
+      accents = [ "pink" ]; # You can specify multiple accents here to output multiple themes
+      size = "compact";
+      tweaks = [ "rimless" "black" ]; # You can also specify multiple tweaks here
+      variant = "macchiato";
+     })
+
+    # filemanager
+    yazi
   ];
 
   # I use zsh btw
@@ -182,8 +191,6 @@
   # Install font
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
  
-
-  programs.thunar.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

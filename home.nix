@@ -114,6 +114,7 @@ in
     name = "Bibata-Modern-Classic";
     size = 12;
   };
+
   
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
@@ -129,6 +130,7 @@ in
   home.sessionVariables = {
     # EDITOR = "emacs";
   };
+  home.sessionVariables.GTK_THEME = "Catppuccin-Macchiato-Compact-Pink-Dark";
 
   qt.enable = true; 
 
@@ -167,16 +169,31 @@ in
 
   programs.waybar.enable = true;
 
-  # programs.rofi = {
-  #   enable = true;
-  #
-  # };
+#   # GTK
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Catppuccin-Macchiato-Compact-Pink-Dark";
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "pink" ];
+        size = "compact";
+        tweaks = [ "rimless" "black" ];
+        variant = "macchiato";
+      };
+    };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
+#
+# # Now symlink the `~/.config/gtk-4.0/` folder declaratively:
+  xdg.configFile = {
+    "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+    "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+    "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+  };
 
-
-  # wayland.windowManager.hyprland = {
-  #   # Whether to enable Hyprland wayland compositor
-  #   enable = true;
-  # };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
