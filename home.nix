@@ -42,9 +42,9 @@ in
    slurp
    rofi
    rofi-bluetooth
-
    
    hyprpaper
+
    nwg-displays
    nwg-look
    wlr-randr
@@ -167,10 +167,10 @@ in
 
   programs.waybar.enable = true;
 
-  programs.rofi = {
-    enable = true;
-
-  };
+  # programs.rofi = {
+  #   enable = true;
+  #
+  # };
 
 
   # wayland.windowManager.hyprland = {

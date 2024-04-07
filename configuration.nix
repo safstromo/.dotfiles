@@ -163,6 +163,7 @@
     pavucontrol
     typescript
     lxqt.lxqt-policykit
+    unstable.hyprlock
   ];
 
   # I use zsh btw
