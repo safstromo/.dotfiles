@@ -27,27 +27,32 @@ in
   # environment.
   home.packages = with pkgs; [
 
+   #Utils
    unzip
    neofetch
    ripgrep
    fzf
    stow
-   
    usbutils
    pciutils
-   hyprpaper
+   wl-clipboard
+   pipewire
+   brightnessctl
+   pamixer
+   slurp
    rofi
+   rofi-bluetooth
+
+   
+   hyprpaper
    nwg-displays
    nwg-look
    wlr-randr
    dunst
-   pipewire
-   wl-clipboard
    discord
    betterdiscordctl
-   brightnessctl
-   pamixer
-   slurp
+
+
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

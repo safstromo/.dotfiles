@@ -158,7 +158,7 @@
       "format-linked": "{ifname} (No IP) ",
       "format-disconnected": "Disconnected ⚠",
       "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}",
-      // "on-click-right": "~/.config/waybar/scripts/rofi-wifi-menu"
+      "on-click-right": "~/.config/waybar/scripts/rofi-wifi-menu"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -186,7 +186,7 @@
       "tooltip-format": "{device_alias}",
       "tooltip-format-connected": " {device_enumerate}",
       "tooltip-format-enumerate-connected": "{device_alias}",
-      // "on-click-right": "~/.config/waybar/scripts/rofi-bluetooth-menu"
+      "on-click-right": "~/.config/waybar/scripts/rofi-bluetooth-menu"
     },
     "temperature": {
       "interval": 1,
