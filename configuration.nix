@@ -22,6 +22,8 @@
   #Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  security.polkit.enable = true;
+
   #Use latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -51,7 +53,7 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
   # #Enable hyprland
   programs.hyprland = {
@@ -88,7 +90,7 @@
 
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
 
 
