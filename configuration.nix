@@ -157,6 +157,7 @@
     gh
     libclang
     clang
+    python3
     unzip
     nodejs_21
     rustup
