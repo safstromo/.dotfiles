@@ -63,9 +63,9 @@
             // "8": "",
             // "9": "󰙯",
             // "10": ""
-            // "urgent": "",
+            "urgent": "",
             // "active": "",
-            // "default": ""
+            "default": ""
          },
     },
     "keyboard-state": {
@@ -118,15 +118,15 @@
     "cpu": {
       "interval": 2,
       "format": "{usage}% ",
-      "tooltip": false
-     // "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+      "tooltip": false,
+      "on-click": "alacritty -e btop"
     },
     "memory": {
       "interval": 1,
       "format": " {}%",
       "tooltip": true,
       "tooltip-format": "Memory - {used:0.1f}GB used",
-      // "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+      "on-click": "alacritty -e btop"
     },
     "disk": {
       "interval": 1,
@@ -136,7 +136,7 @@
       "format-alt": "󰋊 {percentage_used}%",
       "tooltip": true,
       "tooltip-format": "Disk - {used} used out of {total} on {path} ({percentage_used}%)",
-      "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+      "on-click": "alacritty -e btop"
     },
     "battery": {
       "states": {
@@ -180,7 +180,7 @@
         "on-click": "pavucontrol"
     },
     "bluetooth": {
-      // "exec": "~/.config/waybar/scripts/rofi-bluetooth-menu --status",
+      "exec": "~/.config/waybar/scripts/rofi-bluetooth-menu --status",
       "format-disabled": "", // an empty format will hide the module
       "format-connected": " {num_connections}",
       "tooltip-format": "{device_alias}",
@@ -194,7 +194,7 @@
       "format": " {temperatureC}°C",
       "critical-threshold": 80,
       "format-critical": " {temperatureC}°C",
-      "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+      "on-click": "alacritty -e btop"
     },
     "custom/power": {
       "format": "{icon}",

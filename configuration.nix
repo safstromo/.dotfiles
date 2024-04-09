@@ -180,6 +180,8 @@
 
     # filemanager
     yazi
+
+    btop
   ];
 
   # I use zsh btw
