@@ -190,7 +190,8 @@
     },
     "temperature": {
       "interval": 1,
-      "thermal-zone": 0,
+      "hwmon-path": "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon6/temp1_input",
+      // "thermal-zone": 0,
       "format": " {temperatureC}°C",
       "critical-threshold": 80,
       "format-critical": " {temperatureC}°C",
