@@ -8,7 +8,7 @@ return {
       harpoon:setup({})
 
       vim.keymap.set("n", "<leader>a", function()
-        harpoon:list():append()
+        harpoon:list():add()
       end, { desc = "󱡁 Harpoon Add file" })
 
       vim.keymap.set("n", "<C-e>", function()

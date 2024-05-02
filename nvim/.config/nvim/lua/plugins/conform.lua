@@ -29,6 +29,7 @@ return {
 			markdown = { { "prettierd", "prettier" } },
 			yaml = { { "prettierd", "prettier" } },
 			sh = { "shfmt" },
+			go = { "gofmt", "gofumpt" },
 			-- java = { "google-java-format" },
 		},
 		-- Set up format-on-save
