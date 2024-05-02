@@ -18,6 +18,7 @@ return {
 				"rust_analyzer",
 				"html",
 				"jdtls",
+				"gopls",
 				"lemminx",
 			},
 		},
@@ -118,6 +119,20 @@ return {
 						validate = true,
 						lint = {
 							unknownAtRules = "ignore",
+						},
+					},
+				},
+			})
+			lspconfig.gopls.setup({
+				capabilities = capabilities,
+				cmd = { "gopls" },
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				settings = {
+					gopls = {
+						completeUnimported = true,
+						usePlaceholders = true,
+						analyses = {
+							unusedparams = true,
 						},
 					},
 				},
