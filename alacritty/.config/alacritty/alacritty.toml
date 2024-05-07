@@ -7,11 +7,11 @@ TERM = "xterm-256color"
 
 [font.bold]
 family = "JetBrainsMono Nerd Font"
-style = "Heavy"
+style = "Bold"
 
 [font.bold_italic]
 family = "JetBrainsMono Nerd Font"
-style = "Heavy Italic"
+style = "Bold Italic"
 
 [font.italic]
 family = "JetBrainsMono Nerd Font"
@@ -19,10 +19,16 @@ style = "Medium Italic"
 
 [font.normal]
 family = "JetBrainsMono Nerd Font"
-style = "Medium"
+style = "Regular"
+
+[font]
+size = 12.0
 
 [selection]
 save_to_clipboard = true
 
 [mouse]
 hide_when_typing = true
+
+[window]
+opacity = 0.9
