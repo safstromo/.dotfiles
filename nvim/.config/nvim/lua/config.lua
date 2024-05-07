@@ -48,6 +48,11 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 keymap.set("n", "<leader>re", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Rename in buffer" })
 
+
+vim.keymap.set("n", "<leader>nt", "<cmd> ObsidianToday<CR>", { desc = "Open ObsidianToday" })
+vim.keymap.set("n", "<leader>ns", "<cmd> ObsidianSearch<CR>", { desc = "Open ObsidianSearch" })
+opt.conceallevel = 1
+
 -- Navigate vim panes better
 keymap.set("n", "<c-k>", "<C-w>k")
 keymap.set("n", "<c-j>", "<C-w>j")
