@@ -1,0 +1,16 @@
+#!/bin/bash
+
+id=$(xinput list --id-only 'AT Translated Set 2 keyboard')
+
+is-disabled() {
+    xinput --list --long | grep -A 1 "id=$1" | grep -q disabled
+}
+
+if is-disabled "$id"; then
+  echo "enable keyboard..."
+  xinput enable $id
+else
+  echo "disable keyboard"
+  xinput disable $id
+fi
+
