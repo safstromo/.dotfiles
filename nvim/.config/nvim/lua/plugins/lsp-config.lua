@@ -27,6 +27,10 @@ return {
 		"neovim/nvim-lspconfig",
 		lazy = false,
 		config = function()
+			local handlers = {
+				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+			}
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
@@ -39,17 +43,22 @@ return {
 
 			lspconfig.html.setup({
 				capabilities = capabilities,
+				handlers = handlers,
 			})
 
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
+				handlers = handlers,
 			})
 
 			lspconfig.lemminx.setup({
 				capabilities = capabilities,
+				handlers = handlers,
 			})
 
 			lspconfig.jdtls.setup({
+				handlers = handlers,
+				capabilities = capabilities,
 				settings = {
 					java = {
 						configuration = {
@@ -77,6 +86,7 @@ return {
 			-- configure tailwindcss server
 			lspconfig["tailwindcss"].setup({
 				capabilities = capabilities,
+				handlers = handlers,
 				filetypes = {
 					"css",
 					"scss",
@@ -128,6 +138,7 @@ return {
 			-- configure css server
 			lspconfig["cssls"].setup({
 				capabilities = capabilities,
+				handlers = handlers,
 				settings = {
 					css = {
 						validate = true,
@@ -151,6 +162,7 @@ return {
 			})
 			lspconfig.gopls.setup({
 				capabilities = capabilities,
+				handlers = handlers,
 				cmd = { "gopls" },
 				filetypes = { "go", "gomod", "gowork", "gotmpl" },
 				settings = {
@@ -186,6 +198,10 @@ return {
 				{ desc = "󱕾 Show Type Definitions" }
 			)
 			-- ["<leader>D"] = { "<cmd>Telescope diagnostics bufnr=0<CR>", "󱕾 LSP Type Definitions" },
+			--
+			--Set border for floating windows
+			vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]])
+			vim.cmd([[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]])
 		end,
 	},
 }

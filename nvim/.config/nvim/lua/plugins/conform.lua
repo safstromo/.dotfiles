@@ -30,6 +30,7 @@ return {
 			yaml = { { "prettierd", "prettier" } },
 			sh = { "shfmt" },
 			go = { "gofmt", "gofumpt" },
+			rust = { "leptosfmt", "rustfmt" },
 			-- java = { "google-java-format" },
 		},
 		-- Set up format-on-save
