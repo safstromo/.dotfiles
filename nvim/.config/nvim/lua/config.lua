@@ -24,12 +24,12 @@ opt.termguicolors = true
 opt.virtualedit = "block"
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "java",
-  callback = function()
-    vim.opt_local.softtabstop = 4
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.tabstop = 4
-  end,
+	pattern = "java",
+	callback = function()
+		vim.opt_local.softtabstop = 4
+		vim.opt_local.shiftwidth = 4
+		vim.opt_local.tabstop = 4
+	end,
 })
 
 -- disable nvim intro
@@ -47,7 +47,6 @@ keymap.set("n", "<leader>ya", ":% y+<CR>", { desc = "Yank all to system clipboar
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 keymap.set("n", "<leader>re", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Rename in buffer" })
-
 
 vim.keymap.set("n", "<leader>nt", "<cmd> ObsidianToday<CR>", { desc = "Open ObsidianToday" })
 vim.keymap.set("n", "<leader>ns", "<cmd> ObsidianSearch<CR>", { desc = "Open ObsidianSearch" })
