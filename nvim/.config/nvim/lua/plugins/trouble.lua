@@ -9,7 +9,7 @@ return {
 	cmd = "Trouble",
 	keys = {
 		{
-			"<leader>sd",
+			"<leader>st",
 			"<cmd>Trouble diagnostics toggle<cr>",
 			desc = "Show diagnostics",
 		},
