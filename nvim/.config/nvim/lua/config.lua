@@ -55,3 +55,5 @@ keymap.set("n", "<c-k>", "<C-w>k")
 keymap.set("n", "<c-j>", "<C-w>j")
 keymap.set("n", "<c-h>", "<C-w>h")
 keymap.set("n", "<c-l>", "<C-w>l")
+
+keymap.set("n", "<leader>cc", "<cmd>CopilotChat<CR>", { desc = "Toggle Copilot" })
