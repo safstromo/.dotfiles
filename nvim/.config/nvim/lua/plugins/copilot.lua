@@ -24,6 +24,10 @@ return {
 		cmd = "Copilot",
 		event = "InsertEnter",
 		config = function()
+			vim.g.copilot_no_tab_map = true
+			vim.g.copilot_assume_mapped = true
+			vim.g.copilot_tab_fallback = ""
+
 			require("copilot").setup({
 				suggestion = { enabled = false },
 				panel = { enabled = false },
@@ -42,10 +46,10 @@ return {
 		},
 		-- See Commands section for default commands if you want to lazy load on them
 	},
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	},
+	-- {
+	-- 	"zbirenbaum/copilot-cmp",
+	-- 	config = function()
+	-- 		require("copilot_cmp").setup()
+	-- 	end,
+	-- },
 }

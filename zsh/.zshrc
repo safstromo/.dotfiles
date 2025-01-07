@@ -105,6 +105,7 @@ export GPG_TTY=$(tty)
 export PATH="$HOME/nvim-linux64/bin:$PATH"
 alias vi='nvim'
 alias oldvim='vi'
+alias co='gh copilot suggest'
 
 #fix keeb bug
 bindkey -s "^[Ok" "+"
