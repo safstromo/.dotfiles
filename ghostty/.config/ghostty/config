@@ -1,0 +1,4 @@
+theme = catppuccin-mocha
+background-opacity = .9
+window-decoration = false
+link-url = true
