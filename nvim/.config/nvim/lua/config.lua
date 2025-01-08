@@ -57,3 +57,10 @@ keymap.set("n", "<c-h>", "<C-w>h")
 keymap.set("n", "<c-l>", "<C-w>l")
 
 keymap.set("n", "<leader>cc", "<cmd>CopilotChat<CR>", { desc = "Toggle Copilot" })
+
+local symbols = { Error = "󰅙", Info = "󰋼", Hint = "󰌵", Warn = "" }
+
+for name, icon in pairs(symbols) do
+	local hl = "DiagnosticSign" .. name
+	vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+end
