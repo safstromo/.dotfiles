@@ -32,6 +32,12 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.filetype.add({
+	extension = {
+		wxs = "xml",
+	},
+})
+
 -- disable nvim intro
 opt.shortmess:append("sI")
 
