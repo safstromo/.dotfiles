@@ -88,6 +88,7 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
+  export EDITOR='nvim'
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -105,6 +106,7 @@ export GPG_TTY=$(tty)
 export PATH="$HOME/nvim-linux64/bin:$PATH"
 alias vi='nvim'
 alias oldvim='vi'
+alias co='gh copilot suggest'
 
 #fix keeb bug
 bindkey -s "^[Ok" "+"
