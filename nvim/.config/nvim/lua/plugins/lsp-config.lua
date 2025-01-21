@@ -36,10 +36,8 @@ return {
 
 			local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
 
-			print("jdtls_path", jdtls_path)
-			-- require("java").setup({
-			-- 	jdk = { auto_install = false },
-			-- })
+			-- print("jdtls_path", jdtls_path)
+
 			local lspconfig = require("lspconfig")
 
 			lspconfig.html.setup({
@@ -67,6 +65,11 @@ return {
 								{
 									name = "JavaSE-17",
 									path = "~/.sdkman/candidates/java/17.0.8-tem",
+									default = false,
+								},
+								{
+									name = "JavaSE-21",
+									path = "~/.sdkman/candidates/java/21.0.5-tem",
 									default = true,
 								},
 							},
