@@ -32,6 +32,7 @@ return {
 			go = { "gofmt", "gofumpt" },
 			rust = { "leptosfmt", "rustfmt" },
 			kotlin = { "ktfmt" },
+			xml = { "xmlformatter" },
 			-- java = { "google-java-format" },
 		},
 		-- Set up format-on-save
@@ -40,6 +41,9 @@ return {
 		formatters = {
 			shfmt = {
 				prepend_args = { "-i", "2" },
+			},
+			xmlformatter = {
+				prepend_args = { "--indent", "4" },
 			},
 		},
 	},
