@@ -21,7 +21,6 @@ return {
 				-- "gopls",
 				"lemminx",
 				"kotlin_language_server",
-				"xmlformatter",
 			},
 		},
 	},
