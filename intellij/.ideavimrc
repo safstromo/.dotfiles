@@ -4,10 +4,9 @@
 " Find more examples here: https://jb.gg/share-ideavimrc
 
 
-"" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
 " text scroll if you mouse-click near the start or end of the window.
-set scrolloff=5
+set scrolloff=8
 
 " Do incremental searching.
 set incsearch
@@ -19,6 +18,7 @@ set smartcase
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
+
 " --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
 
 " Highlight copied text
@@ -26,9 +26,7 @@ Plug 'machakann/vim-highlightedyank'
 " Commentary plugin
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'easymotion/vim-easymotion'
 Plug 'preservim/nerdtree'
-Plug 'terryma/vim-multiple-cursors'
 
 
 set which-key
@@ -52,12 +50,15 @@ map U <C-r>
 
 map ; :
 
-map <leader>vf <Action>(ToggleFullScreen)
+map <Esc> :noh<CR>
 
+map <leader>vf <Action>(ToggleFullScreen)
 " Pane vertically split/horizontally split/close)
 map <C-=> <Action>(SplitVertically)
 map <C--> <Action>(SplitHorizontally)
 map <C-BS> <Action>(Unsplit)
+
+
 " Move between panes top/bottom/left/right)
 map <C-k> <C-w>k
 map <C-j> <C-w>j
@@ -71,22 +72,22 @@ map <C-u> <C-u>zz
 "copy
 map <leader>ya :% y+<CR>
 
-nmap <C-k> <Action>(MoveStatementUp)
-nmap <C-j> <Action>(MoveStatementDown)
+"nmap <C-k> <Action>(MoveStatementUp)
+"nmap <C-j> <Action>(MoveStatementDown)
 " (Comment)
 map <leader>/ <Action>(CommentByLineComment)
 " Goto
 map <leader>d <Action>(ShowErrorDescription)
 map <leader>c <Action>(GotoClass)
 map <leader>ff <Action>(GotoFile)
-map <leader>fa <Action>(SearchEverywhere)
+map <leader>fw <Action>(SearchEverywhere)
 map <leader>gi <Action>(GotoImplementation)
 map <leader>gd <Action>(GotoDeclaration)
 map <leader>gt <Action>(GotoTest)
 map <leader>st <Action>(ActivateProblemsViewToolWindow)
 map K <Action>(QuickJavaDoc)
 map <leader>ca <Action>(ShowIntentionActions)
-map <leader>re <Action>(RefactoringMenu)
+map <leader>ra <Action>(RefactoringMenu)
 map ga <Action>(ShowIntentionActions)
 map <leader>gu <Action>(ShowUsages)
 map <leader>gr <Action>(FindUsages)
@@ -106,6 +107,7 @@ map <leader>b <Action>(BuildMenu)
 map <leader>rc <Action>(ContextRun)
 map <leader>rf <Action>(ChooseRunConfiguration)
 map <leader>rr <Action>(Rerun)
+map <leader>rt <Action>(Run)
 "map <leader>dc <Action>(ContextDebug)
 "map <leader>df <Action>(ChooseDebugConfiguration)
 " (Breakpoint)
@@ -122,8 +124,17 @@ map <leader>i <Action>(Generate)
 "Refactor
 map <leader>fm <Action>(ReformatCode)
 nmap <leader>oi <action>(OptimizeImports)
-nmap <leader>ra <action>(RenameElement)
+nmap <leader>re <action>(RenameElement)
 nnoremap <Tab> :action NextTab<CR>
 
 "copilot"
 map <leader>cc <Action>(copilot.chat.show)
+
+"HarpoonIJ
+nmap <leader>j :action GotoHarpoon1<cr>
+nmap <leader>l :action GotoHarpoon2<cr>
+nmap <leader>u :action GotoHarpoon3<cr>
+nmap <leader>m :action GotoHarpoon4<cr>
+
+nmap <C-e> :action ShowHarpoon<cr>
+nmap <leader>a :action AddToHarpoon<cr>
