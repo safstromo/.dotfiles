@@ -33,6 +33,7 @@ return {
 			rust = { "leptosfmt", "rustfmt" },
 			kotlin = { "ktfmt" },
 			xml = { "xmlformatter" },
+			nix = { "nixfmt" },
 			-- java = { "google-java-format" },
 		},
 		-- Set up format-on-save

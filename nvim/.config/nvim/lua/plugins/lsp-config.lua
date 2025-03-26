@@ -45,6 +45,11 @@ return {
 				handlers = handlers,
 			})
 
+			lspconfig.nixd.setup({
+				capabilities = capabilities,
+				handlers = handlers,
+			})
+
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 				handlers = handlers,

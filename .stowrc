@@ -1,0 +1,7 @@
+--target=~/.config
+--ignore=.stowrc
+--ignore=ubuntu/
+--ignore=install.sh
+--ignore=stowScript.sh
+--ignore=README.md
+--ignore=toggleKeyboard
