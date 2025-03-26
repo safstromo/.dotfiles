@@ -85,14 +85,25 @@
   users.users.eox = {
     isNormalUser = true;
     description = "eox";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "podman" ];
     packages = with pkgs;
       [
         #  thunderbird
       ];
   };
 
-  # Install firefox.
+  # Enable common container config files in /etc/containers
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+
+  }; # Install firefox.
   programs.firefox.enable = true;
 
   # Allow unfree packages
@@ -127,6 +138,7 @@
     typescript
     nixd
     tldr
+    podman-compose
   ];
 
   programs.neovim = {
