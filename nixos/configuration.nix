@@ -11,13 +11,13 @@
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixo"; # Define your hostname.
+  boot.initrd.luks.devices."luks-07860316-2711-4a64-bd4d-c6f477e91c64".device = "/dev/disk/by-uuid/07860316-2711-4a64-bd4d-c6f477e91c64";
+
+  networking.hostName = "nixlap"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -25,7 +25,7 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+   networking.networkmanager.enable = true;
   services.tailscale.enable = true;
 
   # Set your time zone.
@@ -62,7 +62,7 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
+# Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -131,7 +131,6 @@
     nodejs_23
     rustup
     jdk21
-    docker
     jetbrains.idea-ultimate
     google-chrome
     xclip
