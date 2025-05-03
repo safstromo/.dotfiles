@@ -135,6 +135,8 @@
     brave
     waybar
     hyprpolkitagent
+    hyprpaper
+    hypridle
     rofi-wayland
     xclip
     typescript
