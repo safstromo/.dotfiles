@@ -1,0 +1,206 @@
+{
+    // "layer": "top",
+    // "position": "top",
+    // "height": 25,
+    // "margin-left": 5,
+    // "margin-right": 5,
+    // "margin-top": 5,
+    // "spacing": 1,
+    //
+    // Choose the order of the modules
+
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 0,
+
+    "modules-left": [
+      "clock",
+      "cpu",
+      "memory",
+      "disk",
+      "temperature",
+      "hyprland/window"
+    ],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": [
+      "tray",
+      "bluetooth",
+      "network",
+      "pulseaudio",
+      "battery",
+    ],
+
+    // Modules configuration
+    "hyprland/workspaces": {
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+           // "6": [],
+           // "7": [],
+           // "8": [],
+           // "9": [],
+           // "10": [],
+         },
+        "format": "{icon}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "󰙯",
+            "4": "",
+            "5": "",
+            // "6": "",
+            // "7": "",
+            // "8": "",
+            // "9": "󰙯",
+            // "10": ""
+            "urgent": "",
+            // "active": "",
+            "default": ""
+         },
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 18,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": [
+           "kitty",
+           "wezterm",
+           "foot",
+           "footclient"
+        ],
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 5,
+        "show-passive-items": true,
+    },
+    "clock": {
+      "format": " {:%T}",
+      "interval":1,
+      "format-alt": " {:%A, %B %d, %Y, %T} ",
+      "tooltip-format": "<tt><small>{calendar}</small></tt>",
+      "calendar": {
+        "mode": "year",
+        "mode-mon-col": 3,
+        "weeks-pos": "right",
+        "on-scroll": 1,
+        "on-click-right": "mode",
+        "format": {
+          "months": "<span color='#f5e0dc'><b>{}</b></span>",
+          "days": "<span color='#cdd6f4'><b>{}</b></span>",
+          "weeks": "<span color='#94e2d5'><b>W{}</b></span>",
+          "weekdays": "<span color='#f9e2af'><b>{}</b></span>",
+          "today": "<span color='#f38ba8'><b><u>{}</u></b></span>"
+        }
+      },
+    },
+    "cpu": {
+      "interval": 2,
+      "format": "{usage}% ",
+      "tooltip": false,
+      "on-click": "alacritty -e btop"
+    },
+    "memory": {
+      "interval": 1,
+      "format": " {}%",
+      "tooltip": true,
+      "tooltip-format": "Memory - {used:0.1f}GB used",
+      "on-click": "alacritty -e btop"
+    },
+    "disk": {
+      "interval": 1,
+      "format": "󰋊 {percentage_used}%",
+      "path": "/",
+      "format-alt-click": "click-right",
+      "format-alt": "󰋊 {percentage_used}%",
+      "tooltip": true,
+      "tooltip-format": "Disk - {used} used out of {total} on {path} ({percentage_used}%)",
+      "on-click": "alacritty -e btop"
+    },
+    "battery": {
+      "states": {
+        "good": 95,
+        "warning": 30,
+        "critical": 20
+      },
+      "format": "{icon} {capacity}%",
+      "format-charging": " {capacity}%",
+      "format-plugged": " {capacity}%",
+      "format-alt": "{time} {icon}",
+      "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+    "network": {
+      // "interface": "wlan0", (optional) to focus on the interface
+      "format-wifi": "  {signalStrength}%",
+      "format-ethernet": "  {ipaddr}/{cidr}",
+      "tooltip-format": "{essid} - {ifname} via {gwaddr} ",
+      "format-linked": "{ifname} (No IP) ",
+      "format-disconnected": "Disconnected ⚠",
+      "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}",
+      "on-click-right": "~/.config/waybar/scripts/rofi-wifi-menu"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon}", //{format_source}",
+        "format-bluetooth": "{volume}% {icon} 󰂯", //{format_source}",
+        "format-bluetooth-muted": "󰖁 {icon} 󰂯", //{format_source}",
+        "format-muted": "󰖁 {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󱡒",
+            "headset": "󰋎",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "bluetooth": {
+      "exec": "~/.config/waybar/scripts/rofi-bluetooth-menu --status",
+      "format-disabled": "", // an empty format will hide the module
+      "format-connected": " {num_connections}",
+      "tooltip-format": "{device_alias}",
+      "tooltip-format-connected": " {device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}",
+      "on-click-right": "~/.config/waybar/scripts/rofi-bluetooth-menu"
+    },
+    "temperature": {
+      "interval": 1,
+      "hwmon-path": "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon6/temp1_input",
+      // "thermal-zone": 0,
+      "format": " {temperatureC}°C",
+      "critical-threshold": 80,
+      "format-critical": " {temperatureC}°C",
+      "on-click": "alacritty -e btop"
+    },
+    "custom/power": {
+      "format": "{icon}",
+      "format-icons": "",// 󰣇
+      "exec-on-event": "true",
+      "on-click": "~/scripts/sessionMenu.sh",
+    }
+}
