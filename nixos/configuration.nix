@@ -25,8 +25,12 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-   networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
   services.tailscale.enable = true;
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -141,6 +145,7 @@
     xclip
     typescript
     nixd
+    pavucontrol
     tldr
     podman-compose
   ];
