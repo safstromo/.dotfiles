@@ -146,6 +146,7 @@
     typescript
     nixd
     pavucontrol
+    brightnessctl
     tldr
     podman-compose
   ];
