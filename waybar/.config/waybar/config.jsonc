@@ -16,6 +16,8 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 0,
+    "margin-right": 10,
+    "margin-left": 10,
 
     "modules-left": [
       "clock",
@@ -32,7 +34,7 @@
       "network",
       "pulseaudio",
       "battery",
-      "power"
+      "custom/power"
     ],
 
     // Modules configuration
@@ -99,7 +101,7 @@
 
     },
     "clock": {
-      "format": " {:%T}",
+      "format": "  {:%H:%M}",
       "interval":1,
       "format-alt": " {:%A, %B %d, %Y, %T} ",
       "tooltip-format": "<tt><small>{calendar}</small></tt>",
@@ -200,10 +202,10 @@
       "format-critical": " {temperatureC}°C",
       "on-click": "ghostty -e btop"
     },
-    "power": {
-      "format": "{icon}",
-      "format-icons": "",// 󰣇
-      "exec-on-event": "true",
-      "on-click": "wlogout",
+    "custom/power": {
+      "format": "  {icon}  ",
+      "format-icons": "",//󰣇
+      // "exec-on-event": "true",
+      "on-click": "~/.config/waybar/scripts/rofi-power",
     }
 }

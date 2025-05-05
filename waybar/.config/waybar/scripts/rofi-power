@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Define the available power options
+options="Power Off\nReboot\nSuspend\nLogout"
+
+# Use Rofi to display the options and capture the user's choice
+# -dmenu: Use the dmenu mode
+# -i: Case-insensitive matching
+# -p "Power Options:": Set the prompt text
+choice=$(echo -e "$options" | rofi -dmenu -i -p "Power Options:")
+
+# Execute the corresponding command based on the user's choice
+case "$choice" in
+    "Power Off")
+        # Use systemctl for clean shutdown
+        systemctl poweroff
+        ;;
+    "Reboot")
+        # Use systemctl for clean reboot
+        systemctl reboot
+        ;;
+    "Suspend")
+        # Use systemctl to suspend the system
+        systemctl suspend
+        ;;
+    "Logout")
+        hyprlock
+        ;;
+    *)
+        # Handle the case where the user cancels or types something else
+        exit 1
+        ;;
+esac

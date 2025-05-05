@@ -146,7 +146,6 @@
     rofi-wayland
     cliphist
     wl-clipboard
-    wlogout
     xclip
     typescript
     nixd
@@ -173,7 +172,7 @@
 
   # Install font
   fonts.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
+    [ (nerdfonts.override { fonts = [ "JetBrainsMono"]; }) ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
