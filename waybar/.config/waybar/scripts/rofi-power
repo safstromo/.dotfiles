@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Define the available power options
-options="Power Off\nReboot\nSuspend\nLogout"
+options="⏻ Power Off\n↻ Reboot\n☾ Suspend\n-> Logout"
 
 # Use Rofi to display the options and capture the user's choice
 # -dmenu: Use the dmenu mode
@@ -11,19 +11,19 @@ choice=$(echo -e "$options" | rofi -dmenu -i -p "Power Options:")
 
 # Execute the corresponding command based on the user's choice
 case "$choice" in
-    "Power Off")
+    "⏻ Power Off")
         # Use systemctl for clean shutdown
         systemctl poweroff
         ;;
-    "Reboot")
+    "↻ Reboot")
         # Use systemctl for clean reboot
         systemctl reboot
         ;;
-    "Suspend")
+    "☾ Suspend")
         # Use systemctl to suspend the system
         systemctl suspend
         ;;
-    "Logout")
+    "-> Logout")
         hyprlock
         ;;
     *)

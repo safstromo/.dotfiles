@@ -191,7 +191,7 @@
       "tooltip-format": "{device_alias}",
       "tooltip-format-connected": " {device_enumerate}",
       "tooltip-format-enumerate-connected": "{device_alias}",
-      "on-click-right": "~/.config/waybar/scripts/rofi-bluetooth-menu"
+      "on-click": "blueman-manager"
     },
     "temperature": {
       "interval": 1,
