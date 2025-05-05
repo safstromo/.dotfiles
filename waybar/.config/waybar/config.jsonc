@@ -32,6 +32,7 @@
       "network",
       "pulseaudio",
       "battery",
+      "power"
     ],
 
     // Modules configuration
@@ -199,10 +200,10 @@
       "format-critical": " {temperatureC}°C",
       "on-click": "ghostty -e btop"
     },
-    "custom/power": {
+    "power": {
       "format": "{icon}",
       "format-icons": "",// 󰣇
       "exec-on-event": "true",
-      "on-click": "~/scripts/sessionMenu.sh",
+      "on-click": "wlogout",
     }
 }

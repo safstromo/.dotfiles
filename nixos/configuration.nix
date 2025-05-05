@@ -124,7 +124,9 @@
     fzf
     ripgrep
     git
+    lazygit
     gh
+    dunst
     yazi
     btop
     libclang
@@ -142,6 +144,9 @@
     hyprpaper
     hypridle
     rofi-wayland
+    cliphist
+    wl-clipboard
+    wlogout
     xclip
     typescript
     nixd
