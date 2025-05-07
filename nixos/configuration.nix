@@ -144,6 +144,7 @@
     teams-for-linux
     curl
     fzf
+    libnotify
     ripgrep
     git
     lazygit
