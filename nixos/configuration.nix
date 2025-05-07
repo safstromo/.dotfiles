@@ -120,6 +120,7 @@
     ghostty
     starship
     wget
+    teams-for-linux
     curl
     fzf
     ripgrep
