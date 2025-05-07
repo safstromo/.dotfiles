@@ -30,6 +30,7 @@ return {
 			yaml = { "prettierd", "prettier", stop_after_first = true },
 			sh = { "shfmt" },
 			go = { "gofmt", "gofumpt" },
+			templ = { "templ" },
 			rust = { "leptosfmt", "rustfmt" },
 			kotlin = { "ktfmt" },
 			xml = { "xmlformatter" },
