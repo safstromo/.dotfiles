@@ -18,9 +18,10 @@ return {
 				"rust_analyzer",
 				"html",
 				"jdtls",
-				-- "gopls",
+				"gopls",
 				"lemminx",
 				"kotlin_language_server",
+				"pyright",
 			},
 		},
 	},
@@ -46,6 +47,11 @@ return {
 			})
 
 			lspconfig.lua_ls.setup({
+				capabilities = capabilities,
+				handlers = handlers,
+			})
+
+			lspconfig.pyright.setup({
 				capabilities = capabilities,
 				handlers = handlers,
 			})
@@ -104,10 +110,12 @@ return {
 					"svelte",
 					"vue",
 					"rust",
+					"templ",
 				},
 				init_options = {
 					userLanguages = {
 						rust = "html",
+						templ = "html",
 					},
 				},
 				root_dir = require("lspconfig").util.root_pattern(
@@ -182,21 +190,21 @@ return {
 			--   }
 			--
 			-- })
-			-- lspconfig.gopls.setup({
-			-- 	capabilities = capabilities,
-			-- 	handlers = handlers,
-			-- 	cmd = { "gopls" },
-			-- 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
-			-- 	settings = {
-			-- 		gopls = {
-			-- 			completeUnimported = true,
-			-- 			usePlaceholders = true,
-			-- 			analyses = {
-			-- 				unusedparams = true,
-			-- 			},
-			-- 		},
-			-- 	},
-			-- })
+			lspconfig.gopls.setup({
+				capabilities = capabilities,
+				handlers = handlers,
+				cmd = { "gopls" },
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				settings = {
+					gopls = {
+						completeUnimported = true,
+						usePlaceholders = true,
+						analyses = {
+							unusedparams = true,
+						},
+					},
+				},
+			})
 
 			-- Keymaps
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "󱕾 Show quickdocs" })

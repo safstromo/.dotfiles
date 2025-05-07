@@ -14,6 +14,7 @@ set clipboard+=unnamed
 set hlsearch
 "set relativenumber
 set ignorecase
+set relativenumber
 set smartcase
 " Don't use Ex mode, use Q for formatting.
 map Q gq
