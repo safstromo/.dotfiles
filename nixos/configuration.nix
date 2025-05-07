@@ -167,7 +167,6 @@
     discord
     qemu
     quickemu
-    tmux
     hyprpolkitagent
     hyprpaper
     hypridle
@@ -184,6 +183,16 @@
     slurp
     grim
   ];
+
+  programs.tmux = {
+    enable = true;
+    plugins = with pkgs; [
+      tmuxPlugins.sensible
+      tmuxPlugins.vim-tmux-navigator
+      tmuxPlugins.catppuccin
+      tmuxPlugins.yank
+    ];
+  };
 
   programs.neovim = {
     enable = true;
