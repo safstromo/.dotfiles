@@ -60,9 +60,14 @@
 
   services.displayManager.sddm = {
     enable = true;
-    theme = "catppuccin-mocha";
+    theme = "sddm-astronaut-theme";
     package = pkgs.kdePackages.sddm;
-
+    extraPackages = with pkgs; [
+      kdePackages.qtsvg
+      kdePackages.qtmultimedia
+      kdePackages.qtvirtualkeyboard
+      kdePackages.qt5compat
+    ];
   };
 
   # Configure keymap in X11
@@ -123,13 +128,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    (catppuccin-sddm.override {
-      flavor = "mocha";
-      font = "JetBrainsMono";
-      fontSize = "16";
-      # background = "${/home/eox/.dotfiles/wallpapers/picture3.png}";
-      loginBackground = true;
-    })
+    sddm-astronaut
+    # (catppuccin-sddm.override {
+    #   flavor = "mocha";
+    #   font = "JetBrains Mono";
+    #   fontSize = "28";
+    #   # background = "${/home/eox/.dotfiles/wallpapers/picture3.png}";
+    #   loginBackground = true;
+    # })
     stow
     neofetch
     ghostty
