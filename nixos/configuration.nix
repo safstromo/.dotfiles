@@ -131,6 +131,7 @@
     btop
     libclang
     clang
+    sshs
     python3
     unzip
     nodejs_23
