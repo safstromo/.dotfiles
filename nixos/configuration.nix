@@ -136,11 +136,15 @@
     unzip
     nodejs_23
     rustup
+    go
     jdk21
     jetbrains.idea-ultimate
     google-chrome
     brave
     waybar
+    discord
+    qemu
+    quickemu
     hyprpolkitagent
     hyprpaper
     hypridle
@@ -154,6 +158,8 @@
     brightnessctl
     tldr
     podman-compose
+    slurp
+    grim
   ];
 
   programs.neovim = {
