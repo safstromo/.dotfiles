@@ -6,24 +6,25 @@ return {
 			require("mason").setup()
 		end,
 	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		lazy = false,
-		opts = {
-			auto_install = true,
-			ensure_installed = {
-				"lua_ls",
-				"cssls",
-				"tailwindcss",
-				"rust_analyzer",
-				"html",
-				"jdtls",
-				-- "gopls",
-				"lemminx",
-				"kotlin_language_server",
-			},
-		},
-	},
+  -- Cant use on nixos
+	-- {
+	-- 	"williamboman/mason-lspconfig.nvim",
+	-- 	lazy = false,
+	-- 	opts = {
+	-- 		auto_install = true,
+	-- 		ensure_installed = {
+	-- 			"lua_ls",
+	-- 			"cssls",
+	-- 			"tailwindcss",
+	-- 			"rust_analyzer",
+	-- 			"html",
+	-- 			"jdtls",
+	-- 			-- "gopls",
+	-- 			"lemminx",
+	-- 			"kotlin_language_server",
+	-- 		},
+	-- 	},
+	-- },
 	{
 		"neovim/nvim-lspconfig",
 		lazy = false,
@@ -34,7 +35,8 @@ return {
 			}
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
+      -- Cant use on nvim
+			-- local jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
 
 			-- print("jdtls_path", jdtls_path)
 
@@ -79,15 +81,16 @@ return {
 								},
 							},
 						},
-						format = {
-							enabled = true,
-							settings = {
-								url = jdtls_path .. "/intellij-java-google-style.xml",
-								profile = "GoogleStyle",
-								indent_size = 4,
-								tab_size = 4,
-							},
-						},
+            -- Cant use on nixos
+						-- format = {
+						-- 	enabled = true,
+						-- 	settings = {
+						-- 		url = jdtls_path .. "/intellij-java-google-style.xml",
+						-- 		profile = "GoogleStyle",
+						-- 		indent_size = 4,
+						-- 		tab_size = 4,
+						-- 	},
+						-- },
 					},
 				},
 			})
