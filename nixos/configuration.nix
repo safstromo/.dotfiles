@@ -167,6 +167,7 @@
     discord
     qemu
     quickemu
+    tmux
     hyprpolkitagent
     hyprpaper
     hypridle
