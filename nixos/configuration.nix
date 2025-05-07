@@ -1,4 +1,3 @@
-
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -15,7 +14,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-07860316-2711-4a64-bd4d-c6f477e91c64".device = "/dev/disk/by-uuid/07860316-2711-4a64-bd4d-c6f477e91c64";
+  boot.initrd.luks.devices."luks-07860316-2711-4a64-bd4d-c6f477e91c64".device =
+    "/dev/disk/by-uuid/07860316-2711-4a64-bd4d-c6f477e91c64";
 
   networking.hostName = "nixlap"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -29,7 +29,8 @@
   services.tailscale.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
   # Set your time zone.
@@ -54,8 +55,15 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = false;
+  # services.xserver.displayManager.gdm.enable = false;
+  # services.xserver.desktopManager.gnome.enable = false;
+
+  services.displayManager.sddm = {
+    enable = true;
+    theme = "catppuccin-mocha";
+    package = pkgs.kdePackages.sddm;
+
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -66,7 +74,7 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-# Enable sound with pipewire.
+  # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -115,6 +123,13 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      font = "JetBrainsMono";
+      fontSize = "16";
+      # background = "${/home/eox/.dotfiles/wallpapers/picture3.png}";
+      loginBackground = true;
+    })
     stow
     neofetch
     ghostty
@@ -180,7 +195,7 @@
 
   # Install font
   fonts.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "JetBrainsMono"]; }) ];
+    [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
