@@ -167,6 +167,7 @@
     waybar
     discord
     qemu
+    gnumake
     quickemu
     hyprpolkitagent
     hyprpaper
