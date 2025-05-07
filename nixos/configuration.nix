@@ -158,7 +158,9 @@
     python3
     unzip
     nodejs_23
+    tailwindcss
     rustup
+    rust-analyzer
     go
     jdk21
     jetbrains.idea-ultimate
