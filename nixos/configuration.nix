@@ -156,6 +156,7 @@
     clang
     sshs
     python3
+    bat
     unzip
     nodejs_23
     tailwindcss
@@ -164,7 +165,9 @@
     leptosfmt
     go
     jdk21
+    quarkus
     jetbrains.idea-ultimate
+    httpie
     google-chrome
     brave
     waybar
