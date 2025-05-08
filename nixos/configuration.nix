@@ -161,6 +161,7 @@
     tailwindcss
     rustup
     rust-analyzer
+    leptosfmt
     go
     jdk21
     jetbrains.idea-ultimate
