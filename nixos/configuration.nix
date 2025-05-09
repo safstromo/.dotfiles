@@ -33,6 +33,10 @@
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
+  # Add disk utils
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
 
