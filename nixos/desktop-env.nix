@@ -22,6 +22,24 @@
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  environment.systemPackages = with pkgs; [
+    brightnessctl
+    cliphist
+    dunst
+    grim
+    hypridle
+    hyprpaper
+    hyprpolkitagent
+    libnotify
+    pavucontrol
+    rofi-wayland
+    sddm-astronaut
+    slurp
+    waybar
+    wl-clipboard
+    xclip
+  ];
+
   # Install font
   fonts.packages = with pkgs;
     [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];

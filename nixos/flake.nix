@@ -10,7 +10,7 @@
 
     nixosConfigurations.nixlap = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [ ./configuration.nix ./desktop-env ./packages.nix ];
+      modules = [ ./configuration.nix ./desktop-env.nix ./packages.nix ];
     };
   };
 }

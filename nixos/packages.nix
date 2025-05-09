@@ -31,61 +31,50 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    sddm-astronaut
-    stow
-    neofetch
+    # Applications
+    brave
+    discord
     ghostty
-    starship
-    wget
+    google-chrome
+    jetbrains.idea-ultimate
+    qemu
+    quickemu
     teams-for-linux
-    curl
-    fzf
-    libnotify
-    ripgrep
-    git
-    lazygit
-    gh
-    dunst
     yazi
-    btop
-    libclang
+
+    # Devtools
     clang
-    sshs
-    python3
-    bat
-    unzip
-    nodejs_23
-    tailwindcss
-    rustup
-    rust-analyzer
-    leptosfmt
+    gh
+    git
+    gnumake
     go
     jdk21
-    quarkus
-    jetbrains.idea-ultimate
-    httpie
-    google-chrome
-    brave
-    waybar
-    discord
-    qemu
-    gnumake
-    quickemu
-    hyprpolkitagent
-    hyprpaper
-    hypridle
-    rofi-wayland
-    cliphist
-    wl-clipboard
-    xclip
-    typescript
+    lazygit
+    leptosfmt
+    libclang
     nixd
-    pavucontrol
-    brightnessctl
-    tldr
+    nodejs_23
     podman-compose
-    slurp
-    grim
-  ];
+    python3
+    quarkus
+    rust-analyzer
+    rustup
+    tailwindcss
+    typescript
 
+    # Utils
+    bat
+    btop
+    curl
+    fzf
+    httpie
+    neofetch
+    ripgrep
+    sshs
+    starship
+    stow
+    tldr
+    unzip
+    wget
+  ];
 }
