@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Folders to stow
+CONFIG_FOLDERS="bin dunst hypr intellij nvim rofi tmux waybar yazi zsh"
+
+for folder in $CONFIG_FOLDERS
+do
+  echo "Stowing folder: $folder"
+  stow -t "$HOME" --adopt "$folder"
+done
