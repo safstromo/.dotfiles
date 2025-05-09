@@ -44,6 +44,7 @@
 
     # Devtools
     clang
+    dart-sass
     gh
     git
     gnumake
