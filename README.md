@@ -4,5 +4,5 @@
 ### Main
 Main stuff
 
-### hypr
+### Nixos
 Nixos config
