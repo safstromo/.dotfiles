@@ -54,22 +54,6 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = false;
-  # services.xserver.desktopManager.gnome.enable = false;
-
-  services.displayManager.sddm = {
-    enable = true;
-    theme = "sddm-astronaut-theme";
-    package = pkgs.kdePackages.sddm;
-    extraPackages = with pkgs; [
-      kdePackages.qtsvg
-      kdePackages.qtmultimedia
-      kdePackages.qtvirtualkeyboard
-      kdePackages.qt5compat
-    ];
-  };
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -122,10 +106,6 @@
 
   };
 
-  # Install font
-  fonts.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -152,12 +132,6 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
-  # Hyprland
-  programs.hyprland.enable = true;
-  programs.hyprlock.enable = true;
-  # Optional, hint electron apps to use wayland:
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   nix.gc = {
     automatic = true;
