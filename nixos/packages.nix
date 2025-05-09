@@ -69,6 +69,7 @@
     curl
     fzf
     httpie
+    lsof
     neofetch
     ripgrep
     sshs
