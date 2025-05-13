@@ -72,6 +72,7 @@
     rust-analyzer
     tailwindcss-language-server
     typescript
+    vscode-langservers-extracted
 
     # Utils
     bat
