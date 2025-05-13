@@ -54,14 +54,23 @@
     lazygit
     leptosfmt
     libclang
-    nixd
     nodejs_23
     podman-compose
     python3
     quarkus
-    rust-analyzer
     rustup
     tailwindcss
+
+    # LSP
+    lua-language-server
+    lemminx
+    gopls
+    gofumpt
+    jdt-language-server
+    nixd
+    nixfmt-classic
+    rust-analyzer
+    tailwindcss-language-server
     typescript
 
     # Utils
