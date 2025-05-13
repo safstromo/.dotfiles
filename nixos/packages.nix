@@ -44,6 +44,7 @@
 
     # Devtools
     clang
+    exercism
     dart-sass
     gh
     git

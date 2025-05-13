@@ -190,21 +190,21 @@ return {
 			--   }
 			--
 			-- })
-			-- lspconfig.gopls.setup({
-			-- 	capabilities = capabilities,
-			-- 	handlers = handlers,
-			-- 	cmd = { "gopls" },
-			-- 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
-			-- 	settings = {
-			-- 		gopls = {
-			-- 			completeUnimported = true,
-			-- 			usePlaceholders = true,
-			-- 			analyses = {
-			-- 				unusedparams = true,
-			-- 			},
-			-- 		},
-			-- 	},
-			-- })
+			lspconfig.gopls.setup({
+				capabilities = capabilities,
+				handlers = handlers,
+				cmd = { "gopls" },
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				settings = {
+					gopls = {
+						completeUnimported = true,
+						usePlaceholders = true,
+						analyses = {
+							unusedparams = true,
+						},
+					},
+				},
+			})
 
 			-- Keymaps
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "󱕾 Show quickdocs" })
