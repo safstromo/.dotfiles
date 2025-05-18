@@ -13,6 +13,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
 
   boot.initrd.luks.devices."luks-07860316-2711-4a64-bd4d-c6f477e91c64".device =
     "/dev/disk/by-uuid/07860316-2711-4a64-bd4d-c6f477e91c64";

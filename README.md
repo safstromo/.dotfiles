@@ -23,13 +23,15 @@ Generate hardware config
 nixos-generate-config --root /tmp/config --no-filesystems
 ```
 
+Copy the nixfiles from dotfiles.
+```
+sudo cp * /tmp/config/etc/nixos
+```
 
-
-
-
-
-
-
+Move to tempdir
+```
+cd /tmp/config/etc/nixos
+```
 
 
 Partition filesystem
@@ -37,12 +39,11 @@ Partition filesystem
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./disko.nix
 ```
 
-Copy the nixfiles from dotfiles.
-```
-sudo cp * /mnt/etc/nixos
-```
-
 Install
 ```
 sudo nix-install --flake .#nixlap
 ```
+
+Reboot
+
+Stow .dotfiles
