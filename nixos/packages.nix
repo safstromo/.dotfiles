@@ -81,6 +81,7 @@
     fzf
     httpie
     lsof
+    usbutils
     neofetch
     ripgrep
     sshs
