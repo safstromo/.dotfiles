@@ -8,6 +8,7 @@ Main stuff
 Nixos config
 
 Install:
+1. Install nix with luks encryption
 
 Open a shell with git and clone repo
 ```
@@ -15,35 +16,14 @@ nix-shell -p git
 git clone https://github.com/safstromo/.dotfiles.git
 ```
 
-check disk name lsblk and edit disko.nix if needed.
+Copy hardware file
+Copy disk into configuration.nix
 
-
-Generate hardware config
+Stow .dotfiles with script
 ```
-nixos-generate-config --root /tmp/config --no-filesystems
-```
-
-Copy the nixfiles from dotfiles.
-```
-sudo cp * /tmp/config/etc/nixos
+./stowConfig
 ```
 
-Move to tempdir
-```
-cd /tmp/config/etc/nixos
-```
+sudo nixos-rebuild switch --experimental-features "nix-command flakes" --flake .
 
 
-Partition filesystem
-```
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./disko.nix
-```
-
-Install
-```
-sudo nix-install --flake .#nixlap
-```
-
-Reboot
-
-Stow .dotfiles

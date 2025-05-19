@@ -11,8 +11,12 @@
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.grub.efiInstallAsRemovable = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.devices = [ "nodev" ];
+  boot.loader.grub.efiSupport = true;
 
   boot.initrd.luks.devices."luks-07860316-2711-4a64-bd4d-c6f477e91c64".device =
     "/dev/disk/by-uuid/07860316-2711-4a64-bd4d-c6f477e91c64";
