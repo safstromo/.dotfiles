@@ -2,7 +2,7 @@
 
 echo "Stowing dotfiles"
 
-.././stowConfig
+(cd .. && ./stowConfig)
 
 echo "Copying hardware-configuration.nix"
 

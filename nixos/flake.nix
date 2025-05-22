@@ -8,9 +8,16 @@
 
   outputs = { self, nixpkgs, ... }@inputs: {
 
-    nixosConfigurations.nixlap = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.e00x = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [ ./configuration.nix ./desktop-env.nix ./packages.nix ];
+      modules =
+        [ ./configs/e00x/configuration.nix ./desktop-env.nix ./packages.nix ];
+    };
+
+    nixosConfigurations.work = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules =
+        [ ./configs/work/configuration.nix ./desktop-env.nix ./packages.nix ];
     };
   };
 }
