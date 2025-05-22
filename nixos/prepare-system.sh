@@ -1,13 +1,5 @@
 #!/bin/sh
 
-echo "Creating shell with git and stow"
-
-nix-shell -p git stow
-
-echo "Cloning dotfiles"
-
-git clone https://github.com/safstromo/.dotfiles.git
-
 echo "Stowing dotfiles"
 
 .././stowConfig
