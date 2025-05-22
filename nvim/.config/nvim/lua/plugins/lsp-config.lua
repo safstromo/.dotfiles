@@ -215,20 +215,6 @@ return {
       vim.keymap.set("n", "<leader>ra", vim.lsp.buf.rename, { desc = "󱕾 LSP Rename" })
       vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "󱕾 Show line diagnostics" })
       vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", { desc = "Restart LSP" })
-      vim.keymap.set("n", "<leader>gr", ":Telescope lsp_references<CR>", { desc = "󱕾 Show references" })
-      vim.keymap.set(
-        "n",
-        "<leader>gi",
-        ":Telescope lsp_implementations<CR>",
-        { desc = "󱕾 Show Implementations" }
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>gT",
-        ":Telescope lsp_type_definitions<CR>",
-        { desc = "󱕾 Show Type Definitions" }
-      )
-      -- ["<leader>D"] = { "<cmd>Telescope diagnostics bufnr=0<CR>", "󱕾 LSP Type Definitions" },
       --
       --Set border for floating windows
       vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]])
