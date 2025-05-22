@@ -20,6 +20,8 @@ git clone https://github.com/safstromo/.dotfiles.git
 
 4. Run prepare_system.sh
 
+Copy hardware-configuration into the config dir to build
+
 5. Add to config to enable flakes
 ```
 nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -33,6 +35,6 @@ Edit grub settings if needed
 
 8. Rebuild flake
 ```
-sudo nixos-rebuild switch --flake .#nixlap
+sudo nixos-rebuild switch --flake .#e00x
 ```
 
