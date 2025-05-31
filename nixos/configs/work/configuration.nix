@@ -113,6 +113,9 @@
     };
 
   };
+  # Point dockerstuff to podman
+  environment.sessionVariables.DOCKER_HOST =
+    "unix://$(podman info --format '{{.Host.RemoteSocket.Path}}')";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
