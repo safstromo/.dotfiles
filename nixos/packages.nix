@@ -32,7 +32,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # Applications
-    brave
     discord
     ghostty
     google-chrome
@@ -54,7 +53,7 @@
     lazygit
     leptosfmt
     libclang
-    nodejs_23
+    nodejs_24
     podman-compose
     python3
     quarkus

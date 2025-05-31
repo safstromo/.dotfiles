@@ -39,8 +39,8 @@
     wl-clipboard
     xclip
   ];
-
   # Install font
-  fonts.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
+  fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
+  # fonts.packages = with pkgs;
+  #   [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
 }

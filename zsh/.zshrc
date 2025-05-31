@@ -1,6 +1,24 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Start ssh-agent if not already running
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)"
+fi
+
+# Add your key if not already added to the agent
+# The `ssh-add -l` command lists loaded keys. If it returns non-zero, no keys are loaded.
+# The `>/dev/null 2>&1` suppresses output to keep your terminal clean.
+if ! ssh-add -l >/dev/null 2>&1; then
+    # Add your default key (id_rsa or id_ed25519)
+    ssh-add ~/.ssh/olsassh
+    # Or for a specific key:
+    # ssh-add ~/.ssh/my_github_key
+
+    # You can add multiple keys if needed:
+    # ssh-add ~/.ssh/other_key
+fi
+
 # Path to your oh-my-zsh installation.
 # export ZSH="$HOME/.oh-my-zsh"
 

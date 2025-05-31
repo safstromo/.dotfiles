@@ -18,9 +18,8 @@
   boot.loader.grub.devices = [ "nodev" ];
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.enableCryptodisk = true;
-
-  boot.initrd.luks.devices."luks-07860316-2711-4a64-bd4d-c6f477e91c64".device =
-    "/dev/disk/by-uuid/07860316-2711-4a64-bd4d-c6f477e91c64";
+  boot.initrd.luks.devices."luks-1bc89d9b-f403-4bf4-9ac7-cec1d53d3a94".device =
+    "/dev/disk/by-uuid/1bc89d9b-f403-4bf4-9ac7-cec1d53d3a94";
 
   networking.hostName = "olsa"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -73,7 +72,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -114,6 +113,9 @@
     };
 
   };
+  # Point dockerstuff to podman
+  environment.sessionVariables.DOCKER_HOST =
+    "unix://$(podman info --format '{{.Host.RemoteSocket.Path}}')";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -145,7 +147,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
   nix.gc = {
     automatic = true;
