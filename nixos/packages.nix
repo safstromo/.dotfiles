@@ -89,7 +89,7 @@
     usbutils
     dnsutils
     nmap
-    neofetch
+    fastfetch
     ripgrep
     sshs
     starship
