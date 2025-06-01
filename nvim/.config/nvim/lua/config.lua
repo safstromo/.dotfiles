@@ -24,18 +24,18 @@ opt.termguicolors = true
 opt.virtualedit = "block"
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "java",
-	callback = function()
-		vim.opt_local.softtabstop = 4
-		vim.opt_local.shiftwidth = 4
-		vim.opt_local.tabstop = 4
-	end,
+  pattern = "java",
+  callback = function()
+    vim.opt_local.softtabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+  end,
 })
 
 vim.filetype.add({
-	extension = {
-		wxs = "xml",
-	},
+  extension = {
+    wxs = "xml",
+  },
 })
 
 -- disable nvim intro
@@ -62,11 +62,9 @@ keymap.set("n", "<c-j>", "<C-w>j")
 keymap.set("n", "<c-h>", "<C-w>h")
 keymap.set("n", "<c-l>", "<C-w>l")
 
-keymap.set("n", "<leader>cc", "<cmd>CopilotChat<CR>", { desc = "Toggle Copilot" })
-
 local symbols = { Error = "󰅙", Info = "󰋼", Hint = "󰌵", Warn = "" }
 
 for name, icon in pairs(symbols) do
-	local hl = "DiagnosticSign" .. name
-	vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+  local hl = "DiagnosticSign" .. name
+  vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
 end

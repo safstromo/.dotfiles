@@ -71,6 +71,7 @@
     gopls
     gofumpt
     jdt-language-server
+    google-java-format
     nixd
     nixfmt-classic
     rust-analyzer
