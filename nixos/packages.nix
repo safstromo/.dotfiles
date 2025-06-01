@@ -89,6 +89,7 @@
     usbutils
     dnsutils
     nmap
+    jq
     fastfetch
     ripgrep
     sshs
