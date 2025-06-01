@@ -28,6 +28,11 @@
     plugins = [ "git" "z" ];
   };
 
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true; # Open ports in the firewall for Syncthing
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -87,6 +92,7 @@
     ripgrep
     sshs
     starship
+    syncthing
     stow
     tldr
     unzip
