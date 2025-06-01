@@ -81,6 +81,8 @@
     httpie
     lsof
     usbutils
+    dnsutils
+    nmap
     neofetch
     ripgrep
     sshs

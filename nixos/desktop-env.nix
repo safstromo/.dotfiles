@@ -39,6 +39,8 @@
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  programs.thunar.enable = true;
+
   environment.systemPackages = with pkgs; [
     brightnessctl
     cliphist
@@ -50,7 +52,7 @@
     libnotify
     pavucontrol
     rofi-wayland
-    sddm-astronaut
+    # sddm-astronaut
     slurp
     waybar
     wl-clipboard
