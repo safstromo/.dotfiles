@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Folders to stow
-CONFIG_FOLDERS="bin dunst hypr intellij nvim rofi tmux waybar yazi zsh"
+CONFIG_FOLDERS="bin dunst hypr intellij nvim rofi tmux waybar yazi zsh ghostty"
 
 for folder in $CONFIG_FOLDERS
 do

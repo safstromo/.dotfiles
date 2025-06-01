@@ -28,11 +28,15 @@
     plugins = [ "git" "z" ];
   };
 
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true; # Open ports in the firewall for Syncthing
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # Applications
-    brave
     discord
     ghostty
     google-chrome
@@ -54,7 +58,7 @@
     lazygit
     leptosfmt
     libclang
-    nodejs_23
+    nodejs_24
     podman-compose
     python3
     quarkus
@@ -67,6 +71,7 @@
     gopls
     gofumpt
     jdt-language-server
+    google-java-format
     nixd
     nixfmt-classic
     rust-analyzer
@@ -82,10 +87,13 @@
     httpie
     lsof
     usbutils
+    dnsutils
+    nmap
     neofetch
     ripgrep
     sshs
     starship
+    syncthing
     stow
     tldr
     unzip
