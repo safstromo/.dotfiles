@@ -121,6 +121,7 @@ source $ZSH/oh-my-zsh.sh
 
 # export GPG_TTY=$(tty)
 # . "$HOME/.cargo/env"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/nvim-linux64/bin:$PATH"
 alias vi='nvim'
 alias oldvim='vi'
