@@ -4,16 +4,33 @@
   # services.xserver.displayManager.gdm.enable = false;
   # services.xserver.desktopManager.gnome.enable = false;
 
-  services.displayManager.sddm = {
+  # services.displayManager.sddm = {
+  #   enable = true;
+  #   theme = "sddm-astronaut-theme";
+  #   package = pkgs.kdePackages.sddm;
+  #   extraPackages = with pkgs; [
+  #     kdePackages.qtsvg
+  #     kdePackages.qtmultimedia
+  #     kdePackages.qtvirtualkeyboard
+  #     kdePackages.qt5compat
+  #   ];
+  # };
+
+  services.greetd = {
     enable = true;
-    theme = "sddm-astronaut-theme";
-    package = pkgs.kdePackages.sddm;
-    extraPackages = with pkgs; [
-      kdePackages.qtsvg
-      kdePackages.qtmultimedia
-      kdePackages.qtvirtualkeyboard
-      kdePackages.qt5compat
-    ];
+    settings = {
+      default_session = {
+        command = ''
+          ${pkgs.greetd.tuigreet}/bin/tuigreet \
+          --greeting 'The journey begins with a single login. Make it count.' \
+          --time \
+          --remember \
+          --asterisks \
+          --cmd 'hyprland'
+        '';
+        user = "greeter";
+      };
+    };
   };
 
   # Hyprland
