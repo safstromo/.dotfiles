@@ -208,7 +208,13 @@ return {
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "󱕾 Code Actions" })
       vim.keymap.set("n", "<leader>ra", vim.lsp.buf.rename, { desc = "󱕾 LSP Rename" })
       vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "󱕾 Show line diagnostics" })
-      vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", { desc = "Restart LSP" })
+      vim.keymap.set("n", "<leader>rs", function()
+        if vim.bo.filetype == "java" then
+          vim.notify("Use <leader>rs from jdtls buffer", vim.log.levels.WARN)
+          return
+        end
+        vim.cmd("LspRestart")
+      end, { desc = "Restart LSP" })
       --
       --Set border for floating windows
       vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]])
