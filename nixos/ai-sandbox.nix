@@ -1,4 +1,13 @@
-{ config, pkgs, pkgs-unstable, ... }: {
+{ config, pkgs, pkgs-unstable, ... }:
+let
+  # Generate a custom Starship configuration for the AI users
+  ai-starship-config = pkgs.writeText "starship.toml" ''
+    [username]
+    show_always = true
+    style_user = "bold purple"
+    format = '[$user]($style)'
+  '';
+in {
 
   # Dedicated groups for the shared workspaces
   users.groups.claude_workspace = { };
@@ -28,16 +37,20 @@
 
   # Create the directories and symlinks
   systemd.tmpfiles.rules = [
-    # Type  Path                                  Mode  User  Group               Age  Target
-    "d      /var/opt/opencode-workspace           2770  eox   opencode_workspace  -    -"
-    "L+     /home/eox/personal/opencode-workspace  -     -     -                   -    /var/opt/opencode-workspace"
-    "L+     /home/opencode/workspace              -     -     -                   -    /var/opt/opencode-workspace"
+    # --- OpenCode Workspace & Configs ---
+    "d      /var/opt/opencode-workspace           2770  eox       opencode_workspace  -    -"
+    "L+     /home/eox/private/opencode-workspace  -     -         -                   -    /var/opt/opencode-workspace"
+    "L+     /home/opencode/workspace              -     -         -                   -    /var/opt/opencode-workspace"
+    "d      /home/opencode/.config                0755  opencode  -                   -    -"
+    "L+     /home/opencode/.config/starship.toml  -     -         -                   -    ${ai-starship-config}"
 
-    "d      /var/opt/claude-workspace             2770  eox   claude_workspace    -    -"
-    "L+     /home/eox/work/claude-workspace       -     -     -                   -    /var/opt/claude-workspace"
-    "L+     /home/claude/workspace                -     -     -                   -    /var/opt/claude-workspace"
+    # --- Claude Workspace & Configs ---
+    "d      /var/opt/claude-workspace             2770  eox       claude_workspace    -    -"
+    "L+     /home/eox/work/claude-workspace       -     -         -                   -    /var/opt/claude-workspace"
+    "L+     /home/claude/workspace                -     -         -                   -    /var/opt/claude-workspace"
+    "d      /home/claude/.config                  0755  claude    -                   -    -"
+    "L+     /home/claude/.config/starship.toml    -     -         -                   -    ${ai-starship-config}"
   ];
-
   # Create the launcher scripts globally
   environment.systemPackages = [
 
@@ -45,16 +58,24 @@
       HOST_DIR=$(realpath "$PWD")
       echo "🔒 Elevating permissions to switch to 'claude'..."
 
-      # Try changing to the host dir. If it fails, fallback to the shared workspace.
-      sudo -u claude -i zsh -i -c "if ! cd '$HOST_DIR' 2>/dev/null; then echo '⚠️  No access to current directory. Dropping into default workspace...'; cd '/var/opt/claude-workspace'; fi; claude"
+      sudo -u claude -i zsh -i -c "
+        if ! cd '$HOST_DIR' 2>/dev/null; then 
+          echo '⚠️  No access to current directory. Dropping into default workspace...'; 
+          cd '/var/opt/claude-workspace'; 
+        fi; 
+        tmux new-session -A -s claude-session 'claude'"
     '')
 
     (pkgs.writeShellScriptBin "opencode-sandbox" ''
       HOST_DIR=$(realpath "$PWD")
       echo "🔒 Elevating permissions to switch to 'opencode'..."
 
-      # Try changing to the host dir. If it fails, fallback to the shared workspace.
-      sudo -u opencode -i zsh -i -c "if ! cd '$HOST_DIR' 2>/dev/null; then echo '⚠️  No access to current directory. Dropping into default workspace...'; cd '/var/opt/opencode-workspace'; fi; opencode"
+      sudo -u opencode -i zsh -i -c "
+        if ! cd '$HOST_DIR' 2>/dev/null; then 
+          echo '⚠️  No access to current directory. Dropping into default workspace...'; 
+          cd '/var/opt/opencode-workspace'; 
+        fi; 
+        tmux new-session -A -s opencode-session 'opencode'"
     '')
 
   ];
