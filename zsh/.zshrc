@@ -127,7 +127,6 @@ export PATH="$HOME/nvim-linux64/bin:$PATH"
 alias vi='nvim'
 alias oldvim='vi'
 alias co='gh copilot suggest'
-alias opencode='npx opencode-ai'
 
 #fix keeb bug
 bindkey -s "^[Ok" "+"

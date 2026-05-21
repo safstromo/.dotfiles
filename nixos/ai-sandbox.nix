@@ -18,7 +18,6 @@ in {
     isNormalUser = true;
     description = "Isolated opencode user";
     createHome = true;
-    linger = true;
     extraGroups = [ "opencode_workspace" ];
     packages = [ pkgs-unstable.opencode ];
   };
@@ -27,7 +26,6 @@ in {
     isNormalUser = true;
     description = "Isolated claude user";
     createHome = true;
-    linger = true;
     extraGroups = [ "claude_workspace" ];
     packages = [ pkgs-unstable.claude-code ];
   };
@@ -55,9 +53,11 @@ in {
   environment.systemPackages = [
 
     (pkgs.writeShellScriptBin "claude-sandbox" ''
+      if [ "$1" = "-i" ]; then
+        exec sudo -u claude -i
+      fi
       HOST_DIR=$(realpath "$PWD")
       echo "🔒 Elevating permissions to switch to 'claude'..."
-
       sudo -u claude -i zsh -i -c "
         if ! cd '$HOST_DIR' 2>/dev/null; then 
           echo '⚠️  No access to current directory. Dropping into default workspace...'; 
@@ -65,11 +65,12 @@ in {
         fi; 
         tmux new-session -A -s claude-session 'claude'"
     '')
-
     (pkgs.writeShellScriptBin "opencode-sandbox" ''
+      if [ "$1" = "-i" ]; then
+        exec sudo -u opencode -i
+      fi
       HOST_DIR=$(realpath "$PWD")
       echo "🔒 Elevating permissions to switch to 'opencode'..."
-
       sudo -u opencode -i zsh -i -c "
         if ! cd '$HOST_DIR' 2>/dev/null; then 
           echo '⚠️  No access to current directory. Dropping into default workspace...'; 
@@ -77,6 +78,5 @@ in {
         fi; 
         tmux new-session -A -s opencode-session 'opencode'"
     '')
-
   ];
 }
