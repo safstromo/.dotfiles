@@ -41,6 +41,7 @@
   };
 
   # I use zsh btw
+  programs.starship.enable = true;
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
@@ -207,9 +208,9 @@
     ripgrep
     openssl
     sshs
-    starship
     syncthing
     stow
+    starship
     tldr
     unzip
     vlc
