@@ -36,6 +36,7 @@ return {
       xml = { "lemminx" },
       nix = { "nixfmt" },
       java = { "google-java-format" },
+      gdscript = { "gdscript-formatter" },
     },
     -- Set up format-on-save
     format_on_save = { timeout_ms = 2000, lsp_format = "fallback" },

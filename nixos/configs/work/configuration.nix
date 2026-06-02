@@ -49,6 +49,8 @@
 
   services.tailscale.enable = true;
 
+  services.fwupd.enable = true;
+
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   # powers up the default Bluetooth controller on boot
   hardware.bluetooth.powerOnBoot = true;
@@ -153,8 +155,15 @@
 
   services.spice-webdavd.enable = true;
   # Point dockerstuff to podman
-  environment.sessionVariables.DOCKER_HOST =
-    "unix://$(podman info --format '{{.Host.RemoteSocket.Path}}')";
+  # 1. Set static session variables (Crucial for Testcontainers + Podman)
+  environment.sessionVariables = { TESTCONTAINERS_RYUK_DISABLED = "true"; };
+
+  # 2. Dynamically evaluate the DOCKER_HOST path for the logged-in user
+  environment.extraInit = ''
+    if [ -z "$DOCKER_HOST" ]; then
+      export DOCKER_HOST="unix://''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock"
+    fi
+  '';
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

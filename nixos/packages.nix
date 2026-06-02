@@ -41,6 +41,7 @@
   };
 
   # I use zsh btw
+  programs.starship.enable = true;
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
@@ -119,6 +120,7 @@
     discord
     ghostty
     krita
+    blender
     google-chrome
     jetbrains.idea
     spotify-player
@@ -135,14 +137,17 @@
     gemini-cli
     exercism
     dart-sass
-    devenv
+    pkgs-unstable.devenv
+    gdscript-formatter
     vscode
+    pkgs-unstable.godot
     gh
     git
     gnumake
     go
     gcc
     templ
+    just
     lazygit
     leptosfmt
     libclang
@@ -164,6 +169,7 @@
     lua-language-server
     lemminx
     gopls
+    marksman
     jdk17
     jdk21
     jdk25
@@ -174,6 +180,7 @@
     nixfmt-classic
     rust-analyzer
     tailwindcss-language-server
+    svelte-language-server
     typescript
     vscode-langservers-extracted
 
@@ -201,9 +208,9 @@
     ripgrep
     openssl
     sshs
-    starship
     syncthing
     stow
+    starship
     tldr
     unzip
     vlc

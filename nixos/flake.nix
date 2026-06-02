@@ -40,6 +40,7 @@
           ./configs/work/configuration.nix
           ./desktop-env.nix
           ./packages.nix
+          ./ai-sandbox.nix
 
           nix-index-database.nixosModules.nix-index
           { programs.nix-index-database.comma.enable = true; }

@@ -9,7 +9,8 @@ return {
     require("nvim-tree").setup({
       filters = {
         custom = {
-          "^\\.pre-commit-config\\.yaml$"
+          "^\\.pre-commit-config\\.yaml$",
+          ".*\\.uid$",
         },
         dotfiles = false,
       },
