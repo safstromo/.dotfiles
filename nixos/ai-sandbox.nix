@@ -1,19 +1,76 @@
 { config, pkgs, pkgs-unstable, ... }:
 let
-  # Generate a custom Starship configuration for the AI users
   ai-starship-config = pkgs.writeText "starship.toml" ''
     [username]
     show_always = true
     style_user = "bold purple"
     format = '[$user]($style)'
   '';
-in {
 
-  # Dedicated groups for the shared workspaces
+  # One-shot service that establishes the access + default ACLs on a
+  # shared workspace. Default ACLs propagate to all *future* files/dirs,
+  # so this is self-maintaining for source code and build artifacts.
+  # It deliberately does NOT touch tool state — that lives elsewhere.
+  mkWorkspaceAclService = { dir, group }: {
+    description = "Set default ACLs on ${dir} for group ${group}";
+    after = [ "systemd-tmpfiles-setup.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      # Don't abort the whole service if a single file can't take an ACL.
+      set +e
+
+      # Default ACL on the root: new files/dirs inherit group rwx automatically.
+      ${pkgs.acl}/bin/setfacl -m  d:g:${group}:rwx  ${dir}
+      ${pkgs.acl}/bin/setfacl -m    g:${group}:rwx  ${dir}
+
+      # Retroactive pass for pre-existing regular files/dirs, excluding .devenv
+      # (PostgreSQL state must stay 0700 with no group ACL). -P keeps find from
+      # following symlinks, and we only target real files and dirs.
+      ${pkgs.findutils}/bin/find -P ${dir} \
+        -name .devenv -prune -o \
+        \( -type f -o -type d \) -print0 \
+        | ${pkgs.findutils}/bin/xargs -0 -r ${pkgs.acl}/bin/setfacl -m g:${group}:rwx
+
+      ${pkgs.findutils}/bin/find -P ${dir} \
+        -name .devenv -prune -o \
+        -type d -print0 \
+        | ${pkgs.findutils}/bin/xargs -0 -r ${pkgs.acl}/bin/setfacl -m d:g:${group}:rwx
+
+      # Always succeed — ACLs are best-effort here, and the default ACL on the
+      # root is what actually keeps things working going forward.
+      exit 0
+    '';
+  };
+
+  # Shared launcher logic. Per-user devenv state is the crux of the fix:
+  # PostgreSQL (and ssh/gpg) need a 0700 dir they own, which is impossible
+  # inside a group-shared tree, so we redirect devenv state into $HOME.
+  mkSandbox = { name, user, group, workspace }:
+    pkgs.writeShellScriptBin "${name}-sandbox" ''
+      if [ "$1" = "-i" ]; then
+        exec sudo -u ${user} -i
+      fi
+      HOST_DIR=$(realpath "$PWD")
+      echo "🔒 Refreshing workspace ACLs..."
+      ${pkgs.acl}/bin/setfacl -R -m g:${group}:rwx ${workspace} 2>/dev/null || true
+
+      echo "🔒 Elevating permissions to switch to '${user}'..."
+      sudo -u ${user} -i zsh -i -c "
+        umask 002
+        if ! cd '$HOST_DIR' 2>/dev/null; then
+          echo '⚠️  No access to current directory. Dropping into default workspace...';
+          cd '${workspace}';
+        fi;
+        tmux new-session -A -s ${name}-session '${name}'"
+    '';
+in {
   users.groups.claude_workspace = { };
   users.groups.opencode_workspace = { };
 
-  # Define the isolated AI users
   users.users.opencode = {
     isNormalUser = true;
     description = "Isolated opencode user";
@@ -30,53 +87,51 @@ in {
     packages = [ pkgs-unstable.claude-code ];
   };
 
-  # Add main user to the shared workspace groups
   users.users.eox.extraGroups = [ "claude_workspace" "opencode_workspace" ];
 
-  # Create the directories and symlinks
+  # ACL support on the mount holding the workspaces. /var is usually on /,
+  # but if /var is a separate partition, add "acl" to that entry instead.
+  fileSystems."/".options = [ "acl" ];
+
   systemd.tmpfiles.rules = [
-    # --- OpenCode Workspace & Configs ---
     "d      /var/opt/opencode-workspace           2770  eox       opencode_workspace  -    -"
     "L+     /home/eox/private/opencode-workspace  -     -         -                   -    /var/opt/opencode-workspace"
     "L+     /home/opencode/workspace              -     -         -                   -    /var/opt/opencode-workspace"
     "d      /home/opencode/.config                0755  opencode  -                   -    -"
     "L+     /home/opencode/.config/starship.toml  -     -         -                   -    ${ai-starship-config}"
 
-    # --- Claude Workspace & Configs ---
     "d      /var/opt/claude-workspace             2770  eox       claude_workspace    -    -"
     "L+     /home/eox/work/claude-workspace       -     -         -                   -    /var/opt/claude-workspace"
     "L+     /home/claude/workspace                -     -         -                   -    /var/opt/claude-workspace"
     "d      /home/claude/.config                  0755  claude    -                   -    -"
     "L+     /home/claude/.config/starship.toml    -     -         -                   -    ${ai-starship-config}"
   ];
-  # Create the launcher scripts globally
-  environment.systemPackages = [
 
-    (pkgs.writeShellScriptBin "claude-sandbox" ''
-      if [ "$1" = "-i" ]; then
-        exec sudo -u claude -i
-      fi
-      HOST_DIR=$(realpath "$PWD")
-      echo "🔒 Elevating permissions to switch to 'claude'..."
-      sudo -u claude -i zsh -i -c "
-        if ! cd '$HOST_DIR' 2>/dev/null; then 
-          echo '⚠️  No access to current directory. Dropping into default workspace...'; 
-          cd '/var/opt/claude-workspace'; 
-        fi; 
-        tmux new-session -A -s claude-session 'claude'"
-    '')
-    (pkgs.writeShellScriptBin "opencode-sandbox" ''
-      if [ "$1" = "-i" ]; then
-        exec sudo -u opencode -i
-      fi
-      HOST_DIR=$(realpath "$PWD")
-      echo "🔒 Elevating permissions to switch to 'opencode'..."
-      sudo -u opencode -i zsh -i -c "
-        if ! cd '$HOST_DIR' 2>/dev/null; then 
-          echo '⚠️  No access to current directory. Dropping into default workspace...'; 
-          cd '/var/opt/opencode-workspace'; 
-        fi; 
-        tmux new-session -A -s opencode-session 'opencode'"
-    '')
+  systemd.services.acl-claude-workspace = mkWorkspaceAclService {
+    dir = "/var/opt/claude-workspace";
+    group = "claude_workspace";
+  };
+
+  systemd.services.acl-opencode-workspace = mkWorkspaceAclService {
+    dir = "/var/opt/opencode-workspace";
+    group = "opencode_workspace";
+  };
+
+  environment.systemPackages = [
+    pkgs.acl
+
+    (mkSandbox {
+      name = "claude";
+      user = "claude";
+      group = "claude_workspace";
+      workspace = "/var/opt/claude-workspace";
+    })
+
+    (mkSandbox {
+      name = "opencode";
+      user = "opencode";
+      group = "opencode_workspace";
+      workspace = "/var/opt/opencode-workspace";
+    })
   ];
 }
