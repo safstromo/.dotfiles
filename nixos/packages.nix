@@ -183,7 +183,7 @@
     rust-analyzer
     tailwindcss-language-server
     svelte-language-server
-    terraform-lsp
+    terraform-ls
     typescript
     vscode-langservers-extracted
 

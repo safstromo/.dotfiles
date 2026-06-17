@@ -210,6 +210,10 @@ return {
         capabilities = capabilities,
         handlers = handlers,
       })
+      vim.lsp.config("terraformls", {
+        capabilities = capabilities,
+        handlers = handlers,
+      })
 
       -- Keymaps
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "󱕾 Show quickdocs" })
@@ -235,7 +239,7 @@ return {
       })
 
       vim.lsp.enable({ "html", "biome", "nixd", "lua_ls", "lemminx", "buf_ls", "tailwindcss", "cssls", "gopls", "templ",
-        "svelte", "marksman" })
+        "svelte", "marksman", "terraformls" })
     end,
   },
 }
