@@ -132,6 +132,7 @@
     LycheeSlicer
 
     # Devtools
+    awscli2
     bun
     clang
     gemini-cli
@@ -161,6 +162,7 @@
     quarkus
     rustup
     tailwindcss
+    terraform
     qmk
 
     # LSP
@@ -181,6 +183,7 @@
     rust-analyzer
     tailwindcss-language-server
     svelte-language-server
+    terraform-lsp
     typescript
     vscode-langservers-extracted
 
