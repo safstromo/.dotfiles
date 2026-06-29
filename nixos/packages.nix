@@ -126,17 +126,19 @@
     spotify-player
     quickemu
     spice-gtk
+    pass
     teams-for-linux
     # pkgs-unstable.rustdesk
     yazi
-    LycheeSlicer
+    # LycheeSlicer
 
     # Devtools
-    awscli2
+    pkgs-unstable.awscli2
     bun
     clang
-    gemini-cli
-    exercism
+    # gemini-cli
+    # exercism
+    stripe-cli
     dart-sass
     pkgs-unstable.devenv
     gdscript-formatter
