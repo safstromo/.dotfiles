@@ -161,6 +161,8 @@
     python3
     tokei
     pkgs-unstable.biome
+    sqlite
+    lazysql
     quarkus
     rustup
     tailwindcss
