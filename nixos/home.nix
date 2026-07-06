@@ -16,6 +16,7 @@
   };
   gtk = {
     enable = true;
+    gtk4.theme = config.gtk.theme;
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders.override {
         flavor = "macchiato";
