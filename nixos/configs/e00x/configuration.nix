@@ -4,12 +4,16 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -36,7 +40,6 @@
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   # powers up the default Bluetooth controller on boot
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # Add disk utils
   services.gvfs.enable = true;
@@ -95,11 +98,14 @@
   users.users.eox = {
     isNormalUser = true;
     description = "eox";
-    extraGroups = [ "networkmanager" "wheel" "podman" ];
-    packages = with pkgs;
-      [
-        #  thunderbird
-      ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "podman"
+    ];
+    packages = with pkgs; [
+      #  thunderbird
+    ];
   };
 
   # Enable common container config files in /etc/containers

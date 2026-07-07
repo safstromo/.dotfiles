@@ -4,12 +4,16 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -46,7 +50,6 @@
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   # powers up the default Bluetooth controller on boot
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # Add disk utils
   services.gvfs.enable = true;
@@ -115,12 +118,21 @@
   users.users.eox = {
     isNormalUser = true;
     description = "eox";
-    extraGroups =
-      [ "networkmanager" "wheel" "podman" "libvirtd" "plugdev" "kvm" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "podman"
+      "libvirtd"
+      "plugdev"
+      "kvm"
+    ];
   };
 
   # For devenv cachix
-  nix.settings.trusted-users = [ "root" "eox" ];
+  nix.settings.trusted-users = [
+    "root"
+    "eox"
+  ];
 
   # Virtualisation stack (libvirt + spice + podman + containers)
   virtualisation = {
@@ -148,7 +160,9 @@
   services.spice-webdavd.enable = true;
   # Point dockerstuff to podman
   # 1. Set static session variables (Crucial for Testcontainers + Podman)
-  environment.sessionVariables = { TESTCONTAINERS_RYUK_DISABLED = "true"; };
+  environment.sessionVariables = {
+    TESTCONTAINERS_RYUK_DISABLED = "true";
+  };
 
   # 2. Dynamically evaluate the DOCKER_HOST path for the logged-in user
   environment.extraInit = ''

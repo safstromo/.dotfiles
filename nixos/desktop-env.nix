@@ -41,6 +41,7 @@
   programs.hyprlock.enable = true;
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  services.hypridle.enable = true;
 
   programs.thunar.enable = true;
 
@@ -49,7 +50,6 @@
     cliphist
     dunst
     grim
-    hypridle
     hyprpaper
     hyprpolkitagent
     libnotify
