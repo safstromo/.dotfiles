@@ -38,6 +38,8 @@ location = "Falkenberg, Sweden"
 
 [modules.cpu]
 format = "{{ percent }}% {{ temp_c }}c"
+left-click = "ghostty --class=btop-float -e btop"
+right-click = "ghostty --class=btop-float -e btop"
 
 [modules.volume]
 icon-bg-color = "green"

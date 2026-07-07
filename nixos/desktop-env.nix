@@ -26,7 +26,7 @@
           --time \
           --remember \
           --asterisks \
-          --cmd 'hyprland'
+          --cmd 'uwsm start hyprland-uwsm.desktop'
         '';
         user = "greeter";
       };
@@ -34,7 +34,10 @@
   };
 
   # Hyprland
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
   programs.hyprlock.enable = true;
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

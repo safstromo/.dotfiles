@@ -102,9 +102,8 @@
     appimage = {
       enable = true;
       binfmt = true;
-      package = pkgs.appimage-run.override {
-        extraPkgs = pkgs: [ pkgs.xorg.libxshmfence ];
-      };
+      package =
+        pkgs.appimage-run.override { extraPkgs = pkgs: [ pkgs.libxshmfence ]; };
     };
   };
 
@@ -183,7 +182,7 @@
     jdt-language-server
     google-java-format
     nixd
-    nixfmt-classic
+    nixfmt
     rust-analyzer
     tailwindcss-language-server
     svelte-language-server
