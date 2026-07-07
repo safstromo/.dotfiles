@@ -1,0 +1,56 @@
+# Wayle configuration file
+
+[general]
+font-sans = "JetBrainsMono Nerd Font Mono"
+
+[bar]
+scale = 0.6000000238418579
+bg = "transparent"
+
+[[bar.layout]]
+monitor = "*"
+show = true
+left = [
+    "weather",
+    "clock",
+    "cpu",
+    "ram",
+    "storage",
+    "netstat",
+]
+center = ["hyprland-workspaces"]
+right = [
+    "media",
+    "separator",
+    "separator",
+    "systray",
+    "bluetooth",
+    "network",
+    "volume",
+    "battery",
+]
+
+[modules.clock]
+format = "%d %b %H:%M"
+
+[modules.weather]
+location = "Falkenberg, Sweden"
+
+[modules.cpu]
+format = "{{ percent }}% {{ temp_c }}c"
+
+[modules.volume]
+icon-bg-color = "green"
+label-color = "green"
+
+[modules.hyprland-workspaces]
+min-workspace-count = 5
+monitor-specific = false
+app-icons-show = true
+
+[modules.hyprland-workspaces.workspace-map]
+"1" = "tb-terminal-symbolic"
+"2" = "tb-terminal-symbolic"
+"3" = "tb-brand-chrome-symbolic"
+"4" = "tb-music-symbolic"
+"5" = "tb-brand-discord-symbolic"

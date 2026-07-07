@@ -50,11 +50,12 @@
     hyprpaper
     hyprpolkitagent
     libnotify
+    playerctl
     pavucontrol
     rofi
-    # sddm-astronaut
     slurp
     waybar
+    wayle
     wl-clipboard
     xclip
   ];

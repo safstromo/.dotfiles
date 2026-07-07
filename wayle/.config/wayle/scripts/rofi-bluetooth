@@ -1,0 +1,172 @@
+#!/bin/sh
+
+# A script using only bluetoothctl and rofi
+# Focuses on listing devices and connecting/disconnecting, plus power toggle.
+
+# Constants
+divider="---------"
+
+# Rofi command to pipe into
+rofi_command="rofi -dmenu $* -p Bluetooth"
+
+# --- Helper Functions ---
+
+# Checks if bluetooth controller is powered on
+power_on() {
+    bluetoothctl show | grep -q "Powered: yes"
+}
+
+# Toggles power state
+toggle_power() {
+    if power_on; then
+        bluetoothctl power off
+        echo "Bluetooth powered off."
+    else
+        # Note: Cannot unblock rfkill with bluetoothctl alone
+        bluetoothctl power on
+        echo "Bluetooth powered on. Scanning..."
+        # Start a scan automatically when power is turned on
+        bluetoothctl scan on &
+        # Give a moment for scan to start and devices to appear
+        sleep 5
+    fi
+    show_menu # Refresh menu
+}
+
+# Checks if a device is connected
+is_connected() {
+    bluetoothctl info "$1" | grep -q "Connected: yes"
+}
+
+# Handles connecting/disconnecting a device
+handle_device() {
+    mac=$1
+    name=$2
+
+    if is_connected "$mac"; then
+        echo "Disconnecting from $name..."
+        bluetoothctl disconnect "$mac"
+        sleep 2 # Give time to disconnect
+    else
+        echo "Connecting to $name..."
+        bluetoothctl connect "$mac"
+        sleep 5 # Give time to connect
+    fi
+    show_menu # Refresh menu
+}
+
+# --- Main Menu Function ---
+
+show_menu() {
+    options=""
+    power_status="Power: off"
+    scan_status="Scan: off" # Assume scan off by default
+
+    if power_on; then
+        power_status="Power: on"
+
+        # Check scan status if power is on
+        if bluetoothctl show | grep -q "Discovering: yes"; then
+            scan_status="Scan: on"
+        fi
+
+        # Get list of devices (paired and discovered during scan)
+        # We parse MAC and Name, format for Rofi display
+        devices_list=""
+        mapfile -t lines < <(bluetoothctl devices) # Get paired first
+        mapfile -t lines_scan < <(bluetoothctl devices Discovered) # Get discovered (requires scan on)
+        lines+=( "${lines_scan[@]}" ) # Combine lists
+
+        declare -A device_map # Map display name to MAC
+
+        for line in "${lines[@]}"; do
+            # Expected format: "Device MAC_ADDRESS Device Name"
+            if echo "$line" | grep -q "Device"; then
+                mac=$(echo "$line" | awk '{print $2}')
+                name=$(echo "$line" | cut -d ' ' -f 3-)
+                display_name="$name"
+
+                if is_connected "$mac"; then
+                    display_name="* $name (Connected)" # Add marker for connected
+                fi
+
+                # Avoid duplicate names in the list if possible, or handle somehow
+                # For simplicity, just add and let Rofi handle duplicates if they occur.
+                # A better way would use unique IDs but Rofi doesn't show them by default.
+                devices_list+="$display_name\n"
+                device_map["$display_name"]="$mac"
+            fi
+        done
+
+        # Add devices to options, then control toggles
+        options+="$devices_list"
+        options+="$divider\n"
+        options+="$power_status\n"
+        options+="$scan_status\n"
+        options+="Exit"
+
+    else
+        # If power is off, only show power toggle and exit
+        options+="$power_status\n"
+        options+="Exit"
+    fi
+
+    # Open rofi menu, read chosen option
+    chosen="$(echo -e "$options" | $rofi_command)"
+
+    # Match chosen option to command
+    case "$chosen" in
+        "" | "$divider")
+            # No option chosen or divider selected, do nothing
+            ;;
+        "$power_status")
+            toggle_power
+            ;;
+        "$scan_status")
+            # Simple toggle for scan
+            if [ "$scan_status" = "Scan: on" ]; then
+                bluetoothctl scan off
+                echo "Scan off."
+            else
+                bluetoothctl scan on &
+                echo "Scan on..."
+            fi
+            sleep 1 # Give time for command
+            show_menu # Refresh menu
+            ;;
+        "Exit")
+            exit 0
+            ;;
+        *)
+            # Assume it's a device name. Look up MAC in the map.
+            # Note: This relies on the display name being unique enough for selection.
+            selected_mac=""
+             # Find the MAC associated with the chosen name
+            for line in "${lines[@]}"; do
+                if echo "$line" | grep -q "Device"; then
+                     mac=$(echo "$line" | awk '{print $2}')
+                     name=$(echo "$line" | cut -d ' ' -f 3-)
+                     display_name="$name"
+                     if is_connected "$mac"; then
+                         display_name="* $name (Connected)"
+                     fi
+                     if [ "$chosen" = "$display_name" ]; then
+                         selected_mac="$mac"
+                         break
+                     fi
+                fi
+            done
+
+
+            if [ -n "$selected_mac" ]; then
+                # Found a device, handle connection/disconnection
+                handle_device "$selected_mac" "$chosen"
+            else
+                 echo "Unknown option or device: $chosen"
+            fi
+            ;;
+    esac
+}
+
+# --- Script Entry Point ---
+show_menu

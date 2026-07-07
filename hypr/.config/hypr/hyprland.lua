@@ -37,7 +37,7 @@ local menu        = "rofi -show drun"
 -- hl.on("hyprland.start", ...) runs these ONCE at launch, not on every reload.
 
 hl.on("hyprland.start", function()
-  hl.exec_cmd("waybar & hypridle & hyprpaper & dunst")
+  hl.exec_cmd("wayle panel start & hypridle & hyprpaper & dunst")
   hl.exec_cmd("systemctl --user start hyprpolkitagent")
   hl.exec_cmd("wl-paste --type text --watch cliphist store")  -- store text
   hl.exec_cmd("wl-paste --type image --watch cliphist store") -- store images

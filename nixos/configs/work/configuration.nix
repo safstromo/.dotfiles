@@ -29,19 +29,10 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      Network = {
-        EnableIPv4 = true;
-        EnableIPv6 = true;
-        NameResolvingService = "systemd";
-      };
-    };
-  };
+  networking.networkmanager.enable = true;
 
   # Enable systemd-resolved to catch DNS changes from IWD
-  services.resolved.enable = true;
+  # services.resolved.enable = true;
   # --- MAC Randomization ---
   # networking.wireless.iwd.settings = {
   #   General = { AddressRandomization = "network"; };
@@ -49,6 +40,7 @@
 
   services.tailscale.enable = true;
 
+  services.upower.enable = true;
   services.fwupd.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
