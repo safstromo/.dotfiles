@@ -310,7 +310,8 @@ hl.bind("switch:on:Lid Switch", function()
   hl.monitor({ output = "eDP-1", disabled = true })
 end, { locked = true })
 hl.bind("switch:off:Lid Switch", function()
-  hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x1440", scale = 1 })
+  hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x1440", scale = 1, disabled = false })
+  hl.exec_cmd("hyprctl dispatch dpms on eDP-1")
 end, { locked = true })
 
 
