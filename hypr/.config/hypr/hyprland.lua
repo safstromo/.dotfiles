@@ -306,15 +306,25 @@ hl.bind("Print",
 
 -- Laptop lid switch: disable eDP-1 when closed, re-enable when opened.
 -- switch:on = lid closed, switch:off = lid open.
-hl.bind("switch:on:Lid Switch", function()
-  hl.monitor({ output = "eDP-1", disabled = true })
-end, { locked = true })
-hl.bind("switch:off:Lid Switch", function()
-  hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x1440", scale = 1, disabled = false })
-  hl.exec_cmd("hyprctl dispatch dpms on eDP-1")
-end, { locked = true })
+-- hl.bind("switch:on:Lid Switch", function()
+--   hl.monitor({ output = "eDP-1", disabled = true })
+-- end, { locked = true })
+-- hl.bind("switch:off:Lid Switch", function()
+--   -- 1. Re-enable the monitor with specific settings
+--   hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x1440", scale = 1, disabled = false })
+-- end, { locked = true })
+--
+-- Laptop lid switch. Logic lives in lid.sh:
+--  - close: disable eDP-1 only in clamshell (external monitor present);
+--           undocked, logind suspends and lid.sh does nothing.
+--  - open:  re-enable eDP-1.
+-- Resume-from-suspend is handled by hypridle's after_sleep_cmd (lid.sh resume),
+-- which fires on logind's resume signal AFTER the DRM backend is awake,
+-- avoiding the switch:off race (see hyprwm/Hyprland#3403).
+local lidScript = "/home/eox/.dotfiles/hypr/.config/hypr/lid.sh"
 
-
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd(lidScript .. " close"), { locked = true })
+hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd(lidScript .. " open"), { locked = true })
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
