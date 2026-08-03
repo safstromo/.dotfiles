@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   pkgs-unstable,
   ...
@@ -19,6 +20,22 @@ let
   # The trade-off is that the ACL services below become load-bearing — revoke a
   # group's read access to this tree and that sandbox's herdr loses its config.
   eox-herdr-config = "/home/eox/.dotfiles/herdr/.config/herdr/config.toml";
+
+  # Traverse-only (x, no r) gates: each group can walk *through* these parents
+  # to reach the tree granted to it by mkExternalAclService below, but cannot
+  # list their contents. Useless on their own — a group needs both halves.
+  #
+  # Single source of truth because both halves consume it. The oneshot units
+  # apply it so a manual `systemctl restart acl-*` is self-sufficient, and
+  # sandboxTraverseAcls reapplies it on every activation; see the comment there
+  # for why the units alone are not enough.
+  traverseAcls = {
+    claude_workspace = [ "/home/eox" ];
+    opencode_workspace = [
+      "/home/eox"
+      "/home/eox/.dotfiles"
+    ];
+  };
 
   # One-shot service that establishes the access + default ACLs on a
   # shared workspace. Default ACLs propagate to all *future* files/dirs,
@@ -83,8 +100,9 @@ let
         # Don't abort the whole service if a single file can't take an ACL.
         set +e
 
-        # Traverse-only (x, no r) on every parent on the way down: the group can
-        # walk *through* these to reach ${dir}, but cannot list their contents.
+        # The gates on the way down to ${dir}. Also reapplied by
+        # system.activationScripts.sandboxTraverseAcls — repeated here so that
+        # restarting this unit by hand is enough to repair the whole grant.
         ${pkgs.acl}/bin/setfacl -m g:${group}:x ${builtins.concatStringsSep " " traverse}
 
         # Access on the tree itself, plus a default ACL so files added later
@@ -246,7 +264,7 @@ in
   # so this is a larger blast radius than the workspace sandbox alone. Git is
   # the backstop — everything here is version-controlled and revertible.
   systemd.services.acl-claude-dotfiles = mkExternalAclService {
-    traverse = [ "/home/eox" ];
+    traverse = traverseAcls.claude_workspace;
     dir = "/home/eox/.dotfiles";
     group = "claude_workspace";
     perms = "rwX";
@@ -256,12 +274,32 @@ in
   # config it is symlinked to, and nothing else in the dotfiles. Traversal stops
   # at .dotfiles, so the rest of the tree stays invisible to it.
   systemd.services.acl-opencode-herdr-config = mkExternalAclService {
-    traverse = [
-      "/home/eox"
-      "/home/eox/.dotfiles"
-    ];
+    traverse = traverseAcls.opencode_workspace;
     dir = "/home/eox/.dotfiles/herdr";
     group = "opencode_workspace";
+  };
+
+  # NixOS's `users` activation snippet chmods every createHome home on every
+  # activation (update-users-groups.pl, and eox is homeMode 700). A chmod on an
+  # ACL-bearing directory rewrites the ACL mask from the new group bits, so
+  # `chmod 0700 /home/eox` leaves mask::--- and every named entry on it reads
+  # `#effective:---` — the traverse gates are still listed, but grant nothing.
+  #
+  # The oneshot units above cannot repair this: they are RemainAfterExit, so
+  # switch-to-configuration leaves them alone unless the unit itself changed.
+  # The result is a rebuild that silently revokes the sandboxes' access to this
+  # tree until the next reboot, which is how herdr lost its config on 2026-08-03.
+  #
+  # Ordering `after` the users snippet puts this on the correct side of that
+  # chmod on every activation. Only the gates need it — nothing chmods the
+  # trees themselves, so the recursive grants stay in the boot-time oneshots.
+  system.activationScripts.sandboxTraverseAcls = {
+    deps = [ "users" ];
+    text = lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (
+        group: paths: "${pkgs.acl}/bin/setfacl -m g:${group}:x ${lib.escapeShellArgs paths} || true"
+      ) traverseAcls
+    );
   };
 
   # herdr's Claude Code hook. CLAUDE_CONFIG_DIR is pinned rather than inherited:
