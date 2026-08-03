@@ -147,6 +147,25 @@ let
       group,
       workspace,
     }:
+    let
+      # This half runs as ${user}, and lives in its own file for a reason:
+      # `sudo -i` joins its command argv with spaces and re-parses the result
+      # through the target user's login shell. An inline multi-line script does
+      # not survive that round trip — the quoting is gone by the time the login
+      # shell sees it. A single store path plus one argument does survive.
+      #
+      # `$*` rather than `$1`: sudo joined the argv with spaces on the way in,
+      # so re-joining reverses it and a workspace path containing spaces still
+      # arrives intact.
+      inner = pkgs.writeShellScript "${name}-sandbox-inner" ''
+        umask 002
+        if ! cd "$*" 2>/dev/null; then
+          echo '⚠️  No access to current directory. Dropping into default workspace...'
+          cd '${workspace}'
+        fi
+        exec herdr --session ${name}-session
+      '';
+    in
     pkgs.writeShellScriptBin "${name}-sandbox" ''
       if [ "$1" = "-i" ]; then
         exec sudo -u ${user} -i
@@ -156,13 +175,7 @@ let
       ${pkgs.acl}/bin/setfacl -R -m g:${group}:rwx ${workspace} 2>/dev/null || true
 
       echo "🔒 Elevating permissions to switch to '${user}'..."
-      sudo -u ${user} -i zsh -i -c "
-        umask 002
-        if ! cd '$HOST_DIR' 2>/dev/null; then
-          echo '⚠️  No access to current directory. Dropping into default workspace...';
-          cd '${workspace}';
-        fi;
-        herdr --session ${name}-session"
+      exec sudo -u ${user} -i ${inner} "$HOST_DIR"
     '';
 in
 {
