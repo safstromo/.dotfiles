@@ -32,8 +32,10 @@
   services.hypridle.enable = true;
 
   services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";
+    settings.Login = {
+      HandleLidSwitch = "suspend";
+      HandleLidSwitchDocked = "ignore";
+    };
   };
 
   programs.thunar.enable = true;
