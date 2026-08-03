@@ -46,6 +46,39 @@ let
     '';
   };
 
+  # One-shot service that grants a group read-only access to a tree *outside*
+  # the shared workspaces, so a sandboxed agent can read config it is asked to
+  # work on. Deliberately rX, not rwx: read plus directory traversal, never
+  # write. Capital X applies execute to directories only, so regular files stay
+  # r-- rather than becoming executable.
+  mkReadOnlyAclService = { home, dir, group }: {
+    description = "Grant ${group} read-only ACLs on ${dir}";
+    after = [ "systemd-tmpfiles-setup.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      # Don't abort the whole service if a single file can't take an ACL.
+      set +e
+
+      # Traverse-only (x, no r) on the home dir: the group can walk *through*
+      # it to reach ${dir}, but cannot list what else lives there.
+      ${pkgs.acl}/bin/setfacl -m g:${group}:x ${home}
+
+      # Read + traverse on the tree, plus a default ACL so files added later
+      # inherit it. setfacl -R does not follow symlinks, which matters here
+      # because this tree is stow-managed and full of them.
+      ${pkgs.acl}/bin/setfacl -R -m  g:${group}:rX ${dir}
+      ${pkgs.acl}/bin/setfacl -R -m d:g:${group}:rX ${dir}
+
+      # Always succeed — ACLs are best-effort, and the default ACL on the root
+      # is what keeps things working going forward.
+      exit 0
+    '';
+  };
+
   # Shared launcher logic. Per-user devenv state is the crux of the fix:
   # PostgreSQL (and ssh/gpg) need a 0700 dir they own, which is impossible
   # inside a group-shared tree, so we redirect devenv state into $HOME.
@@ -115,6 +148,15 @@ in {
   systemd.services.acl-opencode-workspace = mkWorkspaceAclService {
     dir = "/var/opt/opencode-workspace";
     group = "opencode_workspace";
+  };
+
+  # Read-only view of the dotfiles for the claude sandbox, so it can inspect
+  # the NixOS and herdr config it is asked to reason about. opencode is
+  # deliberately not granted this.
+  systemd.services.acl-claude-dotfiles = mkReadOnlyAclService {
+    home = "/home/eox";
+    dir = "/home/eox/.dotfiles";
+    group = "claude_workspace";
   };
 
   environment.systemPackages = [
