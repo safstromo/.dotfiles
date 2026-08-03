@@ -8,7 +8,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [
     "nix-command"
@@ -44,6 +44,7 @@
 
   services.tailscale.enable = true;
 
+  services.hardware.bolt.enable = true;
   services.upower.enable = true;
   services.fwupd.enable = true;
 

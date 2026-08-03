@@ -50,7 +50,10 @@
 
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "z" ];
+      plugins = [
+        "git"
+        "z"
+      ];
     };
 
     interactiveShellInit = ''
@@ -102,8 +105,7 @@
     appimage = {
       enable = true;
       binfmt = true;
-      package =
-        pkgs.appimage-run.override { extraPkgs = pkgs: [ pkgs.libxshmfence ]; };
+      package = pkgs.appimage-run.override { extraPkgs = pkgs: [ pkgs.libxshmfence ]; };
     };
   };
 
@@ -143,6 +145,7 @@
     gdscript-formatter
     vscode
     pkgs-unstable.godot
+    pkgs-unstable.herdr
     gh
     git
     gnumake
