@@ -190,7 +190,15 @@ let
       fi
       HOST_DIR=$(realpath "$PWD")
       echo "🔒 Refreshing workspace ACLs..."
-      ${pkgs.acl}/bin/setfacl -R -m g:${group}:rwx ${workspace} 2>/dev/null || true
+      # Mirror mkWorkspaceAclService: prune .devenv. A blunt `setfacl -R` here
+      # re-adds a group ACL to .devenv/state/postgres on every launch, which
+      # rewrites the dir's ACL mask; PostgreSQL reads that mask as the group
+      # perm bits and refuses to start (data dir must stay 0700/0750). This is
+      # why the "invalid permissions" FATAL kept coming back after each launch.
+      ${pkgs.findutils}/bin/find -P ${workspace} \
+        -name .devenv -prune -o \
+        \( -type f -o -type d \) -print0 \
+        | ${pkgs.findutils}/bin/xargs -0 -r ${pkgs.acl}/bin/setfacl -m g:${group}:rwx 2>/dev/null || true
 
       echo "🔒 Elevating permissions to switch to '${user}'..."
       exec sudo -u ${user} -i ${inner} "$HOST_DIR"
