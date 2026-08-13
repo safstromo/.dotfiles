@@ -35,6 +35,20 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.filetype.add({
   extension = {
     wxs = "xml",
+    env = "sh", -- foo.env
+    gotmpl = "gotmpl", -- lets gopls attach to Go template files
+    mdx = "markdown.mdx", -- lets marksman attach to MDX files
+  },
+  filename = {
+    [".env"] = "sh",
+    -- lets buf_ls attach to buf config files (in addition to .proto)
+    ["buf.yaml"] = "buf-config",
+    ["buf.gen.yaml"] = "buf-config",
+    ["buf.lock"] = "buf-config",
+  },
+  pattern = {
+    -- .env.local, .env.production, .env.development, ...
+    ["%.env%.[%w_.-]+"] = "sh",
   },
 })
 

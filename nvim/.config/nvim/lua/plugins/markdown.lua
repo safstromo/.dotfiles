@@ -22,6 +22,9 @@ return {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = 'markdown',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
-    opts = {},
+    opts = {
+      -- No LaTeX math rendering; avoids the missing `latex` tree-sitter parser warning.
+      latex = { enabled = false },
+    },
   }
 }
