@@ -135,6 +135,12 @@
     "eox"
   ];
 
+  # fileSystems."/mnt/media" = {
+  #   device = "192.168.100.3:/mnt/Tank/Media";
+  #   fsType = "nfs";
+  #   # options = [ "ro" ];
+  # };
+
   # Virtualisation stack (libvirt + spice + podman + containers)
   virtualisation = {
     libvirtd = {
@@ -195,7 +201,7 @@
   # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedTCPPorts = [ 16969 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

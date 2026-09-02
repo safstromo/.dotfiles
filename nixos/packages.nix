@@ -222,6 +222,7 @@
     starship
     tldr
     unzip
+    unrar
     vlc
     wget
   ];
