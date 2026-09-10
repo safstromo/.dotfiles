@@ -50,7 +50,10 @@
 
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "z" ];
+      plugins = [
+        "git"
+        "z"
+      ];
     };
 
     interactiveShellInit = ''
@@ -102,9 +105,7 @@
     appimage = {
       enable = true;
       binfmt = true;
-      package = pkgs.appimage-run.override {
-        extraPkgs = pkgs: [ pkgs.xorg.libxshmfence ];
-      };
+      package = pkgs.appimage-run.override { extraPkgs = pkgs: [ pkgs.libxshmfence ]; };
     };
   };
 
@@ -126,21 +127,25 @@
     spotify-player
     quickemu
     spice-gtk
+    pass
     teams-for-linux
     # pkgs-unstable.rustdesk
     yazi
-    LycheeSlicer
+    # LycheeSlicer
 
     # Devtools
+    pkgs-unstable.awscli2
     bun
     clang
-    gemini-cli
-    exercism
+    # gemini-cli
+    # exercism
+    stripe-cli
     dart-sass
     pkgs-unstable.devenv
     gdscript-formatter
     vscode
     pkgs-unstable.godot
+    pkgs-unstable.herdr
     gh
     git
     gnumake
@@ -158,9 +163,12 @@
     python3
     tokei
     pkgs-unstable.biome
+    sqlite
+    lazysql
     quarkus
     rustup
     tailwindcss
+    terraform
     qmk
 
     # LSP
@@ -177,10 +185,11 @@
     jdt-language-server
     google-java-format
     nixd
-    nixfmt-classic
+    nixfmt
     rust-analyzer
     tailwindcss-language-server
     svelte-language-server
+    terraform-ls
     typescript
     vscode-langservers-extracted
 
@@ -213,6 +222,7 @@
     starship
     tldr
     unzip
+    unrar
     vlc
     wget
   ];

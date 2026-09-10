@@ -4,12 +4,16 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -29,19 +33,10 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      Network = {
-        EnableIPv4 = true;
-        EnableIPv6 = true;
-        NameResolvingService = "systemd";
-      };
-    };
-  };
+  networking.networkmanager.enable = true;
 
   # Enable systemd-resolved to catch DNS changes from IWD
-  services.resolved.enable = true;
+  # services.resolved.enable = true;
   # --- MAC Randomization ---
   # networking.wireless.iwd.settings = {
   #   General = { AddressRandomization = "network"; };
@@ -49,12 +44,13 @@
 
   services.tailscale.enable = true;
 
+  services.hardware.bolt.enable = true;
+  services.upower.enable = true;
   services.fwupd.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   # powers up the default Bluetooth controller on boot
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # Add disk utils
   services.gvfs.enable = true;
@@ -123,12 +119,27 @@
   users.users.eox = {
     isNormalUser = true;
     description = "eox";
-    extraGroups =
-      [ "networkmanager" "wheel" "podman" "libvirtd" "plugdev" "kvm" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "podman"
+      "libvirtd"
+      "plugdev"
+      "kvm"
+    ];
   };
 
   # For devenv cachix
-  nix.settings.trusted-users = [ "root" "eox" ];
+  nix.settings.trusted-users = [
+    "root"
+    "eox"
+  ];
+
+  # fileSystems."/mnt/media" = {
+  #   device = "192.168.100.3:/mnt/Tank/Media";
+  #   fsType = "nfs";
+  #   # options = [ "ro" ];
+  # };
 
   # Virtualisation stack (libvirt + spice + podman + containers)
   virtualisation = {
@@ -156,7 +167,9 @@
   services.spice-webdavd.enable = true;
   # Point dockerstuff to podman
   # 1. Set static session variables (Crucial for Testcontainers + Podman)
-  environment.sessionVariables = { TESTCONTAINERS_RYUK_DISABLED = "true"; };
+  environment.sessionVariables = {
+    TESTCONTAINERS_RYUK_DISABLED = "true";
+  };
 
   # 2. Dynamically evaluate the DOCKER_HOST path for the logged-in user
   environment.extraInit = ''
@@ -188,7 +201,7 @@
   # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedTCPPorts = [ 16969 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

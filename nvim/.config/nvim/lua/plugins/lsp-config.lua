@@ -30,10 +30,10 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,
     config = function()
-      local handlers = {
-        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-      }
+      -- Rounded borders for all floating windows (hover, signature help,
+      -- completion docs). Replaces the removed vim.lsp.with() handler wrapping.
+      vim.o.winborder = "rounded"
+
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Cant use on nvim
@@ -43,42 +43,34 @@ return {
 
       vim.lsp.config("html", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
       vim.lsp.config("biome", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
       vim.lsp.config("nixd", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
       vim.lsp.config("lua_ls", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
       vim.lsp.config("lemminx", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
       vim.lsp.config("buf_ls", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
       vim.lsp.config("svelte", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
       vim.lsp.config("marksman", {
         capabilities = capabilities,
-        handlers = handlers,
       })
 
 
@@ -104,7 +96,6 @@ return {
       -- configure tailwindcss server
       vim.lsp.config("tailwindcss", {
         capabilities = capabilities,
-        handlers = handlers,
         filetypes = {
           "css",
           "scss",
@@ -149,7 +140,6 @@ return {
       -- configure css server
       vim.lsp.config("cssls", {
         capabilities = capabilities,
-        handlers = handlers,
         settings = {
           css = {
             validate = true,
@@ -193,7 +183,6 @@ return {
       --
       vim.lsp.config("gopls", {
         capabilities = capabilities,
-        handlers = handlers,
         cmd = { "gopls" },
         filetypes = { "go", "gomod", "gowork", "gotmpl", "templ" },
         settings = {
@@ -208,7 +197,9 @@ return {
       })
       vim.lsp.config("templ", {
         capabilities = capabilities,
-        handlers = handlers,
+      })
+      vim.lsp.config("terraformls", {
+        capabilities = capabilities,
       })
 
       -- Keymaps
@@ -235,7 +226,7 @@ return {
       })
 
       vim.lsp.enable({ "html", "biome", "nixd", "lua_ls", "lemminx", "buf_ls", "tailwindcss", "cssls", "gopls", "templ",
-        "svelte", "marksman" })
+        "svelte", "marksman", "terraformls" })
     end,
   },
 }

@@ -28,15 +28,11 @@ return {
 
 	{
 		"mrcjkb/rustaceanvim",
-		version = "^5", -- Recommended
+		version = "^9", -- Recommended (requires Neovim >= 0.12)
 		lazy = false, -- This plugin is already lazy
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"mfussenegger/nvim-dap",
-			{
-				"lvimuser/lsp-inlayhints.nvim",
-				opts = {},
-			},
 		},
 		ft = { "rust" },
 		config = function()
@@ -56,6 +52,8 @@ return {
 					},
 				},
 				server = {
+					-- v6+ no longer auto-registers capabilities; pass cmp's explicitly
+					capabilities = require("cmp_nvim_lsp").default_capabilities(),
 					on_attach = function()
 						vim.lsp.inlay_hint.enable(true)
 					end,

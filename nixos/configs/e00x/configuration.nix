@@ -4,12 +4,16 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -36,7 +40,10 @@
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   # powers up the default Bluetooth controller on boot
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
+
+  services.hardware.bolt.enable = true;
+  services.upower.enable = true;
+  services.fwupd.enable = true;
 
   # Add disk utils
   services.gvfs.enable = true;
@@ -95,25 +102,60 @@
   users.users.eox = {
     isNormalUser = true;
     description = "eox";
-    extraGroups = [ "networkmanager" "wheel" "podman" ];
-    packages = with pkgs;
-      [
-        #  thunderbird
-      ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "podman"
+      "libvirtd"
+      "plugdev"
+      "kvm"
+    ];
+    packages = with pkgs; [
+      #  thunderbird
+    ];
   };
 
-  # Enable common container config files in /etc/containers
-  virtualisation.containers.enable = true;
+  nix.settings.trusted-users = [
+    "root"
+    "eox"
+  ];
+
+  # Virtualisation stack (libvirt + spice + podman + containers)
   virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu.runAsRoot = false;
+      qemu.swtpm.enable = true;
+    };
+
+    # Enable vm usb passthrough
+    spiceUSBRedirection.enable = true;
+
+    # Enable common container config files in /etc/containers
+    containers.enable = true;
+
     podman = {
       enable = true;
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      # Create a docker alias for podman, to use it as a drop-in replacement
       dockerCompat = true;
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
-
   };
+
+  services.spice-webdavd.enable = true;
+  # Point dockerstuff to podman
+  # 1. Set static session variables (Crucial for Testcontainers + Podman)
+  environment.sessionVariables = {
+    TESTCONTAINERS_RYUK_DISABLED = "true";
+  };
+
+  # 2. Dynamically evaluate the DOCKER_HOST path for the logged-in user
+  environment.extraInit = ''
+    if [ -z "$DOCKER_HOST" ]; then
+      export DOCKER_HOST="unix://''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock"
+    fi
+  '';
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -147,9 +189,10 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7";
-  };
+  # Using nh instead
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than 7";
+  # };
 }

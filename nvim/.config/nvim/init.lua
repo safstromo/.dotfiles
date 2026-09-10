@@ -11,6 +11,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- temp fix https://github.com/neovim/neovim/issues/39032
+local orig_get_node_text = vim.treesitter.get_node_text
+vim.treesitter.get_node_text = function(node, source, opts)
+  local ok, result = pcall(orig_get_node_text, node, source, opts)
+  if ok then
+    return result
+  end
+  return ""
+end
+
 require("config")
 require("lazy").setup("plugins")
 

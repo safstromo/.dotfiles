@@ -4,18 +4,6 @@
   # services.xserver.displayManager.gdm.enable = false;
   # services.xserver.desktopManager.gnome.enable = false;
 
-  # services.displayManager.sddm = {
-  #   enable = true;
-  #   theme = "sddm-astronaut-theme";
-  #   package = pkgs.kdePackages.sddm;
-  #   extraPackages = with pkgs; [
-  #     kdePackages.qtsvg
-  #     kdePackages.qtmultimedia
-  #     kdePackages.qtvirtualkeyboard
-  #     kdePackages.qt5compat
-  #   ];
-  # };
-
   services.greetd = {
     enable = true;
     settings = {
@@ -26,7 +14,7 @@
           --time \
           --remember \
           --asterisks \
-          --cmd 'hyprland'
+          --cmd 'uwsm start hyprland-uwsm.desktop'
         '';
         user = "greeter";
       };
@@ -34,10 +22,21 @@
   };
 
   # Hyprland
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
   programs.hyprlock.enable = true;
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  services.hypridle.enable = true;
+
+  services.logind = {
+    settings.Login = {
+      HandleLidSwitch = "suspend";
+      HandleLidSwitchDocked = "ignore";
+    };
+  };
 
   programs.thunar.enable = true;
 
@@ -46,15 +45,15 @@
     cliphist
     dunst
     grim
-    hypridle
     hyprpaper
     hyprpolkitagent
     libnotify
+    playerctl
     pavucontrol
     rofi
-    # sddm-astronaut
     slurp
     waybar
+    wayle
     wl-clipboard
     xclip
   ];

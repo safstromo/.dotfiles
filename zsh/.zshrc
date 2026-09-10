@@ -146,6 +146,13 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# Default Pass (Now set to Work)
+export PASSWORD_STORE_DIR="/home/eox/work/passwords"
+
+# Alias for Personal (Now set to wpass)
+alias wpass='PASSWORD_STORE_DIR="/home/eox/zlogz/pass" pass'
+compdef _wpass_comp wpass
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
