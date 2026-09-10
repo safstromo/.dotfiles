@@ -8,12 +8,8 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-
   # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -80,7 +76,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -102,23 +98,15 @@
   users.users.eox = {
     isNormalUser = true;
     description = "eox";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "podman"
-      "libvirtd"
-      "plugdev"
-      "kvm"
-    ];
-    packages = with pkgs; [
-      #  thunderbird
-    ];
+    extraGroups =
+      [ "networkmanager" "wheel" "podman" "libvirtd" "plugdev" "kvm" ];
+    packages = with pkgs;
+      [
+        #  thunderbird
+      ];
   };
 
-  nix.settings.trusted-users = [
-    "root"
-    "eox"
-  ];
+  nix.settings.trusted-users = [ "root" "eox" ];
 
   # Virtualisation stack (libvirt + spice + podman + containers)
   virtualisation = {
@@ -146,9 +134,7 @@
   services.spice-webdavd.enable = true;
   # Point dockerstuff to podman
   # 1. Set static session variables (Crucial for Testcontainers + Podman)
-  environment.sessionVariables = {
-    TESTCONTAINERS_RYUK_DISABLED = "true";
-  };
+  environment.sessionVariables = { TESTCONTAINERS_RYUK_DISABLED = "true"; };
 
   # 2. Dynamically evaluate the DOCKER_HOST path for the logged-in user
   environment.extraInit = ''
