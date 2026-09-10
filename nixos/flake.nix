@@ -14,8 +14,17 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, catppuccin, home-manager
-    , nix-index-database, ... }@inputs: {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      catppuccin,
+      home-manager,
+      nix-index-database,
+      ...
+    }@inputs:
+    {
 
       nixosConfigurations.e00x = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -23,8 +32,30 @@
           inherit inputs;
           pkgs-unstable = import nixpkgs-unstable { system = "x86_64-linux"; };
         };
-        modules =
-          [ ./configs/e00x/configuration.nix ./desktop-env.nix ./packages.nix ];
+        modules = [
+          ./configs/e00x/configuration.nix
+          ./desktop-env.nix
+          ./packages.nix
+          ./ai-sandbox.nix
+
+          nix-index-database.nixosModules.nix-index
+          { programs.nix-index-database.comma.enable = true; }
+
+          catppuccin.nixosModules.catppuccin
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.eox = {
+              imports = [
+                ./home.nix
+                catppuccin.homeModules.catppuccin
+              ];
+            };
+          }
+
+        ];
       };
 
       nixosConfigurations.work = nixpkgs.lib.nixosSystem {
@@ -52,7 +83,10 @@
             home-manager.useUserPackages = true;
 
             home-manager.users.eox = {
-              imports = [ ./home.nix catppuccin.homeModules.catppuccin ];
+              imports = [
+                ./home.nix
+                catppuccin.homeModules.catppuccin
+              ];
             };
           }
 
